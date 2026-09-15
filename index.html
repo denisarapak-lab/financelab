@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finanční poradce Praha a Ostrava | Finance Lab</title>
+<meta name="description" content="Nezávislý finanční poradce pro Prahu a Ostravu. Srovnáme hypotéky, úvěry, pojištění, investice i penzi — srozumitelně a zdarma. Nezávazná schůzka do 24 hodin.">
+<meta name="keywords" content="finanční poradce Praha, finanční poradce Ostrava, hypotéka, refinancování hypotéky, hypotéka pro OSVČ, spotřebitelský úvěr, firemní úvěr, pojištění, životní pojištění, investice, ETF, DIP, penze, spoření na penzi, finanční plán">
+<meta name="author" content="Finance Lab">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="theme-color" content="#14352B">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<meta name="geo.region" content="CZ">
+<meta name="geo.placename" content="Praha, Ostrava">
+<link rel="canonical" href="https://financelab-chi.vercel.app/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="cs_CZ">
+<meta property="og:site_name" content="Finance Lab">
+<meta property="og:title" content="Finanční poradce Praha a Ostrava | Finance Lab">
+<meta property="og:description" content="Nezávislý finanční poradce pro Prahu a Ostravu. Srovnáme hypotéky, úvěry, pojištění, investice i penzi — srozumitelně a zdarma.">
+<meta property="og:url" content="https://financelab-chi.vercel.app/">
+<meta property="og:image" content="https://financelab-chi.vercel.app/images/hero.webp">
+<meta property="og:image:alt" content="Finance Lab — finanční poradce pro Prahu a Ostravu">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Finanční poradce Praha a Ostrava | Finance Lab">
+<meta name="twitter:description" content="Hypotéky, úvěry, pojištění, investice i penze — srozumitelně a zdarma. Nezávislý poradce pro Prahu a Ostravu.">
+<meta name="twitter:image" content="https://financelab-chi.vercel.app/images/hero.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="./image-slot.js"></script>
+<link rel="stylesheet" href="styles.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FinancialService",
+  "name": "Finance Lab",
+  "description": "Nezávislý finanční poradce pro Prahu a Ostravu — hypotéky, refinancování, úvěry, pojištění, investice a spoření na penzi. Srozumitelně a pro klienta zdarma.",
+  "url": "https://financelab-chi.vercel.app/",
+  "image": "https://financelab-chi.vercel.app/images/hero.webp",
+  "priceRange": "Zdarma",
+  "currenciesAccepted": "CZK",
+  "knowsLanguage": "cs",
+  "areaServed": [
+    { "@type": "City", "name": "Praha" },
+    { "@type": "City", "name": "Ostrava" }
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Finanční služby",
+    "itemListElement": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Hypotéky a refinancování" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Spotřebitelské a firemní úvěry" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Pojištění (životní, majetkové, auto)" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Investice (ETF a DIP)" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Spoření na penzi" } }
+    ]
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "Kolik stojí finanční poradce Finance Lab?", "acceptedAnswer": { "@type": "Answer", "text": "Za nás nic neplatíte. Naši práci zaplatí banka nebo pojišťovna, u které nakonec podepíšete. Vy zaplatíte úplně stejně jako sami, často dokonce míň, protože vyjednáme lepší podmínky." } },
+    { "@type": "Question", "name": "Co všechno u vás vyřídím?", "acceptedAnswer": { "@type": "Answer", "text": "Skoro všechno kolem peněz. Hypotéky i refinancování, úvěry pro lidi i firmy, životní a majetkové pojištění, investice i spoření na penzi. Máte na to jeden kontakt a nemusíte to řešit na pěti místech." } },
+    { "@type": "Question", "name": "Vyřídíte hypotéku i pro OSVČ?", "acceptedAnswer": { "@type": "Answer", "text": "Jasně, řešíme to běžně. Víme, jak která banka kouká na příjem podnikatele, takže dopředu poznáme, kde máte největší šanci. Papíry připravíme tak, aby banka neměla co vytknout." } },
+    { "@type": "Question", "name": "Kdy se vyplatí refinancovat hypotéku?", "acceptedAnswer": { "@type": "Answer", "text": "Většinou na konci fixace. Zdarma vám spočítáme, o kolik by vám klesla splátka, a na rovinu řekneme, jestli se přechod jinam vůbec vyplatí. Někdy je lepší zůstat, a to vám taky řekneme." } },
+    { "@type": "Question", "name": "Jaké pojištění pomůžete sjednat?", "acceptedAnswer": { "@type": "Answer", "text": "Životní i úrazové, nemovitost a domácnost, auto i odpovědnost. Projdeme, co reálně potřebujete, a vybereme jen to, co dává smysl. Za zbytečné pojistky utrácet nemusíte." } },
+    { "@type": "Question", "name": "Jak začít investovat a spořit na penzi?", "acceptedAnswer": { "@type": "Answer", "text": "Ukážeme vám jednoduché a levné investice (třeba ETF) a spoření na penzi s daňovou úlevou. Začít můžete klidně od pár stovek měsíčně. Kolik z toho časem vznikne, si spočítáte naší kalkulačkou složeného úročení." } },
+    { "@type": "Question", "name": "Působíte v Praze i v Ostravě?", "acceptedAnswer": { "@type": "Answer", "text": "Ano, jsme v Praze i v Ostravě a okolí. Sejdeme se osobně, nebo se potkáme online. Většinu věcí v klidu vyřídíte i z gauče." } }
+  ]
+}
+</script>
+</head>
+<body>
+
+<a href="#hlavni" class="btn" style="position:absolute; left:-999px; top:0;" onfocus="this.style.left='12px';this.style.top='12px';this.style.zIndex='100';" onblur="this.style.left='-999px';">Přeskočit na obsah</a>
+
+<!-- NAV -->
+<nav class="site" aria-label="Hlavní navigace">
+  <div class="container nav-in">
+    <a href="#top" class="logo" aria-label="Finance Lab — domů">
+      <span class="mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15 L10 9 L14 12 L20 5"/></svg></span>
+      <span class="wm">Finance Lab</span>
+    </a>
+    <div class="nav-links">
+      <a href="#sluzby">S čím pomůžeme</a>
+      <a href="kalkulacky.html">Kalkulačky</a>
+      <a href="#jak">Jak to funguje</a>
+      <a href="#faq">Časté dotazy</a>
+    </div>
+    <div class="nav-actions">
+      <a href="#objednat" class="btn btn-dark">Nezávazná konzultace</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Otevřít menu" aria-expanded="false" aria-controls="mmenu">Menu <i data-lucide="menu" style="width:18px;height:18px;"></i></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mmenu">
+  <a href="#sluzby">S čím pomůžeme</a>
+  <a href="kalkulacky.html">Kalkulačky</a>
+  <a href="#jak">Jak to funguje</a>
+  <a href="#faq">Časté dotazy</a>
+  <div class="mobile-cta">
+    <a href="#objednat" class="btn btn-dark">Nezávazná konzultace</a>
+    <a href="kalkulacky.html" class="btn btn-white">Kalkulačky</a>
+  </div>
+</div>
+
+<main id="hlavni">
+
+<!-- HERO -->
+<section class="hero sec-forest" id="top">
+  <div class="hero-grid">
+    <div class="hero-text">
+      <h1><span class="line">Mějte svého parťáka</span><span class="line">na finance.</span></h1>
+      <p class="lead">Financím rozumět nemusíte, od toho tu jsme my. Řeknete nám, co potřebujete, poradíme vám co s tím a zařídíme to za vás. Vy máte klid a čas na svoje věci.</p>
+      <div class="hero-btns">
+        <a href="#objednat" class="btn btn-lime">Chci nezávaznou konzultaci</a>
+        <a href="#uvod" class="btn btn-white">Jak vám pomůžeme</a>
+      </div>
+      <div class="hero-trust"><i data-lucide="shield-check" style="width:16px;height:16px;"></i> Registrace ČNB · <b>347+</b> klientů, kteří finance nechali na nás</div>
+    </div>
+    <div class="hero-photo">
+      <div class="zoom"><image-slot id="fl-hero" shape="rect" src="images/hero.webp" role="img" aria-label="Spokojený klient Finance Lab s telefonem v ruce" placeholder="Foto — usměvavý člověk s telefonem, energická barevná bunda"></image-slot></div>
+    </div>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="pad" id="uvod">
+  <div class="container">
+    <div class="reveal" style="max-width:720px; margin:0 auto 46px; text-align:center;">
+      <div class="eyebrow" style="color:#2f7a56; margin-bottom:16px;">Kdo jsme</div>
+      <h2 class="h-section">Skupina poradců, na kterou se dá <span class="serif">spolehnout.</span></h2>
+      <p class="lead" style="margin:20px auto 0; max-width:560px;">Bez naleštěných keců a složitých pojmů. Řeknete nám, co řešíte, a zbytek nechte na nás.</p>
+    </div>
+    <div class="bubbles reveal d1">
+      <div class="bubble bubble-lime">
+        <span class="bubble-ic"><i data-lucide="message-circle" style="width:22px;height:22px;"></i></span>
+        <h3>Mluvíme lidsky</h3>
+        <p>Možnosti vám vysvětlíme normální řečí, ať přesně víte, do čeho jdete.</p>
+      </div>
+      <div class="bubble bubble-peach">
+        <span class="bubble-ic"><i data-lucide="layout-grid" style="width:22px;height:22px;"></i></span>
+        <h3>Všechno na jednom místě</h3>
+        <p>Hypotéky, pojištění, investice i penze u jednoho člověka.</p>
+      </div>
+      <div class="bubble bubble-beige">
+        <span class="bubble-ic"><i data-lucide="check-circle" style="width:22px;height:22px;"></i></span>
+        <h3>Zařídíme to za vás</h3>
+        <p>Vy řeknete cíl, my oběháme banky i papíry.</p>
+      </div>
+      <div class="bubble bubble-forest">
+        <span class="bubble-ic"><i data-lucide="users" style="width:22px;height:22px;"></i></span>
+        <h3>Váš parťák na finance</h3>
+        <p>Někdo, komu můžete finance v klidu předat dlouhodobě.</p>
+      </div>
+    </div>
+    <div class="reveal d2" style="text-align:center; margin-top:46px;">
+      <a href="#objednat" class="btn btn-dark">Pojďme se poznat</a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="pad" id="jak">
+  <div class="container">
+    <h2 class="reveal h-section" style="max-width:600px;">Jak to funguje</h2>
+    <div class="steps">
+      <div class="step step-blue reveal">
+        <div class="n">01</div>
+        <h3>Poznáme vás a vaše finance</h3>
+        <p>V klidu spolu probereme vaše finance do detailu, abychom vás co nejlíp poznali. Jen tak vám poradíme opravdu na míru, ne od stolu.</p>
+      </div>
+      <div class="step step-lilac reveal d1">
+        <div class="n">02</div>
+        <h3>Řekneme vám, co s tím</h3>
+        <p>Lidsky vám vysvětlíme možnosti ušité přímo vám na míru a doporučíme, co dává největší smysl.</p>
+      </div>
+      <div class="step step-lime reveal d2">
+        <div class="n">03</div>
+        <h3>Zařídíme to za vás</h3>
+        <p>Papíry i domlouvání s bankou bereme na sebe. A pak vám finance hlídáme dál, ať na ně nemusíte myslet.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICE CARDS -->
+<section class="pad" style="padding-top:0;" id="sluzby">
+  <div class="container">
+    <div class="cards-head">
+      <h2 class="reveal h-section" style="max-width:640px;">S čím vám <span class="serif">nejčastěji pomůžeme.</span></h2>
+      <p class="reveal d1 lead" style="max-width:340px;">Nejčastější věci máte u jednoho člověka. Vyberte si, s čím začneme.</p>
+    </div>
+    <div class="cards" id="cards-track">
+      <article class="card card-photo reveal">
+        <image-slot id="fl-card1" shape="rect" src="images/card1.webp" role="img" aria-label="Pár řeší vlastní bydlení a hypotéku s poradcem" placeholder="Foto — člověk nebo pár při běžném rozhodování"></image-slot>
+        <div class="scrim"></div>
+        <div class="card-body">
+          <h3>Bydlení a hypotéka</h3>
+          <p>Najdeme vám nejlepší hypotéku, vyjednáme podmínky a ohlídáme i refinancování. Běhání po bankách a papíry necháte na nás.</p>
+          <a href="#objednat" class="card-cta">Probrat hypotéku <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></a>
+        </div>
+      </article>
+
+      <article class="card card-lilac reveal d1">
+        <div class="card-body">
+          <h3>Rezerva a pojištění</h3>
+          <p>Ať se v životě semele cokoli, vy i rodina budete v suchu. Pomůžeme vám dát dohromady rezervu a pojistit se rozumně, bez zbytečných smluv.</p>
+          <div class="card-illust" aria-hidden="true">
+            <svg viewBox="0 0 200 140" width="100%" height="150" role="img" aria-label="Ilustrace rostoucích úspor">
+              <ellipse cx="70" cy="118" rx="52" ry="10" fill="#63B888" opacity="0.35"/>
+              <ellipse cx="70" cy="104" rx="52" ry="14" fill="#63B888"/>
+              <ellipse cx="70" cy="98" rx="52" ry="14" fill="#14352B"/>
+              <ellipse cx="70" cy="92" rx="52" ry="14" fill="#63B888"/>
+              <ellipse cx="70" cy="86" rx="52" ry="14" fill="#14352B"/>
+              <text x="70" y="91" text-anchor="middle" font-family="Manrope, sans-serif" font-weight="800" font-size="15" fill="#EFF56A">Kč</text>
+              <path d="M150 96 L150 54" stroke="#14352B" stroke-width="6" stroke-linecap="round"/>
+              <path d="M136 66 L150 50 L164 66" fill="none" stroke="#14352B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="150" cy="34" r="12" fill="#14352B"/>
+            </svg>
+          </div>
+          <a href="#objednat" class="card-cta" style="color:var(--forest)">Ochránit rodinu <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></a>
+        </div>
+      </article>
+
+      <article class="card card-lime reveal d2">
+        <div class="card-body">
+          <h3>Investice a majetek</h3>
+          <p>Ať vám peníze jen tak neleží. Ukážeme vám jednoduché investice, co časem hezky narostou. Fakt žádná věda.</p>
+          <div class="card-illust" aria-hidden="true">
+            <svg viewBox="0 0 200 140" width="100%" height="150" role="img" aria-label="Ilustrace růstu a bydlení">
+              <rect x="24" y="96" width="22" height="26" rx="3" fill="#14352B" opacity="0.55"/>
+              <rect x="54" y="78" width="22" height="44" rx="3" fill="#14352B" opacity="0.75"/>
+              <rect x="84" y="58" width="22" height="64" rx="3" fill="#14352B"/>
+              <path d="M120 96 L150 66 L172 82 L196 44" fill="none" stroke="#14352B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="196" cy="44" r="8" fill="#14352B"/>
+              <path d="M120 40 L134 28 L148 40 L148 60 L120 60 Z" fill="#14352B"/>
+            </svg>
+          </div>
+          <a href="#objednat" class="card-cta" style="color:var(--forest)">Probrat investice <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="pad" id="faq">
+  <div class="container">
+    <div class="reveal" style="text-align:center; max-width:640px; margin:0 auto 46px;">
+      <span class="eyebrow" style="color:#2f7a56;">Časté dotazy</span>
+      <h2 class="h-section" style="margin-top:12px;">Co se lidé nejčastěji <span class="serif">ptají.</span></h2>
+    </div>
+    <div class="reveal d1" style="max-width:840px; margin:0 auto;">
+      <details class="faq-item" open>
+        <summary>Kolik stojí finanční poradce Finance Lab?<span class="faq-chev"><i data-lucide="chevron-down" style="width:22px;height:22px;"></i></span></summary>
+        <div class="faq-a">Za nás nic neplatíte. Naši práci zaplatí banka nebo pojišťovna, u které nakonec podepíšete. Vy zaplatíte úplně stejně jako sami, často dokonce míň, protože vyjednáme lepší podmínky.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Co všechno u vás vyřídím?<span class="faq-chev"><i data-lucide="chevron-down" style="width:22px;height:22px;"></i></span></summary>
+        <div class="faq-a">Skoro všechno kolem peněz. Hypotéky i refinancování, úvěry pro lidi i firmy, životní a majetkové pojištění, investice i spoření na penzi. Máte na to jeden kontakt a nemusíte to řešit na pěti místech.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Vyřídíte hypotéku i pro OSVČ?<span class="faq-chev"><i data-lucide="chevron-down" style="width:22px;height:22px;"></i></span></summary>
+        <div class="faq-a">Jasně, řešíme to běžně. Víme, jak která banka kouká na příjem podnikatele, takže dopředu poznáme, kde máte největší šanci. Papíry připravíme tak, aby banka neměla co vytknout.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Kdy se vyplatí refinancovat hypotéku?<span class="faq-chev"><i data-lucide="chevron-down" style="width:22px;height:22px;"></i></span></summary>
+        <div class="faq-a">Většinou na konci fixace. Zdarma vám spočítáme, o kolik by vám klesla splátka, a na rovinu řekneme, jestli se přechod jinam vůbec vyplatí. Někdy je lepší zůstat, a to vám taky řekneme.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Jaké pojištění pomůžete sjednat?<span class="faq-chev"><i data-lucide="chevron-down" style="width:22px;height:22px;"></i></span></summary>
+        <div class="faq-a">Životní i úrazové, nemovitost a domácnost, auto i odpovědnost. Projdeme, co reálně potřebujete, a vybereme jen to, co dává smysl. Za zbytečné pojistky utrácet nemusíte.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Jak začít investovat a spořit na penzi?<span class="faq-chev"><i data-lucide="chevron-down" style="width:22px;height:22px;"></i></span></summary>
+        <div class="faq-a">Ukážeme vám jednoduché a levné investice (třeba ETF) a spoření na penzi s daňovou úlevou. Začít můžete klidně od pár stovek měsíčně. Kolik z toho časem vznikne, si spočítáte naší kalkulačkou složeného úročení.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Působíte v Praze i v Ostravě?<span class="faq-chev"><i data-lucide="chevron-down" style="width:22px;height:22px;"></i></span></summary>
+        <div class="faq-a">Ano, jsme v Praze i v Ostravě a okolí. Sejdeme se osobně, nebo se potkáme online. Většinu věcí v klidu vyřídíte i z gauče.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section class="pad sec-optim" id="objednat">
+  <div class="container">
+    <div class="two">
+      <div class="reveal">
+        <span class="eyebrow" style="color:#2f7a56;">Objednat schůzku</span>
+        <h2 class="h-section" style="margin-top:10px;">Napište nám a domluvíme <span class="serif">termín.</span></h2>
+        <p class="lead" style="margin-top:20px;max-width:480px;">Nezávazně a zdarma. Ozveme se vám do 24 hodin a domluvíme čas, který vám sedne.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;">
+          <span class="chip chip-green"><i data-lucide="check" style="width:14px;height:14px;"></i>Zdarma</span>
+          <span class="chip chip-green"><i data-lucide="check" style="width:14px;height:14px;"></i>Nezávazně</span>
+          <span class="chip chip-green"><i data-lucide="shield-check" style="width:14px;height:14px;"></i>Registrace ČNB</span>
+        </div>
+      </div>
+
+      <form class="booking reveal d1" id="booking-form" novalidate>
+        <div class="frow">
+          <label for="bf-name">Jméno a příjmení</label>
+          <input id="bf-name" name="name" type="text" autocomplete="name" placeholder="Jan Novák">
+        </div>
+        <div class="frow frow2">
+          <div>
+            <label for="bf-email">E-mail <span class="req">*</span></label>
+            <input id="bf-email" name="email" type="email" autocomplete="email" placeholder="vas@email.cz" required>
+            <div class="emsg">Zadejte platný e-mail.</div>
+          </div>
+          <div>
+            <label for="bf-phone">Telefon <span class="req">*</span></label>
+            <input id="bf-phone" name="phone" type="tel" autocomplete="tel" placeholder="+420 777 123 456" required>
+            <div class="emsg">Zadejte telefonní číslo.</div>
+          </div>
+        </div>
+        <div class="frow">
+          <label for="bf-topic">Co chcete řešit? <span class="req">*</span></label>
+          <select id="bf-topic" name="topic" required>
+            <option value="" selected disabled>Vyberte oblast…</option>
+            <option>Hypotéka</option>
+            <option>Refinancování hypotéky</option>
+            <option>Spotřebitelský úvěr</option>
+            <option>Firemní / provozní úvěr</option>
+            <option>Investice (ETF / DIP)</option>
+            <option>Penze a spoření na penzi</option>
+            <option>Pojištění</option>
+            <option>Kompletní finanční plán</option>
+            <option>Něco jiného</option>
+          </select>
+          <div class="emsg">Vyberte, co chcete řešit.</div>
+        </div>
+        <div class="frow">
+          <label for="bf-msg">Doplňující zpráva</label>
+          <textarea id="bf-msg" name="message" placeholder="Napište nám krátce k vaší situaci (nepovinné)."></textarea>
+        </div>
+        <div class="frow">
+          <label for="bf-time">Preferovaný termín schůzky <span class="req">*</span></label>
+          <input id="bf-time" name="preferred_time" type="datetime-local" required>
+          <div class="emsg">Vyberte preferovaný termín.</div>
+        </div>
+        <button type="submit" class="btn btn-dark" style="width:100%;justify-content:center;margin-top:6px;">Odeslat objednávku <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button>
+        <div class="form-status" id="bf-status" role="status" aria-live="polite"></div>
+        <p style="font-size:12px;color:var(--ink-60);line-height:1.5;margin-top:12px;">Odesláním souhlasíte se zpracováním údajů za účelem kontaktu. Vaše data nikam neprodáváme.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="sec-forest">
+  <div class="container">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="#top" class="logo logo--light" aria-label="Finance Lab — nahoru">
+          <span class="mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15 L10 9 L14 12 L20 5"/></svg></span>
+          <span class="wm">Finance Lab</span>
+        </a>
+        <p>Finanční poradci pro Prahu, Ostravu a okolí. Hypotéky, pojištění, investice i penze — všechno u jednoho člověka.</p>
+        <div class="socials">
+          <a href="#" aria-label="Instagram"><i data-lucide="camera" style="width:18px;height:18px;"></i></a>
+          <a href="#objednat" aria-label="Napište nám"><i data-lucide="at-sign" style="width:18px;height:18px;"></i></a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Navigace</h4>
+        <a href="#sluzby">S čím pomůžeme</a>
+        <a href="kalkulacky.html">Kalkulačky</a>
+        <a href="#faq">Časté dotazy</a>
+      </div>
+      <div class="foot-col">
+        <h4>Finance Lab</h4>
+        <a href="#uvod">O nás</a>
+        <a href="#jak">Jak to funguje</a>
+        <a href="#objednat">Objednat schůzku</a>
+      </div>
+      <div class="foot-col">
+        <h4>Právní</h4>
+        <a href="#">Podmínky</a>
+        <a href="#">Ochrana osobních údajů</a>
+        <a href="#">Registrace ČNB</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+    <p class="foot-line">Peníze jsou nástroj. Pomůžeme vám používat je s větším klidem.</p>
+    <div class="foot-bottom">
+      <span>© 2026 Finance Lab · Registrovaný poradce ČNB</span>
+      <span>Praha &amp; Ostrava</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

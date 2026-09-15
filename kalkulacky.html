@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finanční kalkulačky — hypotéka i složené úročení | Finance Lab</title>
+<meta name="description" content="Spočítejte si, jestli se vyplatí koupě nebo pronájem a kolik vydělá složené úročení. Jednoduché finanční kalkulačky od Finance Lab, zdarma.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#14352B">
+<link rel="canonical" href="https://financelab-chi.vercel.app/kalkulacky.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="cs_CZ">
+<meta property="og:site_name" content="Finance Lab">
+<meta property="og:title" content="Finanční kalkulačky | Finance Lab">
+<meta property="og:description" content="Koupě vs pronájem a složené úročení. Jednoduché kalkulačky zdarma.">
+<meta property="og:url" content="https://financelab-chi.vercel.app/kalkulacky.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<link rel="stylesheet" href="styles.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Domů", "item": "https://financelab-chi.vercel.app/" },
+    { "@type": "ListItem", "position": 2, "name": "Kalkulačky", "item": "https://financelab-chi.vercel.app/kalkulacky.html" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Finanční kalkulačky Finance Lab",
+  "url": "https://financelab-chi.vercel.app/kalkulacky.html",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Web",
+  "inLanguage": "cs",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CZK" },
+  "description": "Kalkulačka koupě vs. pronájem a kalkulačka složeného úročení. Spočítejte si, co se vyplatí, zdarma a bez registrace."
+}
+</script>
+</head>
+<body>
+
+<a href="#hlavni" class="btn" style="position:absolute; left:-999px; top:0;" onfocus="this.style.left='12px';this.style.top='12px';this.style.zIndex='100';" onblur="this.style.left='-999px';">Přeskočit na obsah</a>
+
+<nav class="site" aria-label="Hlavní navigace">
+  <div class="container nav-in">
+    <a href="index.html" class="logo" aria-label="Finance Lab — domů">
+      <span class="mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15 L10 9 L14 12 L20 5"/></svg></span>
+      <span class="wm">Finance Lab</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#sluzby">S čím pomůžeme</a>
+      <a href="kalkulacky.html" aria-current="page">Kalkulačky</a>
+      <a href="index.html#jak">Jak to funguje</a>
+      <a href="index.html#faq">Časté dotazy</a>
+    </div>
+    <div class="nav-actions">
+      <a href="index.html#objednat" class="btn btn-dark">Domluvit konzultaci</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Otevřít menu" aria-expanded="false" aria-controls="mmenu">Menu <i data-lucide="menu" style="width:18px;height:18px;"></i></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mmenu">
+  <a href="index.html#sluzby">S čím pomůžeme</a>
+  <a href="kalkulacky.html">Kalkulačky</a>
+  <a href="index.html#jak">Jak to funguje</a>
+  <a href="index.html#faq">Časté dotazy</a>
+  <div class="mobile-cta">
+    <a href="index.html#objednat" class="btn btn-dark">Domluvit konzultaci</a>
+  </div>
+</div>
+
+<main id="hlavni">
+
+<!-- TOOLS -->
+<section class="pad sec-cream" id="nastroje">
+  <div class="container">
+    <div class="two">
+      <div class="reveal side-note">Ukážeme vám čísla <span class="serif">na rovinu.</span></div>
+      <div class="reveal d1">
+        <h1 class="h-section" style="font-size:clamp(30px,4.6vw,54px);">Méně tabulek.<br>Víc přehledu<br>nad penězi.</h1>
+        <p class="lead" style="margin-top:22px; max-width:560px;">Posuňte pár hodnot a hned uvidíte čísla. Nebo nám napište a projdeme to spolu, bez divných pojmů.</p>
+        <a href="index.html#objednat" class="btn btn-dark" style="margin-top:28px;">Prozkoumat nástroje</a>
+      </div>
+    </div>
+
+    <!-- product UI mockup -->
+    <div class="tool-ui reveal d1">
+      <div class="panel">
+        <div class="goal-row">
+          <div>
+            <div style="font-size:13px;color:var(--ink-60);">Váš hlavní cíl</div>
+            <div class="big-num" style="font-size:26px;">Vlastní bydlení</div>
+          </div>
+          <span class="chip chip-blue"><i data-lucide="target" style="width:14px;height:14px;"></i>do roku 2029</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--ink-60);margin-bottom:8px;">
+          <span>Naspořeno <b class="big-num" style="color:var(--ink);font-size:15px;">420 000 Kč</b></span>
+          <span>Cíl 700 000 Kč</span>
+        </div>
+        <div class="progress" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" aria-label="Pokrok k cíli"><span data-progress="60"></span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px;">
+          <div style="background:var(--cream);border-radius:16px;padding:16px;">
+            <div style="font-size:12px;color:var(--ink-60);">Rezerva</div>
+            <div class="big-num" style="font-size:22px;"><span data-count="86000">0</span> Kč</div>
+            <span class="chip chip-green" style="margin-top:8px;"><i data-lucide="check" style="width:13px;height:13px;"></i>3 měsíce jistoty</span>
+          </div>
+          <div style="background:var(--cream);border-radius:16px;padding:16px;">
+            <div style="font-size:12px;color:var(--ink-60);">Pokrok tento měsíc</div>
+            <div class="big-num" style="font-size:22px;color:#2f7a56;">+8 %</div>
+            <span class="chip chip-lime" style="margin-top:8px;">Nad plánem</span>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <div style="font-size:13px;color:var(--ink-60);">Vývoj úspor</div>
+          <span class="chip chip-blue">6 měsíců</span>
+        </div>
+        <div class="bars" data-bars aria-hidden="true">
+          <div class="bar" data-h="42"></div>
+          <div class="bar" data-h="55"></div>
+          <div class="bar" data-h="50"></div>
+          <div class="bar" data-h="68"></div>
+          <div class="bar" data-h="80"></div>
+          <div class="bar hl" data-h="100"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--ink-60);margin-top:8px;">
+          <span>Led</span><span>Úno</span><span>Bře</span><span>Dub</span><span>Kvě</span><span>Čer</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- interactive calculator -->
+    <div class="calc reveal" id="kalkulacka" style="margin-top:22px;">
+      <div style="margin-bottom:24px;">
+        <span class="eyebrow" style="color:var(--blue-deep);">Kalkulačka</span>
+        <h3 class="h-section" style="font-size:clamp(26px,3.4vw,40px);margin-top:10px;">Vyplatí se vám koupě, nebo <span class="serif">pronájem?</span></h3>
+        <p class="lead" style="margin-top:10px;max-width:620px;">Posuňte hodnoty a hned uvidíte, která varianta vám po letech nechá v kapse víc. Počítáme i s investováním rozdílu mezi splátkou a nájmem.</p>
+      </div>
+
+      <div style="margin: 0 0 30px; background: var(--cream); border-radius: 18px; padding: 22px 24px;">
+        <h4 style="font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 16px;">Kdy vám tahle kalkulačka pomůže?</h4>
+        <div class="calc-help" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px 34px;">
+          <div style="display: flex; gap: 12px; align-items: flex-start;"><span style="flex-shrink: 0; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: rgba(99,184,136,0.2);"><i data-lucide="home" style="width: 17px; height: 17px; color: #2f7a56;"></i></span><span style="font-size: 15px; line-height: 1.5; color: var(--ink);">Koupit vlastní bydlení, nebo zůstat v nájmu?</span></div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;"><span style="flex-shrink: 0; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: rgba(99,184,136,0.2);"><i data-lucide="wallet" style="width: 17px; height: 17px; color: #2f7a56;"></i></span><span style="font-size: 15px; line-height: 1.5; color: var(--ink);">Mám peníze na akontaci — dát je do bytu, nebo je radši investovat?</span></div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;"><span style="flex-shrink: 0; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: rgba(99,184,136,0.2);"><i data-lucide="clock" style="width: 17px; height: 17px; color: #2f7a56;"></i></span><span style="font-size: 15px; line-height: 1.5; color: var(--ink);">Za jak dlouho se mi koupě vyplatí víc než nájem?</span></div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;"><span style="flex-shrink: 0; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: rgba(99,184,136,0.2);"><i data-lucide="map-pin" style="width: 17px; height: 17px; color: #2f7a56;"></i></span><span style="font-size: 15px; line-height: 1.5; color: var(--ink);">Budu se za pár let stěhovat — vyplatí se vůbec kupovat?</span></div>
+        </div>
+      </div>
+      <div class="calc-grid">
+        <div>
+          <div class="field"><div class="row"><label for="br-cena">Cena nemovitosti</label><span class="val" id="br-cena-v"></span></div><input id="br-cena" type="range" min="1000000" max="20000000" step="100000" value="6000000"></div>
+          <div class="field"><div class="row"><label for="br-vlastni">Vlastní zdroje (akontace)</label><span class="val" id="br-vlastni-v"></span></div><input id="br-vlastni" type="range" min="0" max="60" step="5" value="20"></div>
+          <div class="field"><div class="row"><label for="br-urok">Úroková sazba</label><span class="val" id="br-urok-v"></span></div><input id="br-urok" type="range" min="1" max="8" step="0.1" value="4.9"></div>
+          <div class="field"><div class="row"><label for="br-doba">Doba splácení</label><span class="val" id="br-doba-v"></span></div><input id="br-doba" type="range" min="5" max="35" step="1" value="30"></div>
+          <div class="field"><div class="row"><label for="br-najem">Měsíční nájem</label><span class="val" id="br-najem-v"></span></div><input id="br-najem" type="range" min="5000" max="60000" step="500" value="22000"></div>
+          <div class="field"><div class="row"><label for="br-podil">Kolik z rozdílu investujete</label><span class="val" id="br-podil-v"></span></div><input id="br-podil" type="range" min="0" max="100" step="5" value="100"></div>
+          <div class="field"><div class="row"><label for="br-rustnem">Růst cen nemovitostí ročně</label><span class="val" id="br-rustnem-v"></span></div><input id="br-rustnem" type="range" min="0" max="8" step="0.5" value="3"></div>
+          <div class="field" style="margin-bottom:0;"><div class="row"><label for="br-vynos">Výnos investic ročně</label><span class="val" id="br-vynos-v"></span></div><input id="br-vynos" type="range" min="0" max="12" step="0.5" value="6"></div>
+        </div>
+        <div>
+          <div class="verdict"><div class="lbl">Výsledek po <span id="br-horizon">30</span> letech</div><div class="big" id="br-verdict"></div></div>
+          <div class="res2">
+            <div class="rescard">
+              <div class="cap">Koupě — čisté jmění</div>
+              <div class="amt" id="br-buy-net"></div>
+              <div class="barwrap"><span id="br-buy-bar" style="background:var(--forest);"></span></div>
+              <div class="kv"><span>Měsíční splátka</span><b id="br-buy-m"></b></div>
+              <div class="kv"><span>Celkem zaplaceno</span><b id="br-buy-total"></b></div>
+            </div>
+            <div class="rescard">
+              <div class="cap">Pronájem + investice</div>
+              <div class="amt" id="br-rent-net"></div>
+              <div class="barwrap"><span id="br-rent-bar" style="background:var(--green);"></span></div>
+              <div class="kv"><span>Měsíční nájem</span><b id="br-rent-r"></b></div>
+              <div class="kv"><span>Celkem investováno</span><b id="br-rent-inv"></b></div>
+            </div>
+          </div>
+          <p style="font-size:12px;color:var(--ink-60);line-height:1.5;margin-top:14px;">Orientační výpočet. Zjednodušený model (bez údržby, daní a růstu nájmu) — přesný propočet na míru vám udělá poradce.</p>
+          <a href="index.html#objednat" class="btn btn-dark" style="margin-top:18px;">Nevíte si rady? Probereme to <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></a>
+        </div>
+      </div>
+
+      <details class="calc-help-details">
+        <summary class="calc-help-sum"><span>Co které pole znamená</span><span class="chev"><i data-lucide="chevron-down" style="width:20px;height:20px;"></i></span></summary>
+        <div style="padding-top: 6px;">
+        <p style="font-size: 14px; color: var(--ink-60); margin-bottom: 20px;">Krátká nápověda k jednotlivým posuvníkům.</p>
+        <div class="calc-help" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px 34px; font-size: 14px; line-height: 1.5; color: var(--ink-60);">
+          <div><b style="color: var(--ink);">Cena nemovitosti</b> — kolik byt nebo dům stojí. Z toho počítáme výši úvěru i budoucí hodnotu.</div>
+          <div><b style="color: var(--ink);">Vlastní zdroje (akontace)</b> — kolik % ceny zaplatíte ze svého; zbytek je hypotéka.</div>
+          <div><b style="color: var(--ink);">Úroková sazba</b> — roční úrok hypotéky. Určuje výši měsíční splátky.</div>
+          <div><b style="color: var(--ink);">Doba splácení</b> — na kolik let hypotéku rozložíte (zároveň horizont srovnání).</div>
+          <div><b style="color: var(--ink);">Měsíční nájem</b> — kolik byste platili za srovnatelné bydlení v nájmu.</div>
+          <div><b style="color: var(--ink);">Kolik z rozdílu investujete</b> — jakou část ušetřeného rozdílu (splátka − nájem) reálně investujete; zbytek utratíte.</div>
+          <div><b style="color: var(--ink);">Růst cen nemovitostí / Výnos investic</b> — tržní předpoklady, viz vysvětlení níže.</div>
+        </div>
+        <div class="calc-help" style="margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div style="background: var(--cream); border-radius: 16px; padding: 18px 20px;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;"><span style="display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; background: rgba(99,184,136,0.22);"><i data-lucide="trending-up" style="width: 16px; height: 16px; color: var(--blue-deep);"></i></span><span style="font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 15px; color: var(--ink);">Růst cen nemovitostí ročně</span></div>
+            <div style="font-size: 13.5px; color: var(--ink-60); line-height: 1.55;">O kolik % ročně zdražuje nemovitost. Čím vyšší, tím víc se vyplatí koupě. <b style="color: var(--ink);">Průměr v ČR:</b> ~7–10 % za posledních 5 let, ~6–8 % za 15 let (s velkými výkyvy).</div>
+          </div>
+          <div style="background: var(--cream); border-radius: 16px; padding: 18px 20px;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;"><span style="display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; background: rgba(99,184,136,0.2);"><i data-lucide="line-chart" style="width: 16px; height: 16px; color: #2f7a56;"></i></span><span style="font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 15px; color: var(--ink);">Výnos investic ročně</span></div>
+            <div style="font-size: 13.5px; color: var(--ink-60); line-height: 1.55;">O kolik % ročně vydělávají investované peníze (typicky akciové ETF). Čím vyšší, tím víc se vyplatí pronájem a investování rozdílu. <b style="color: var(--ink);">Průměr (světové akcie):</b> ~8–12 % za 5 let, ~9–12 % za 15 let; dlouhodobě ~7–10 %.</div>
+          </div>
+        </div>
+        <p style="font-size: 12px; color: var(--ink-60); line-height: 1.5; margin-top: 16px;">Historické průměry jsou orientační (zdroj: ČSÚ – index cen nemovitostí, historické výnosy akciových indexů). Nejde o garanci ani investiční doporučení — minulé výnosy nezaručují budoucí. Výchozí hodnoty v kalkulačce (3 % a 6 %) jsou zvolené záměrně konzervativně.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- COMPOUND INTEREST -->
+<section class="pad" id="slozene-uroceni">
+  <div class="container">
+    <div class="calc reveal">
+      <div style="margin-bottom: 22px;">
+        <span class="eyebrow" style="color:#2f7a56;">Kalkulačka</span>
+        <h3 class="h-section" style="font-size:clamp(26px,3.4vw,40px);margin-top:10px;">Nechte peníze <span class="serif">pracovat za vás.</span></h3>
+        <p class="lead" style="margin-top:10px;max-width:640px;">Složené úročení znamená, že výnosy vydělávají další výnosy. Zvolte jednorázovou investici, pravidelné vklady nebo obojí — a uvidíte, co to udělá v čase.</p>
+      </div>
+
+      <div class="ci-seg" id="ci-seg" role="tablist" aria-label="Typ investování">
+        <button type="button" data-mode="jednorazova" role="tab" aria-selected="false">Jednorázová</button>
+        <button type="button" data-mode="pravidelna" role="tab" aria-selected="false">Pravidelná</button>
+        <button type="button" data-mode="kombinace" class="on" role="tab" aria-selected="true">Kombinace</button>
+      </div>
+
+      <div class="ci-fields">
+        <div class="field" id="ci-field-initial"><div class="row"><label for="ci-initial">Jednorázová investice</label><span class="val" id="ci-initial-v"></span></div><input id="ci-initial" type="range" min="0" max="2000000" step="10000" value="100000"></div>
+        <div class="field" id="ci-field-monthly"><div class="row"><label for="ci-monthly">Pravidelně měsíčně</label><span class="val" id="ci-monthly-v"></span></div><input id="ci-monthly" type="range" min="0" max="50000" step="500" value="5000"></div>
+        <div class="field"><div class="row"><label for="ci-rate">Roční výnos</label><span class="val" id="ci-rate-v"></span></div><input id="ci-rate" type="range" min="0" max="15" step="0.5" value="7"></div>
+        <div class="field"><div class="row"><label for="ci-years">Doba investování</label><span class="val" id="ci-years-v"></span></div><input id="ci-years" type="range" min="1" max="40" step="1" value="20"></div>
+      </div>
+
+      <div class="ci-stats">
+        <div class="ci-stat"><div class="cap">Konečná hodnota</div><div class="amt" id="ci-final" style="color:var(--forest);"></div></div>
+        <div class="ci-stat"><div class="cap">Celkem vloženo</div><div class="amt" id="ci-contrib"></div></div>
+        <div class="ci-stat"><div class="cap">Zhodnocení (výnos)</div><div class="amt" id="ci-gains" style="color:#2f7a56;"></div></div>
+      </div>
+
+      <div class="ci-chart" id="ci-chart">
+        <svg viewBox="0 0 640 300" width="100%" style="height:auto;display:block;overflow:visible;" role="img" aria-label="Graf růstu hodnoty investice v čase">
+          <defs><clipPath id="ci-clip"><rect id="ci-cliprect" x="0" y="0" width="640" height="300"/></clipPath></defs>
+          <line x1="64" y1="20" x2="624" y2="20" stroke="rgba(23,32,28,0.08)"/>
+          <line x1="64" y1="135" x2="624" y2="135" stroke="rgba(23,32,28,0.08)"/>
+          <line x1="64" y1="250" x2="624" y2="250" stroke="rgba(23,32,28,0.18)"/>
+          <text id="ci-y2" x="56" y="24" text-anchor="end" font-size="11" fill="rgba(23,32,28,0.5)" font-family="Inter,sans-serif"></text>
+          <text id="ci-y1" x="56" y="139" text-anchor="end" font-size="11" fill="rgba(23,32,28,0.5)" font-family="Inter,sans-serif"></text>
+          <text id="ci-y0" x="56" y="254" text-anchor="end" font-size="11" fill="rgba(23,32,28,0.5)" font-family="Inter,sans-serif"></text>
+          <g id="ci-bars"></g>
+          <text id="ci-x0" x="64" y="273" text-anchor="start" font-size="11" fill="rgba(23,32,28,0.5)" font-family="Inter,sans-serif"></text>
+          <text id="ci-x1" x="344" y="273" text-anchor="middle" font-size="11" fill="rgba(23,32,28,0.5)" font-family="Inter,sans-serif"></text>
+          <text id="ci-x2" x="624" y="273" text-anchor="end" font-size="11" fill="rgba(23,32,28,0.5)" font-family="Inter,sans-serif"></text>
+        </svg>
+        <div class="ci-legend">
+          <span><i style="background:#63B888;"></i>Vloženo (vaše vklady)</span>
+          <span><i style="background:rgba(239,245,106,0.95);"></i>Úroky (zhodnocení)</span>
+          <span style="color:#2f7a56;font-weight:600;">Součet obou = konečná hodnota</span>
+        </div>
+      </div>
+
+      <p style="font-size:12px;color:var(--ink-60);line-height:1.5;margin-top:16px;">Orientační výpočet s měsíčním připisováním výnosů. Skutečné výnosy v čase kolísají a nejsou zaručené — nejde o investiční doporučení.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="sec-forest">
+  <div class="container">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="index.html#top" class="logo logo--light" aria-label="Finance Lab — nahoru">
+          <span class="mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15 L10 9 L14 12 L20 5"/></svg></span>
+          <span class="wm">Finance Lab</span>
+        </a>
+        <p>Finanční poradci pro Prahu, Ostravu a okolí. Hypotéky, pojištění, investice i penze — všechno u jednoho člověka.</p>
+        <div class="socials">
+          <a href="#" aria-label="Instagram"><i data-lucide="camera" style="width:18px;height:18px;"></i></a>
+          <a href="index.html#objednat" aria-label="Napište nám"><i data-lucide="at-sign" style="width:18px;height:18px;"></i></a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Navigace</h4>
+        <a href="index.html#sluzby">S čím pomůžeme</a>
+        <a href="kalkulacky.html">Kalkulačky</a>
+        <a href="index.html#faq">Časté dotazy</a>
+      </div>
+      <div class="foot-col">
+        <h4>Finance Lab</h4>
+        <a href="index.html#uvod">O nás</a>
+        <a href="index.html#jak">Jak to funguje</a>
+        <a href="index.html#objednat">Objednat schůzku</a>
+      </div>
+      <div class="foot-col">
+        <h4>Právní</h4>
+        <a href="index.html">Podmínky</a>
+        <a href="index.html">Ochrana osobních údajů</a>
+        <a href="index.html">Registrace ČNB</a>
+        <a href="index.html">Cookies</a>
+      </div>
+    </div>
+    <p class="foot-line">Peníze jsou nástroj. Pomůžeme vám používat je s větším klidem.</p>
+    <div class="foot-bottom">
+      <span>© 2026 Finance Lab · Registrovaný poradce ČNB</span>
+      <span>Praha &amp; Ostrava</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
