@@ -236,8 +236,28 @@
     });
   }
 
+  // Scroll progress bar + nav elevate-on-scroll
+  function setupScrollFX() {
+    var nav = document.querySelector('nav.site');
+    var bar = document.getElementById('scroll-progress');
+    if (!nav && !bar) return;
+    var ticking = false;
+    function update() {
+      var st = window.pageYOffset || document.documentElement.scrollTop || 0;
+      if (nav) nav.classList.toggle('scrolled', st > 8);
+      if (bar) {
+        var h = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, st / h) : 0) + ')';
+      }
+      ticking = false;
+    }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+    update();
+  }
+
   function init() {
-    refreshIcons(); setupReveal(); setupCounters(); setupMenu(); setupSeg(); setupCards(); setupBuyRent(); setupCompound(); setupBooking();
+    refreshIcons(); setupReveal(); setupCounters(); setupMenu(); setupSeg(); setupCards(); setupBuyRent(); setupCompound(); setupBooking(); setupScrollFX();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
