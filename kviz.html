@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Máte finance v malíku? Finanční kvíz | Finance Lab</title>
+<meta name="description" content="8 otázek za 3 minuty. Zjistěte, jak na tom se svými financemi jste, a co podle vaší situace stojí za pozornost. Výsledek hned, bez zadávání e-mailu.">
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#14352B">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://financelab-psi.vercel.app/kviz.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<link rel="stylesheet" href="styles.css">
+<style>
+  body { background: var(--cream); }
+  .kviz-top { position: sticky; top: 0; z-index: 40; background: rgba(241,236,224,0.9); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(23,32,28,0.07); }
+  .kviz-top .in { max-width: 820px; margin: 0 auto; padding: 0 22px; height: 62px; display: flex; align-items: center; justify-content: space-between; }
+  .kviz-back { font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 14px; color: var(--ink-60); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+  .kviz-back:hover { color: var(--ink); }
+
+  .kviz-wrap { max-width: 720px; margin: 0 auto; padding: clamp(26px, 5vw, 60px) 22px 80px; }
+  .kviz-card { background: #fff; border-radius: var(--radius-lg); border: 1px solid rgba(23,32,28,0.08); box-shadow: 0 24px 60px rgba(20,53,43,0.07); padding: clamp(26px, 4vw, 48px); }
+  .fade { animation: kfade .45s var(--ease); }
+  @keyframes kfade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+  /* progress */
+  .kviz-prog { display: flex; align-items: center; gap: 14px; margin-bottom: 26px; }
+  .kviz-prog .track { flex: 1; height: 7px; border-radius: 99px; background: rgba(23,32,28,0.08); overflow: hidden; }
+  .kviz-prog .track > span { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--green), var(--lime)); transition: width .45s var(--ease); }
+  .kviz-prog .lbl { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 13px; color: var(--ink-60); white-space: nowrap; }
+
+  /* intro */
+  .kviz-eyebrow { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #2f7a56; }
+  .kviz-h1 { font-family: 'Manrope', sans-serif; font-weight: 800; letter-spacing: -0.03em; line-height: 1.04; font-size: clamp(30px, 5vw, 46px); margin: 14px 0 0; color: var(--ink); }
+  .kviz-lead { font-size: clamp(16px, 1.5vw, 18px); line-height: 1.6; color: var(--ink-60); margin-top: 18px; }
+  .kviz-lead + .kviz-lead { margin-top: 12px; }
+  .kviz-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13.5px; color: var(--ink-60); margin-top: 20px; }
+  .kviz-meta i { color: #2f7a56; }
+
+  /* question */
+  .kviz-q { font-family: 'Manrope', sans-serif; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; font-size: clamp(21px, 2.6vw, 29px); color: var(--ink); }
+  .kviz-qhelp { font-size: 14.5px; line-height: 1.55; color: var(--ink-60); margin-top: 10px; }
+  .kviz-opts { display: flex; flex-direction: column; gap: 11px; margin-top: 24px; }
+  .kviz-opt { display: flex; align-items: center; gap: 14px; text-align: left; width: 100%; font-family: 'Inter', sans-serif; font-size: 15.5px; line-height: 1.45; color: var(--ink); background: var(--cream); border: 1.5px solid transparent; border-radius: 16px; padding: 17px 18px; cursor: pointer; transition: border-color .18s, background .18s, transform .12s var(--ease); }
+  .kviz-opt:hover { border-color: rgba(20,53,43,0.28); background: #fff; }
+  .kviz-opt:active { transform: scale(0.99); }
+  .kviz-opt .dot { flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%; border: 2px solid rgba(23,32,28,0.22); display: grid; place-items: center; transition: border-color .18s, background .18s; }
+  .kviz-opt .dot i { width: 14px; height: 14px; color: #fff; opacity: 0; transform: scale(0.5); transition: opacity .15s, transform .15s; }
+  .kviz-opt.sel { border-color: var(--forest); background: var(--forest); color: #fff; }
+  .kviz-opt.sel .dot { border-color: var(--lime); background: var(--lime); }
+  .kviz-opt.sel .dot i { opacity: 1; transform: none; color: var(--forest); }
+
+  .kviz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 26px; gap: 12px; }
+  .kviz-textbtn { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 14px; color: var(--ink-60); background: none; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; padding: 8px 4px; }
+  .kviz-textbtn:hover { color: var(--ink); }
+  .kviz-textbtn[hidden] { visibility: hidden; }
+
+  /* result */
+  .res-head { font-family: 'Manrope', sans-serif; font-weight: 800; letter-spacing: -0.02em; line-height: 1.12; font-size: clamp(24px, 3.2vw, 34px); color: var(--ink); }
+  .res-sub { font-size: 16px; line-height: 1.6; color: var(--ink-60); margin-top: 14px; }
+  .res-section-lbl { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: #2f7a56; margin: 30px 0 14px; }
+  .res-bullets { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+  .res-bullets li { display: flex; gap: 12px; align-items: flex-start; font-size: 15.5px; line-height: 1.5; color: var(--ink); }
+  .res-bullets li .bic { flex-shrink: 0; width: 30px; height: 30px; border-radius: 9px; background: rgba(99,184,136,0.18); display: grid; place-items: center; }
+  .res-bullets li .bic i { width: 16px; height: 16px; color: #2f7a56; }
+  .res-note { font-size: 15px; line-height: 1.6; color: var(--ink-60); margin-top: 18px; }
+  .res-step { margin-top: 18px; background: var(--optim); border-radius: 16px; padding: 18px 20px; font-size: 15px; line-height: 1.55; color: var(--ink); }
+  .res-step b { font-family: 'Manrope', sans-serif; }
+
+  .know { margin-top: 12px; border: 1px solid rgba(23,32,28,0.1); border-radius: 16px; overflow: hidden; }
+  .know-row { padding: 16px 18px; border-top: 1px solid rgba(23,32,28,0.08); }
+  .know-row:first-child { border-top: none; }
+  .know-q { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 14.5px; color: var(--ink); display: flex; align-items: center; gap: 9px; }
+  .know-q .tag { flex-shrink: 0; width: 22px; height: 22px; border-radius: 6px; display: grid; place-items: center; }
+  .know-q .tag i { width: 14px; height: 14px; }
+  .tag-ok { background: rgba(99,184,136,0.2); } .tag-ok i { color: #2f7a56; }
+  .tag-no { background: rgba(192,57,43,0.12); } .tag-no i { color: #c0392b; }
+  .know-a { font-size: 14px; line-height: 1.55; color: var(--ink-60); margin-top: 7px; }
+  .know-a b { color: var(--ink); font-weight: 600; }
+
+  .offer { margin-top: 34px; background: var(--forest); color: #fff; border-radius: var(--radius-lg); padding: clamp(24px, 3.4vw, 38px); }
+  .offer h3 { font-family: 'Manrope', sans-serif; font-weight: 800; letter-spacing: -0.02em; font-size: clamp(21px, 2.6vw, 28px); line-height: 1.15; }
+  .offer p { color: rgba(255,255,255,0.86); font-size: 15.5px; line-height: 1.6; margin-top: 12px; }
+  .offer .take { list-style: none; padding: 0; margin: 18px 0 0; display: flex; flex-direction: column; gap: 10px; }
+  .offer .take li { display: flex; gap: 11px; align-items: flex-start; font-size: 15px; line-height: 1.5; color: rgba(255,255,255,0.92); }
+  .offer .take li i { flex-shrink: 0; width: 18px; height: 18px; color: var(--lime); margin-top: 2px; }
+  .offer .fineprint { font-size: 13px; color: rgba(255,255,255,0.62); margin-top: 16px; line-height: 1.5; }
+  .offer .btn { margin-top: 22px; }
+  .offer-soft { margin-top: 30px; padding-top: 24px; border-top: 1px solid rgba(23,32,28,0.1); font-size: 15px; line-height: 1.6; color: var(--ink-60); }
+  .offer-soft a { color: #2f7a56; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+
+  /* booking */
+  .bk-meta { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 14px; color: var(--ink-60); margin-top: 10px; }
+  .bk-meta span { display: inline-flex; align-items: center; gap: 6px; }
+  .bk-meta i { width: 15px; height: 15px; color: #2f7a56; }
+  .bk-lbl { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 13.5px; color: var(--ink); margin: 24px 0 10px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 9px; }
+  .chip-sel { font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 14px; color: var(--ink); background: var(--cream); border: 1.5px solid transparent; border-radius: 12px; padding: 11px 15px; cursor: pointer; transition: border-color .15s, background .15s, color .15s; }
+  .chip-sel:hover { border-color: rgba(20,53,43,0.28); }
+  .chip-sel.on { background: var(--forest); color: #fff; border-color: var(--forest); }
+  .chip-sel small { display: block; font-weight: 500; font-size: 11px; opacity: 0.7; }
+  .bk-form { margin-top: 8px; }
+  .bk-form .frow { margin-top: 16px; }
+  .bk-form .frow2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .bk-form label { display: block; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 13px; color: var(--ink); margin-bottom: 7px; }
+  .bk-form label .req { color: #c0392b; }
+  .bk-form input { width: 100%; box-sizing: border-box; font-family: 'Inter', sans-serif; font-size: 15px; color: var(--ink); background: var(--cream); border: 1.5px solid transparent; border-radius: 12px; padding: 13px 15px; outline: none; transition: border-color .18s, background .18s; }
+  .bk-form input:focus { border-color: var(--green); background: #fff; }
+  .bk-form .field-err input { border-color: #c0392b; background: #fff6f5; }
+  .bk-form .emsg { font-size: 12.5px; color: #c0392b; margin-top: 6px; display: none; }
+  .bk-form .field-err .emsg { display: block; }
+  .bk-status { margin-top: 14px; font-size: 14px; font-weight: 700; font-family: 'Manrope', sans-serif; }
+  .bk-status.bad { color: #c0392b; } .bk-status.ok { color: #2f7a56; }
+
+  /* done */
+  .done-ic { width: 66px; height: 66px; border-radius: 50%; background: rgba(99,184,136,0.2); display: grid; place-items: center; margin: 0 auto 20px; }
+  .done-ic i { width: 32px; height: 32px; color: #2f7a56; }
+  .done-wrap { text-align: center; }
+  .done-wrap h2 { font-family: 'Manrope', sans-serif; font-weight: 800; letter-spacing: -0.02em; font-size: clamp(26px, 3.4vw, 34px); color: var(--ink); }
+  .done-wrap p { font-size: 16px; line-height: 1.65; color: var(--ink-60); margin-top: 14px; max-width: 480px; margin-left: auto; margin-right: auto; }
+
+  @media (max-width: 520px) {
+    .bk-form .frow2 { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fade { animation: none; }
+    .kviz-prog .track > span { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="kviz-top">
+  <div class="in">
+    <a href="index.html" class="logo" aria-label="Finance Lab — domů">
+      <span class="mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15 L10 9 L14 12 L20 5"/></svg></span>
+      <span class="wm">Finance Lab</span>
+    </a>
+    <a href="index.html" class="kviz-back"><i data-lucide="arrow-left" style="width:16px;height:16px;"></i> Zpět na web</a>
+  </div>
+</div>
+
+<main class="kviz-wrap">
+  <div class="kviz-card" id="quiz-root" aria-live="polite"></div>
+</main>
+
+<script src="script.js"></script>
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root = document.getElementById('quiz-root');
+  var WEB3FORMS_KEY = 'REPLACE_WITH_YOUR_KEY'; // zdarma na web3forms.com — sem přijde klíč navázaný na e-mail poradce
+
+  // ---- data -------------------------------------------------------------
+  var QUESTIONS = [
+    { q: 'Kterou větu si o svých penězích říkáte nejčastěji?',
+      help: 'Vyberte tu, která je vám nejbližší.',
+      opts: [
+        '„Chci vlastní bydlení. Potřebuju vědět, co si můžu dovolit.“',
+        '„Hypotéku už mám. Chci vědět, jestli mám co řešit.“',
+        '„Chci, aby byla rodina finančně v bezpečí.“',
+        '„Něco mi zůstává. Měl/a bych s tím začít něco dělat.“',
+        '„Potřebuju si v tom udělat pořádek, ale nevím odkud začít.“',
+        '„Mám plán, jen si chci otestovat znalosti.“'
+      ] },
+    { q: 'Máte peníze stranou pro případ, že se něco pokazí. Co má být jejich hlavní výhoda?',
+      opts: [
+        'Co nejvyšší výnos, i kdyby jejich hodnota hodně kolísala.',
+        'Rychlá dostupnost a nízké riziko ztráty.',
+        'To, že se k nim několik let nedostanu.',
+        'Nejsem si jistý/á.'
+      ], correct: 1 },
+    { q: 'A kdyby vám příští měsíc nepřišel příjem, jak dlouho zvládnete platit nezbytné výdaje z dostupných úspor?',
+      help: 'Počítejte peníze, které už nemáte určené například na nákup auta nebo bydlení.',
+      opts: [
+        'Méně než měsíc.',
+        'Alespoň měsíc, ale méně než tři.',
+        'Tři až šest měsíců.',
+        'Více než šest měsíců.',
+        'Nevím, nikdy jsem to nespočítal/a.'
+      ] },
+    { q: 'Máte úrazové pojištění. Pokryje automaticky i dlouhou pracovní neschopnost kvůli nemoci?',
+      opts: [
+        'Ano, když nemůžu pracovat, příčina nerozhoduje.',
+        'Ne, rozhoduje sjednané krytí a podmínky.',
+        'Ano, pokud platím dostatečně vysoké pojistné.',
+        'Nejsem si jistý/á.'
+      ], correct: 1 },
+    { q: 'Kdybyste nemohli půl roku pracovat, víte, z čeho by domácnost fungovala?',
+      opts: [
+        'Ano, mám to propočítané a vím, které zdroje bych využil/a.',
+        'Počítám s pojištěním, ale nevím přesně, kdy a kolik by vyplatilo.',
+        'Máme úspory nebo další příjem, ale nevím, jestli by stačily.',
+        'Tohle zatím nemám vyřešené.'
+      ] },
+    { q: 'Kolega doporučuje investici, která minulý rok hodně vydělala. Co vám samotný minulý výnos říká o příštím roce?',
+      opts: [
+        'Že můžu očekávat stejný výsledek.',
+        'Že je investice bezpečná.',
+        'Nezaručuje, jak se jí bude dařit dál.',
+        'Nejsem si jistý/á.'
+      ], correct: 2 },
+    { q: 'Když vám na konci měsíce zbudou peníze, víte, na co jsou určené?',
+      opts: [
+        'Ano, rozděluju je podle svých cílů a toho, kdy je budu potřebovat.',
+        'Něco odkládám nebo investuju, ale bez konkrétního plánu.',
+        'Zůstávají na účtu. Pořád se rozhoduju, co s nimi.',
+        'Většinou mi nic nezbývá a chtěl/a bych to změnit.',
+        'Teď je záměrně používám na konkrétní výdaj nebo splácení dluhu.'
+      ] },
+    { q: 'Co by vám teď nejvíc pomohlo?',
+      opts: [
+        'Vědět, čím začít a v jakém pořadí.',
+        'Ověřit, jestli to, co už mám, odpovídá dnešnímu životu.',
+        'Pomoct s konkrétním rozhodnutím a jeho vyřízením.',
+        'Mít někoho, na koho se můžu dlouhodobě obracet.',
+        'Stačí mi vysvětlení odpovědí, ostatní si zařídím.',
+        'Nic dalšího, mám to s kým řešit.'
+      ] }
+  ];
+
+  var KNOW = [
+    { i: 1, correctText: 'Rychlá dostupnost a nízké riziko ztráty.',
+      exp: 'Rezerva má být hlavně rychle dostupná a s nízkým rizikem ztráty — ne honba za výnosem. (Desatero pro investory ČNB.)' },
+    { i: 3, correctText: 'Ne, rozhoduje sjednané krytí a podmínky.',
+      exp: 'Úrazové pojištění nekryje automaticky dlouhou nemoc — rozhoduje sjednané krytí a podmínky. (Rozdíl popisuje Ministerstvo financí.)' },
+    { i: 5, correctText: 'Nezaručuje, jak se jí bude dařit dál.',
+      exp: 'Minulý výnos nezaručuje ten příští ani neříká, jak je investice bezpečná. (Desatero pro investory ČNB.)' }
+  ];
+
+  var TYPES = {
+    start:   { head: 'Chcete začít. Potřebujete si ujasnit první krok.', sub: 'Máte chuť se do toho pustit. Teď jde hlavně o pořadí kroků.', benefit: 'Určíme, čemu se věnovat nejdřív a co si k tomu zjistit.', topic: 'první kroky a priority' },
+    check:   { head: 'Máte na čem stavět. Pár věcí stojí za kontrolu.', sub: 'Něco už máte vyřešené. U několika věcí ale zatím spoléháte na odhad.', benefit: 'Vybereme, co ověřit, a domluvíme podklady ke kontrole.', topic: 'kontrolu toho, co už máte' },
+    housing: { head: 'Máte konkrétní cíl. Pojďme připravit další krok k bydlení.', sub: 'Míříte za konkrétním cílem. Pár věcí je dobré si připravit dopředu.', benefit: 'Probereme fázi nákupu či hypotéky a podklady k posouzení možností.', topic: 'vaše bydlení a hypotéku' },
+    realize: { head: 'Víte, co chcete. Ocenili byste pomoc s vyřízením.', sub: 'Ve svých financích se vyznáte. Spíš vám půjde o vyřízení.', benefit: 'Vyjasníme konkrétní úkol a možnosti spolupráce.', topic: 'konkrétní krok, se kterým chcete pomoct' },
+    clear:   { head: 'V těchto tématech máte jasno.', sub: 'Ve svých financích máte docela jasno.', benefit: '', topic: 'vaše otázky' }
+  };
+
+  // ---- state ------------------------------------------------------------
+  var state = { screen: 'intro', qi: 0, answers: [], booking: { day: null, dayLabel: '', time: null, mode: 'Online' } };
+
+  function classify(a) {
+    var q1 = a[0], q8 = a[7];
+    if (q8 === 5 || q8 === 4) return 'clear';
+    if (q1 === 0) return 'housing';
+    if (q8 === 2 || q8 === 3) return 'realize';
+    if (q8 === 0 || q1 === 4) return 'start';
+    if (q8 === 1 || q1 === 1) return 'check';
+    if (q1 === 2 || q1 === 3) return 'check';
+    return 'start';
+  }
+
+  function attentionBullets(a) {
+    var out = [];
+    // Q3 – rezerva (index 2). "nevím" (4) = nejasnost, ne "nemáte".
+    if (a[2] === 0) out.push('Rezerva by vám vydržela méně než měsíc — stojí za to ji postupně posílit.');
+    else if (a[2] === 4) out.push('Nevíte přesně, jak dlouho by vám rezerva vydržela — stačí sečíst nezbytné výdaje a porovnat.');
+    else if (a[2] === 1) out.push('Rezervu na měsíc až tři máte; jako cíl se bere spíš tři až šest měsíců výdajů.');
+    // Q5 – výpadek příjmu (index 4)
+    if (a[4] === 1) out.push('Počítáte s pojištěním, ale neznáte podmínky výplaty — dobré je je znát dřív, než nastanou.');
+    else if (a[4] === 2) out.push('Pro delší výpadek příjmu máte nějaké zdroje, ale nevíte, jestli by stačily.');
+    else if (a[4] === 3) out.push('Delší výpadek příjmu zatím nemáte podchycený.');
+    // Q7 – zbylé peníze (index 6). Poslední (4) je záměr, ne chyba.
+    if (a[6] === 1) out.push('Peníze odkládáte, zatím jim ale chybí konkrétní cíl.');
+    else if (a[6] === 2) out.push('Peníze vám zůstávají na účtu bez určení — hodnotu jim ukrajuje inflace.');
+    else if (a[6] === 3) out.push('Zatím vám nezbývá a rádi byste to změnili.');
+    return out.slice(0, 4);
+  }
+
+  function firstStep(a, type) {
+    if (a[2] === 4 || a[2] === 0 || a[2] === 1) return 'Pro začátek si sepište nezbytné měsíční výdaje a porovnejte je s dostupnou rezervou. Získáte první konkrétní odpověď místo odhadu.';
+    if (type === 'housing') return 'Pro začátek si sepište čistý příjem a pravidelné výdaje. Z toho se pozná, jaká splátka je pro vás dlouhodobě udržitelná.';
+    if (a[6] === 1 || a[6] === 2) return 'Pro začátek si u odkládaných peněz určete cíl a čas, kdy je budete potřebovat. Podle toho se pozná, kam je má smysl dát.';
+    if (a[4] === 1) return 'Pro začátek si zjistěte, co přesně vaše pojistka platí a za jakých podmínek. Ať víte, s čím počítáte, dřív než to budete potřebovat.';
+    return 'Pro začátek si sepište, co už máte (rezerva, pojistky, spoření), a k čemu to slouží. Z jednoho přehledu se nejlíp pozná, co doladit.';
+  }
+
+  // ---- render helpers ---------------------------------------------------
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function icons() { if (window.lucide && window.lucide.createIcons) { try { window.lucide.createIcons(); } catch (e) {} } }
+  function paint(html) {
+    root.innerHTML = html;
+    root.classList.remove('fade'); void root.offsetWidth; if (!reduce) root.classList.add('fade');
+    icons();
+    window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+  }
+
+  // ---- screens ----------------------------------------------------------
+  function renderIntro() {
+    paint(
+      '<div class="kviz-eyebrow">Finanční kvíz</div>' +
+      '<h1 class="kviz-h1">Máte svoje finance v malíku?</h1>' +
+      '<p class="kviz-lead">Zkuste 8 otázek. Možná víte víc, než si myslíte. A možná narazíte na něco, co už nějakou dobu čeká na vyřešení.</p>' +
+      '<p class="kviz-lead">Na konci uvidíte správné odpovědi i témata, která podle vaší situace stojí za pozornost. Ať teprve začínáte, nebo už máte hypotéku, pojistky a investice.</p>' +
+      '<button class="btn btn-dark" data-act="start" style="margin-top:26px;">Zjistit, jak na tom jsem <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button>' +
+      '<div class="kviz-meta"><i data-lucide="clock" style="width:15px;height:15px;"></i> Přibližně 3 minuty · Výsledek hned, bez zadávání e-mailu.</div>'
+    );
+  }
+
+  function renderQuestion() {
+    var qi = state.qi, Q = QUESTIONS[qi], sel = state.answers[qi];
+    var opts = Q.opts.map(function (t, i) {
+      return '<button class="kviz-opt' + (sel === i ? ' sel' : '') + '" data-act="pick" data-i="' + i + '">' +
+        '<span class="dot"><i data-lucide="check"></i></span><span>' + esc(t) + '</span></button>';
+    }).join('');
+    paint(
+      '<div class="kviz-prog"><div class="track"><span style="width:' + ((qi + 1) / QUESTIONS.length * 100) + '%"></span></div>' +
+      '<div class="lbl">Otázka ' + (qi + 1) + ' / ' + QUESTIONS.length + '</div></div>' +
+      '<div class="kviz-q">' + esc(Q.q) + '</div>' +
+      (Q.help ? '<div class="kviz-qhelp">' + esc(Q.help) + '</div>' : '') +
+      '<div class="kviz-opts">' + opts + '</div>' +
+      '<div class="kviz-nav">' +
+      '<button class="kviz-textbtn" data-act="back"' + (qi === 0 ? ' hidden' : '') + '><i data-lucide="arrow-left" style="width:15px;height:15px;"></i> Zpět</button>' +
+      (sel != null ? '<button class="btn btn-dark" data-act="next">' + (qi === QUESTIONS.length - 1 ? 'Ukázat můj výsledek' : 'Pokračovat') + ' <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button>' : '<span></span>') +
+      '</div>'
+    );
+  }
+
+  function renderResult() {
+    var a = state.answers, type = classify(a), T = TYPES[type];
+    var bullets = attentionBullets(a);
+    var knowHtml = KNOW.map(function (k) {
+      var ok = a[k.i] === QUESTIONS[k.i].correct;
+      return '<div class="know-row"><div class="know-q"><span class="tag ' + (ok ? 'tag-ok' : 'tag-no') + '">' +
+        '<i data-lucide="' + (ok ? 'check' : 'x') + '"></i></span>' + esc(QUESTIONS[k.i].q) + '</div>' +
+        '<div class="know-a"><b>Správně:</b> ' + esc(k.correctText) + ' — ' + esc(k.exp) + '</div></div>';
+    }).join('');
+
+    var bulletsHtml = bullets.length
+      ? '<ul class="res-bullets">' + bullets.map(function (b) {
+          return '<li><span class="bic"><i data-lucide="alert-circle"></i></span><span>' + esc(b) + '</span></li>';
+        }).join('') + '</ul>'
+      : '<p class="res-note">Ve vašich odpovědích jsme nenašli nic, co by hořelo. To je dobrá zpráva.</p>';
+
+    var offerHtml;
+    if (type === 'clear') {
+      offerHtml =
+        '<div class="offer-soft">Vypadá to, že v těchhle tématech máte jasno a nejspíš to řešíte s někým dalším. ' +
+        'Kdybyste přesto chtěli něco probrat nebo si nechat zkontrolovat konkrétní věc, ' +
+        '<a data-act="tobooking">nezávazně se ozvěte</a>.</div>';
+    } else {
+      offerHtml =
+        '<div class="offer">' +
+        '<h3>Teď už víte, kde máte otazníky. Pojďme určit, čím začít.</h3>' +
+        '<p>Vyberte si 20 minut s člověkem z Finance Labu. Navážeme na vaše odpovědi, probereme, co chcete vyřešit, a domluvíme konkrétní další krok. ' + esc(T.benefit) + '</p>' +
+        '<ul class="take">' +
+        '<li><i data-lucide="flag"></i><span>první prioritu a vysvětlení, proč začít právě tam,</span></li>' +
+        '<li><i data-lucide="mail"></i><span>krátké shrnutí e-mailem: co udělat dál a co případně připravit k podrobnější kontrole.</span></li>' +
+        '</ul>' +
+        '<p class="fineprint">Nemusíte předem hledat všechny smlouvy ani vědět, jaký produkt potřebujete. Na první rozhovor stačí popsat svoji situaci. Setkání je zdarma. O další spolupráci se rozhodnete až potom.</p>' +
+        '<button class="btn btn-lime" data-act="tobooking">Vybrat si 20 minut pro svoje finance <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button>' +
+        '</div>';
+    }
+
+    paint(
+      '<div class="res-head">' + esc(T.head) + '</div>' +
+      '<p class="res-sub">' + esc(T.sub) + '</p>' +
+      '<div class="res-section-lbl">Z vašich odpovědí</div>' +
+      bulletsHtml +
+      '<p class="res-note">To ještě neznamená, že máte něco nastavené špatně. Ukazuje to ale, co stojí za ověření.</p>' +
+      '<div class="res-step"><b>První krok:</b> ' + esc(firstStep(a, type)) + '</div>' +
+      '<div class="res-section-lbl">Znalostní otázky — jak to je</div>' +
+      '<div class="know">' + knowHtml + '</div>' +
+      offerHtml
+    );
+  }
+
+  function czDate(d) {
+    var dn = ['ne', 'po', 'út', 'st', 'čt', 'pá', 'so'];
+    return dn[d.getDay()] + ' ' + d.getDate() + '. ' + (d.getMonth() + 1) + '.';
+  }
+  function nextWeekdays(n) {
+    var out = [], d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() + 1);
+    while (out.length < n) { var day = d.getDay(); if (day !== 0 && day !== 6) out.push(new Date(d)); d.setDate(d.getDate() + 1); }
+    return out;
+  }
+  var TIMES = ['9:00', '11:00', '14:00', '16:00', '18:00'];
+
+  function renderBooking() {
+    var type = classify(state.answers), T = TYPES[type];
+    var days = nextWeekdays(6);
+    var dayChips = days.map(function (d, i) {
+      var lbl = czDate(d);
+      return '<button class="chip-sel' + (state.booking.dayLabel === lbl ? ' on' : '') + '" data-act="day" data-lbl="' + lbl + '">' + lbl + '</button>';
+    }).join('');
+    var timeChips = TIMES.map(function (t) {
+      return '<button class="chip-sel' + (state.booking.time === t ? ' on' : '') + '" data-act="time" data-t="' + t + '">' + t + '</button>';
+    }).join('');
+    var modeChips = ['Online', 'Osobně'].map(function (m) {
+      return '<button class="chip-sel' + (state.booking.mode === m ? ' on' : '') + '" data-act="mode" data-m="' + m + '">' + m + '</button>';
+    }).join('');
+
+    paint(
+      '<button class="kviz-textbtn" data-act="toresult" style="margin-bottom:14px;"><i data-lucide="arrow-left" style="width:15px;height:15px;"></i> Zpět na výsledek</button>' +
+      '<div class="res-head" style="font-size:clamp(22px,3vw,30px);">Vyberte si čas, který vám sedí.</div>' +
+      '<div style="font-family:Manrope,sans-serif;font-weight:700;font-size:15px;color:var(--ink);margin-top:14px;">Úvodní setkání s Finance Labem</div>' +
+      '<div class="bk-meta"><span><i data-lucide="clock"></i>20 minut</span><span><i data-lucide="video"></i>Online nebo osobně</span><span><i data-lucide="gift"></i>Zdarma</span></div>' +
+      '<p class="res-note" style="margin-top:12px;">Vaše odpovědi budeme mít připravené. Navážeme tam, kde kvíz skončil — hlavně ' + esc(T.topic) + '.</p>' +
+
+      '<div class="bk-lbl">Den</div><div class="chips">' + dayChips + '</div>' +
+      '<div class="bk-lbl">Čas</div><div class="chips">' + timeChips + '</div>' +
+      '<div class="bk-lbl">Forma</div><div class="chips">' + modeChips + '</div>' +
+
+      '<form class="bk-form" id="bk-form" novalidate>' +
+      '<div class="frow2">' +
+      '<div class="frow" style="margin-top:20px;"><label for="bk-name">Jméno <span class="req">*</span></label><input id="bk-name" name="name" type="text" autocomplete="name" placeholder="Jan Novák" required><div class="emsg">Doplňte prosím jméno.</div></div>' +
+      '<div class="frow" style="margin-top:20px;"><label for="bk-email">E-mail <span class="req">*</span></label><input id="bk-email" name="email" type="email" autocomplete="email" placeholder="vas@email.cz" required><div class="emsg">Zadejte platný e-mail.</div></div>' +
+      '</div>' +
+      '<div class="frow"><label for="bk-phone">Telefon <span style="color:var(--ink-60);font-weight:500;">(nepovinné)</span></label><input id="bk-phone" name="phone" type="tel" autocomplete="tel" placeholder="+420 777 123 456"></div>' +
+      '<button type="submit" class="btn btn-dark" style="width:100%;justify-content:center;margin-top:20px;">Potvrdit termín <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button>' +
+      '<div class="bk-status" id="bk-status" role="status" aria-live="polite"></div>' +
+      '<p style="font-size:12px;color:var(--ink-60);line-height:1.5;margin-top:12px;">Odesláním souhlasíte se zpracováním údajů za účelem domluvení schůzky. Vaše data nikam neprodáváme.</p>' +
+      '</form>'
+    );
+    bindBooking();
+  }
+
+  function renderDone() {
+    var type = classify(state.answers), T = TYPES[type], b = state.booking;
+    paint(
+      '<div class="done-wrap">' +
+      '<div class="done-ic"><i data-lucide="check"></i></div>' +
+      '<h2>Máte domluveno.</h2>' +
+      '<p>Potkáme se <b>' + esc(b.dayLabel) + '</b> v <b>' + esc(b.time) + '</b> (' + esc(b.mode.toLowerCase()) + '). Pozvánku a odkaz na setkání najdete v e-mailu.</p>' +
+      '<p>Probereme hlavně ' + esc(T.topic) + '. Připravte si jen to, co vás k tomu zajímá. Když vám termín přestane vyhovovat, dá se změnit odkazem v potvrzení.</p>' +
+      '<a href="index.html" class="btn btn-white" style="margin-top:22px;">Zpět na web</a>' +
+      '</div>'
+    );
+  }
+
+  // ---- booking form logic ----------------------------------------------
+  function bindBooking() {
+    var form = document.getElementById('bk-form');
+    if (!form) return;
+    var status = document.getElementById('bk-status');
+    var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    var setErr = function (input, on) { var w = input.closest('.frow'); if (w) w.classList.toggle('field-err', on); };
+    ['name', 'email'].forEach(function (n) { form[n].addEventListener('input', function () { setErr(form[n], false); status.textContent = ''; status.className = 'bk-status'; }); });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var okName = (form.name.value || '').trim().length >= 2;
+      var okEmail = emailRe.test((form.email.value || '').trim());
+      setErr(form.name, !okName); setErr(form.email, !okEmail);
+      if (!state.booking.dayLabel || !state.booking.time) {
+        status.className = 'bk-status bad'; status.textContent = 'Vyberte prosím den i čas nahoře.'; return;
+      }
+      if (!okName || !okEmail) { status.className = 'bk-status bad'; status.textContent = 'Zkontrolujte prosím vyznačená pole.'; (!okName ? form.name : form.email).focus(); return; }
+
+      var summary = QUESTIONS.map(function (Q, i) { return (i + 1) + '. ' + Q.q + '\n   → ' + Q.opts[state.answers[i]]; }).join('\n');
+      var type = classify(state.answers);
+      if (WEB3FORMS_KEY.indexOf('REPLACE') === 0) {
+        // klíč zatím není — ukážeme potvrzení (náhled toku), e-mail se pošle až s klíčem
+        state.screen = 'done'; renderDone(); return;
+      }
+      var btn = form.querySelector('button[type=submit]'); btn.disabled = true;
+      status.className = 'bk-status'; status.textContent = 'Odesílám…';
+      var fd = new FormData();
+      fd.append('access_key', WEB3FORMS_KEY);
+      fd.append('subject', 'Nová rezervace z kvízu — Finance Lab');
+      fd.append('from_name', 'Finance Lab kvíz');
+      fd.append('name', form.name.value);
+      fd.append('email', form.email.value);
+      fd.append('phone', form.phone.value || '—');
+      fd.append('termin', state.booking.dayLabel + ' ' + state.booking.time + ' (' + state.booking.mode + ')');
+      fd.append('vysledek_typu', type);
+      fd.append('odpovedi', summary);
+      fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd })
+        .then(function (r) { return r.json(); })
+        .then(function (d) { if (d && d.success) { state.screen = 'done'; renderDone(); } else { btn.disabled = false; status.className = 'bk-status bad'; status.textContent = 'Odeslání se nepodařilo. Zkuste to prosím znovu.'; } })
+        .catch(function () { btn.disabled = false; status.className = 'bk-status bad'; status.textContent = 'Odeslání se nepodařilo. Zkuste to prosím znovu.'; });
+    });
+  }
+
+  // ---- global click handling -------------------------------------------
+  root.addEventListener('click', function (e) {
+    var el = e.target.closest('[data-act]'); if (!el) return;
+    var act = el.getAttribute('data-act');
+    if (act === 'start') { state.screen = 'quiz'; state.qi = 0; renderQuestion(); }
+    else if (act === 'pick') {
+      state.answers[state.qi] = parseInt(el.getAttribute('data-i'), 10);
+      if (reduce) { renderQuestion(); }
+      else {
+        root.querySelectorAll('.kviz-opt').forEach(function (o) { o.classList.remove('sel'); });
+        el.classList.add('sel');
+        setTimeout(function () { advance(); }, 240);
+      }
+    }
+    else if (act === 'next') { advance(); }
+    else if (act === 'back') { if (state.qi > 0) { state.qi--; renderQuestion(); } }
+    else if (act === 'tobooking') { state.screen = 'booking'; renderBooking(); }
+    else if (act === 'toresult') { state.screen = 'result'; renderResult(); }
+    else if (act === 'day') { state.booking.dayLabel = el.getAttribute('data-lbl'); markOn(el); clearStatus(); }
+    else if (act === 'time') { state.booking.time = el.getAttribute('data-t'); markOn(el); clearStatus(); }
+    else if (act === 'mode') { state.booking.mode = el.getAttribute('data-m'); markOn(el); }
+  });
+
+  function markOn(el) {
+    var act = el.getAttribute('data-act');
+    root.querySelectorAll('[data-act="' + act + '"]').forEach(function (c) { c.classList.remove('on'); });
+    el.classList.add('on');
+  }
+  function clearStatus() { var s = document.getElementById('bk-status'); if (s) { s.textContent = ''; s.className = 'bk-status'; } }
+
+  function advance() {
+    if (state.answers[state.qi] == null) return;
+    if (state.qi < QUESTIONS.length - 1) { state.qi++; renderQuestion(); }
+    else { state.screen = 'result'; renderResult(); }
+  }
+
+  renderIntro();
+})();
+</script>
+</body>
+</html>
