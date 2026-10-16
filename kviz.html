@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Máte finance v malíku? Finanční kvíz | Finance Lab</title>
-<meta name="description" content="8 otázek za 3 minuty. Zjistěte, jak na tom se svými financemi jste, a co podle vaší situace stojí za pozornost. Výsledek hned, bez zadávání e-mailu.">
+<title>Máte ve svých penězích jasno? Kvíz | Finance Lab</title>
+<meta name="description" content="Osm krátkých otázek o věcech, které řešíme všichni. Zkuste si, co víte, a podívejte se, co by stálo za to dořešit. Výsledek hned, bez e-mailu.">
 <meta name="robots" content="noindex, follow">
 <meta name="theme-color" content="#14352B">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -132,6 +132,16 @@
     .fade { animation: none; }
     .kviz-prog .track > span { transition: none; }
   }
+  .res-step-lbl { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #2f7a56; margin-bottom: 6px; }
+  .know-more { margin-top: 8px; }
+  .know-more > summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 13px; color: #2f7a56; }
+  .know-more > summary::-webkit-details-marker { display: none; }
+  .know-more > summary::after { content: '▾'; font-size: 11px; transition: transform .2s var(--ease); }
+  .know-more[open] > summary::after { transform: rotate(180deg); }
+  .know-more > p { display: none; font-size: 14px; line-height: 1.6; color: var(--ink-60); margin-top: 6px; }
+  .know-more[open] > p { display: block; }
+  .res-end { margin-top: 28px; }
+  .cal-fallback a { color: #2f7a56; font-weight: 600; }
 </style>
 </head>
 <body>
@@ -159,128 +169,200 @@
   // Dokud je placeholder, ukáže se u rezervace fallback místo kalendáře.
   var CALENDLY_URL = 'REPLACE_WITH_YOUR_CALENDLY_URL';
 
-  // ---- data -------------------------------------------------------------
+  // ---- otázky -----------------------------------------------------------
+  // Indexy: 0 téma · 1 znalost · 2 rezerva · 3 znalost · 4 životní změny · 5 znalost · 6 volné peníze · 7 s čím pomoct
   var QUESTIONS = [
-    { q: 'Kterou větu si o svých penězích říkáte nejčastěji?',
-      help: 'Vyberte tu, která je vám nejbližší.',
+    { q: 'Co vám teď kolem peněz nejvíc běží hlavou?',
+      help: 'Vyberte, co je vám nejbližší.',
       opts: [
-        '„Chci vlastní bydlení. Potřebuju vědět, co si můžu dovolit.“',
-        '„Hypotéku už mám. Chci vědět, jestli mám co řešit.“',
-        '„Chci, aby byla rodina finančně v bezpečí.“',
-        '„Něco mi zůstává. Měl/a bych s tím začít něco dělat.“',
-        '„Potřebuju si v tom udělat pořádek, ale nevím odkud začít.“',
-        '„Mám plán, jen si chci otestovat znalosti.“'
+        'Chci vlastní bydlení. Na co dosáhnu?',
+        'Mám hypotéku. Šla by nastavit líp?',
+        'Chci mít jistotu, že doma zvládneme i nečekané výdaje.',
+        'Něco mi zbývá. Co s tím?',
+        'Chci si v penězích udělat pořádek. Kde začít?',
+        'Teď nic neřeším, jen si chci zkusit kvíz.'
       ] },
-    { q: 'Máte peníze stranou pro případ, že se něco pokazí. Co má být jejich hlavní výhoda?',
+    { q: 'Rozbije se pračka a je potřeba koupit novou. Co je u peněz na takové situace nejdůležitější?',
       opts: [
-        'Co nejvyšší výnos, i kdyby jejich hodnota hodně kolísala.',
-        'Rychlá dostupnost a nízké riziko ztráty.',
-        'To, že se k nim několik let nedostanu.',
-        'Nejsem si jistý/á.'
+        'Aby vydělávaly co nejvíc, i když můžou ztratit na hodnotě.',
+        'Aby byly po ruce, když je potřebuju.',
+        'Aby byly zamčené na delší dobu a nelákalo mě je utratit.',
+        'Nevím.'
       ], correct: 1 },
-    { q: 'A kdyby vám příští měsíc nepřišel příjem, jak dlouho zvládnete platit nezbytné výdaje z dostupných úspor?',
-      help: 'Počítejte peníze, které už nemáte určené například na nákup auta nebo bydlení.',
+    { q: 'Na jak dlouho by vám vystačily úspory, kdyby přestal chodit příjem?',
+      help: 'Stačí odhad. Počítejte bydlení, jídlo, splátky a další nutné výdaje. Vynechte peníze, které už máte stranou na něco jiného.',
       opts: [
-        'Méně než měsíc.',
-        'Alespoň měsíc, ale méně než tři.',
-        'Tři až šest měsíců.',
-        'Více než šest měsíců.',
-        'Nevím, nikdy jsem to nespočítal/a.'
+        'Ani na měsíc.',
+        'Alespoň na měsíc, ale na tři už ne.',
+        'Na tři až šest měsíců.',
+        'Na víc než půl roku.',
+        'Nevím, nemám to spočítané.'
       ] },
-    { q: 'Máte úrazové pojištění. Pokryje automaticky i dlouhou pracovní neschopnost kvůli nemoci?',
+    { q: 'Máte úrazové pojištění. Pomůže vám automaticky i tehdy, když kvůli nemoci nemůžete pracovat?',
       opts: [
-        'Ano, když nemůžu pracovat, příčina nerozhoduje.',
-        'Ne, rozhoduje sjednané krytí a podmínky.',
-        'Ano, pokud platím dostatečně vysoké pojistné.',
-        'Nejsem si jistý/á.'
+        'Ano, hlavní je, že nemůžu pracovat.',
+        'Ne, musí v něm být pojištěná i nemoc.',
+        'Nevím, v tomhle se nevyznám.'
       ], correct: 1 },
-    { q: 'Kdybyste nemohli půl roku pracovat, víte, z čeho by domácnost fungovala?',
+    { q: 'Nová práce, dítě, hypotéka… Když se něco změnilo u vás, podívali jste se i na svoje finance?',
+      help: 'Třeba jestli pořád stačí rezerva nebo jestli pojistka odpovídá tomu, co dnes potřebujete.',
       opts: [
-        'Ano, mám to propočítané a vím, které zdroje bych využil/a.',
-        'Počítám s pojištěním, ale nevím přesně, kdy a kolik by vyplatilo.',
-        'Máme úspory nebo další příjem, ale nevím, jestli by stačily.',
-        'Tohle zatím nemám vyřešené.'
+        'Ano, vím, co bylo potřeba upravit a co může zůstat.',
+        'Něco ano, ale na všechno se ještě nedostalo.',
+        'Život se změnil, finance zatím zůstaly při starém.',
+        'Zatím nemám moc co kontrolovat. Teprve začínám.',
+        'Nic většího se nezměnilo.'
       ] },
-    { q: 'Kolega doporučuje investici, která minulý rok hodně vydělala. Co vám samotný minulý výnos říká o příštím roce?',
+    { q: 'Kamarádovi investice loni pěkně vydělala. Znamená to, že letos vydělá i vám?',
       opts: [
-        'Že můžu očekávat stejný výsledek.',
-        'Že je investice bezpečná.',
-        'Nezaručuje, jak se jí bude dařit dál.',
-        'Nejsem si jistý/á.'
-      ], correct: 2 },
-    { q: 'Když vám na konci měsíce zbudou peníze, víte, na co jsou určené?',
+        'Spíš ano, když se jí tak dařilo.',
+        'Ne, letos může i prodělat.',
+        'Nevím, podle čeho to poznat.'
+      ], correct: 1 },
+    { q: 'Co se děje s penězi, které hned neutratíte?',
       opts: [
-        'Ano, rozděluju je podle svých cílů a toho, kdy je budu potřebovat.',
-        'Něco odkládám nebo investuju, ale bez konkrétního plánu.',
-        'Zůstávají na účtu. Pořád se rozhoduju, co s nimi.',
-        'Většinou mi nic nezbývá a chtěl/a bych to změnit.',
-        'Teď je záměrně používám na konkrétní výdaj nebo splácení dluhu.'
+        'Dávám je stranou a vím, na co je chci použít.',
+        'Spořím nebo investuju, ale konkrétní cíl nemám.',
+        'Leží na účtu. Ještě nevím, co s nimi.',
+        'Teď mi většinou nic nezbývá.',
+        'Jdou na větší výdaj nebo na splácení.'
       ] },
-    { q: 'Co by vám teď nejvíc pomohlo?',
+    { q: 'V čem byste teď nejvíc ocenili pomoc?',
       opts: [
-        'Vědět, čím začít a v jakém pořadí.',
-        'Ověřit, jestli to, co už mám, odpovídá dnešnímu životu.',
-        'Pomoct s konkrétním rozhodnutím a jeho vyřízením.',
-        'Mít někoho, na koho se můžu dlouhodobě obracet.',
-        'Stačí mi vysvětlení odpovědí, ostatní si zařídím.',
-        'Nic dalšího, mám to s kým řešit.'
+        'Ujasnit si, čím začít.',
+        'Zjistit, jestli to, co mám, pořád dává smysl.',
+        'Rozhodnout se a pomoct s vyřízením.',
+        'Mít se koho zeptat, když něco řeším.',
+        'Teď mi stačí výsledek kvízu.',
+        'Už mám někoho, kdo mi s financemi pomáhá, a vyhovuje mi to.'
       ] }
   ];
 
+  // ---- znalostní otázky (hodnotí se zvlášť, nikdy nevedou k nabídce) ------
   var KNOW = [
-    { i: 1, correctText: 'Rychlá dostupnost a nízké riziko ztráty.',
-      exp: 'Rezerva má být hlavně rychle dostupná a s nízkým rizikem ztráty — ne honba za výnosem. (Desatero pro investory ČNB.)' },
-    { i: 3, correctText: 'Ne, rozhoduje sjednané krytí a podmínky.',
-      exp: 'Úrazové pojištění nekryje automaticky dlouhou nemoc — rozhoduje sjednané krytí a podmínky. (Rozdíl popisuje Ministerstvo financí.)' },
-    { i: 5, correctText: 'Nezaručuje, jak se jí bude dařit dál.',
-      exp: 'Minulý výnos nezaručuje ten příští ani neříká, jak je investice bezpečná. (Desatero pro investory ČNB.)' }
+    { i: 1, title: 'Peníze na nečekané výdaje', correctText: 'Aby byly po ruce, když je potřebuju.',
+      exp: 'Peníze na nečekané výdaje potřebujete mít dostupné. Když kvůli rozbité pračce musíte prodávat investice, může to přijít zrovna ve chvíli, kdy jejich hodnota klesla.' },
+    { i: 3, title: 'Úrazové pojištění a nemoc', correctText: 'Ne, musí v něm být pojištěná i nemoc.',
+      exp: 'Samotné pojištění úrazu nemoc nepokrývá. Ve smlouvě si ověřte, jestli máte pojištěnou i pracovní neschopnost kvůli nemoci, od kdy se vyplácí a kolik dostanete. Záleží také na podmínkách a výlukách konkrétního pojištění.' },
+    { i: 5, title: 'Loňský výdělek investice', correctText: 'Ne, letos může i prodělat.',
+      exp: 'Loňský výdělek vám letošní výsledek nezaručí. Než se přidáte, zjistěte, do čeho peníze dáváte, co můžete ztratit a kdy je budete potřebovat.' }
   ];
 
-  var TYPES = {
-    start:   { head: 'Chcete začít. Potřebujete si ujasnit první krok.', sub: 'Máte chuť se do toho pustit. Teď jde hlavně o pořadí kroků.', benefit: 'Určíme, čemu se věnovat nejdřív a co si k tomu zjistit.', topic: 'první kroky a priority' },
-    check:   { head: 'Máte na čem stavět. Pár věcí stojí za kontrolu.', sub: 'Něco už máte vyřešené. U několika věcí ale zatím spoléháte na odhad.', benefit: 'Vybereme, co ověřit, a domluvíme podklady ke kontrole.', topic: 'kontrolu toho, co už máte' },
-    housing: { head: 'Máte konkrétní cíl. Pojďme připravit další krok k bydlení.', sub: 'Míříte za konkrétním cílem. Pár věcí je dobré si připravit dopředu.', benefit: 'Probereme fázi nákupu či hypotéky a podklady k posouzení možností.', topic: 'vaše bydlení a hypotéku' },
-    realize: { head: 'Víte, co chcete. Ocenili byste pomoc s vyřízením.', sub: 'Ve svých financích se vyznáte. Spíš vám půjde o vyřízení.', benefit: 'Vyjasníme konkrétní úkol a možnosti spolupráce.', topic: 'konkrétní krok, se kterým chcete pomoct' },
-    clear:   { head: 'V těchto tématech máte jasno.', sub: 'Ve svých financích máte docela jasno.', benefit: '', topic: 'vaše otázky' }
+  // ---- témata výsledku --------------------------------------------------
+  // q8: připojit větu podle odpovědi 8 · docs: připojit „Smlouvy předem hledat nemusíte.“
+  var THEMES = {
+    reserve:    { head: 'Začít můžete tím, kolik potřebujete mít po ruce.',
+                  step: 'Sečtěte si nutné měsíční výdaje. Pak jimi vydělte úspory, které nemáte určené na něco jiného. Vyjde vám, na kolik měsíců by vystačily. Podle toho se vám bude snáz rozhodovat, co nechat dostupné a o čem přemýšlet dál.',
+                  offerHead: 'Chcete si ujasnit, kolik nechat stranou a co s ostatními penězi?',
+                  offer: 'Na krátké schůzce projdeme, co potřebujete platit a co plánujete.', q8: true, docs: true,
+                  btn: 'Chci probrat svoje možnosti', topic: 'to, kolik nechat stranou a co s ostatními penězi' },
+    lifechange: { head: 'Od poslední kontroly se toho u vás změnilo.',
+                  note: 'Podívejte se, jestli rezerva a pojistky pořád odpovídají tomu, co dnes potřebujete platit a koho potřebujete zajistit.',
+                  step: 'Začněte tím, že si napíšete, co je dnes jinak. Při kontrole smluv pak budete vědět, na co se ptát.',
+                  offerHead: 'Chcete si projít, jestli vaše finance pořád sedí?',
+                  offer: 'Na krátké schůzce projdeme, co se u vás změnilo a co už máte sjednané.', q8: true, docs: true,
+                  btn: 'Chci projít, co už mám', topic: 'to, co se u vás změnilo' },
+    housing:    { head: 'Chcete vědět, na jaké bydlení dosáhnete.',
+                  step: 'Sepište si, kolik máte vlastních peněz a jakou měsíční splátku byste zvládali vedle ostatních výdajů. Část úspor si ponechte i na život po stěhování.',
+                  offerHead: 'Chcete probrat, na jaké bydlení dosáhnete?',
+                  offer: 'Na schůzce probereme váš rozpočet a co bude potřeba zjistit pro financování bydlení.',
+                  btn: 'Chci probrat vlastní bydlení', topic: 'vaše bydlení' },
+    mortgage:   { head: 'Chcete se podívat na svoji hypotéku.',
+                  step: 'Připravte si současnou sazbu, zbývající dluh a datum konce fixace. Budeme mít z čeho vyjít při rozhovoru o možnostech úpravy hypotéky.',
+                  stepSelf: 'Připravte si současnou sazbu, zbývající dluh a datum konce fixace. Z těchto tří údajů se pozná, jestli má smysl hypotéku upravovat.',
+                  offerHead: 'Chcete vědět, jestli by šla hypotéka nastavit líp?',
+                  offer: 'Na schůzce projdeme vaši současnou hypotéku a možnosti, jak ji upravit.',
+                  btn: 'Chci probrat svoji hypotéku', topic: 'vaši hypotéku' },
+    plan:       { head: 'Začít můžete tím, k čemu mají vaše peníze sloužit.',
+                  step: 'Rozdělte si peníze podle toho, kdy je budete potřebovat: na nečekané výdaje, na plány v příštích letech a na dlouhodobé cíle. U každé části se pak snáz rozhodne, kam ji dát.',
+                  offerHead: 'Chcete si ujasnit, k čemu mají vaše peníze sloužit?',
+                  offer: 'Na krátké schůzce projdeme, co plánujete a kdy budete peníze potřebovat.', q8: true, docs: true,
+                  btn: 'Chci probrat svoje možnosti', topic: 'to, k čemu mají vaše peníze sloužit' },
+    surplus:    { head: 'Chcete vědět, co s penězi, které vám zbývají.',
+                  step: 'Rozdělte si peníze podle toho, kdy je budete potřebovat: na nečekané výdaje, na plány v příštích letech a na dlouhodobé cíle. U každé části se pak snáz rozhodne, kam ji dát.',
+                  offerHead: 'Chcete si ujasnit, co s penězi, které vám zbývají?',
+                  offer: 'Na krátké schůzce projdeme, co plánujete a kdy budete peníze potřebovat.', q8: true, docs: true,
+                  btn: 'Chci probrat svoje možnosti', topic: 'co s penězi, které vám zbývají' },
+    budget:     { head: 'Začít můžete tím, kam vám peníze odcházejí.',
+                  step: 'Projděte si výpis z účtu za poslední měsíc a rozdělte výdaje na nutné a ostatní. Uvidíte, kam peníze odcházejí, a snáz se rozhodne, co s tím dělat.',
+                  offerHead: 'Chcete se podívat, kam vám peníze odcházejí?',
+                  offer: 'Na krátké schůzce projdeme vaše výdaje a to, co plánujete.', q8: true, docs: true,
+                  btn: 'Chci probrat svoje možnosti', topic: 'vaše výdaje' },
+    security:   { head: 'Chcete mít doma klid i na nečekané výdaje.',
+                  step: 'Sečtěte si nutné měsíční výdaje a porovnejte je s penězi, které máte po ruce. Uvidíte, jak dlouho byste vydrželi, kdyby se něco pokazilo.',
+                  offerHead: 'Chcete vědět, jak jste připravení na nečekané výdaje?',
+                  offer: 'Na krátké schůzce projdeme vaše výdaje, rezervu a to, co už máte sjednané.', q8: true, docs: true,
+                  btn: 'Chci probrat svoje možnosti', topic: 'to, jak jste připravení na nečekané výdaje' },
+    start:      { head: 'Pořádek v penězích začíná jedním přehledem.',
+                  step: 'Sepište si na jedno místo, co máte: účty, úspory, pojistky, úvěry a pravidelné výdaje. Z jednoho přehledu se nejlíp pozná, čím začít.',
+                  offerHead: 'Chcete si ujasnit, čím začít?',
+                  offer: 'Na krátké schůzce projdeme, jak na tom teď jste.', q8: true, docs: true,
+                  btn: 'Chci probrat, čím začít', topic: 'to, čím začít' },
+    review:     { head: 'Chcete vědět, jestli to, co máte, pořád sedí.',
+                  step: 'Sepište si, co máte sjednané (účty, spoření, pojistky, úvěry), a ke každé položce, k čemu slouží. Z jednoho přehledu se nejlíp pozná, co nechat a na co se zeptat.',
+                  offerHead: 'Chcete si projít, co už máte?',
+                  offer: 'Na krátké schůzce projdeme, co máte sjednané.', q8: true, docs: true,
+                  btn: 'Chci projít, co už mám', topic: 'to, co už máte' },
+    decision:   { head: 'Chcete se rozhodnout a mít to vyřízené.',
+                  step: 'Sepište si, o čem se rozhodujete a do kdy to potřebujete mít vyřízené. Na rozhovor to bude nejlepší podklad.',
+                  offerHead: 'Chcete probrat svoje rozhodnutí?',
+                  offer: 'Na krátké schůzce si řekneme, o čem se rozhodujete.', q8: true,
+                  btn: 'Chci probrat svoje rozhodnutí', topic: 'vaše rozhodnutí' },
+    contact:    { head: 'Chcete mít se koho zeptat.',
+                  step: 'Zapište si otázky, které vám teď kolem peněz běží hlavou. Na první rozhovor je to nejlepší podklad.',
+                  offerHead: 'Chcete nás nejdřív poznat?',
+                  offer: 'Na krátké schůzce probereme, co teď řešíte.', q8: true, docs: true,
+                  btn: 'Chci se s vámi potkat', topic: 'to, co teď řešíte' }
   };
+
+  // Krátký rozhovor popsaný podle odpovědi 8 (bez slibu hotového plánu)
+  var Q8_LINE = [
+    'Domluvíme se, čím začít.',
+    'Podíváme se, jestli to, co máte, pořád dává smysl.',
+    'Probereme možnosti a domluvíme se, jaké podklady budou potřeba.',
+    'Poznáte nás a uvidíte, jestli vám náš přístup sedí.'
+  ];
 
   // ---- state ------------------------------------------------------------
   var state = { screen: 'intro', qi: 0, answers: [] };
 
-  function classify(a) {
-    var q1 = a[0], q8 = a[7];
-    if (q8 === 5 || q8 === 4) return 'clear';
+  // Zjištění = jen to, co člověk sám napsal. „Nevím“ u rezervy je neznámá hodnota, ne nulová rezerva.
+  // Peníze na účtu nejsou automaticky chyba, žádná změna nevypovídá o kvalitě nastavení.
+  function findingsFor(a, theme) {
+    var f = [];
+    if (a[2] === 4) f.push({ g: 'reserve', a: 'Píšete, že nevíte, na jak dlouho by vám úspory vystačily.', b: 'Zároveň nevíte, na jak dlouho by vám úspory vystačily.' });
+    else if (a[2] === 0) f.push({ g: 'reserve', a: 'Píšete, že by vám úspory zatím nevystačily ani na měsíc.', b: 'Zároveň by vám úspory zatím nevystačily ani na měsíc.' });
+    if (a[4] === 2) f.push({ g: 'lifechange',
+      a: theme === 'lifechange' ? 'Píšete, že finance zatím zůstaly při starém.' : 'Píšete, že se u vás změnil život, ale finance zatím zůstaly při starém.',
+      b: 'Zároveň se u vás změnil život, ale finance zatím zůstaly při starém.' });
+    else if (a[4] === 1) f.push({ g: 'lifechange', a: 'Píšete, že jste se po změnách ke kontrole všeho ještě nedostali.', b: 'Zároveň jste se po změnách ke kontrole všeho ještě nedostali.' });
+    if (a[6] === 2) f.push({ g: 'plan', a: 'Píšete, že vám na účtu zůstávají peníze, pro které zatím nemáte plán.', b: 'Zároveň vám na účtu zůstávají peníze, pro které zatím nemáte plán.' });
+    else if (a[6] === 1) f.push({ g: 'plan', a: 'Píšete, že spoříte nebo investujete, ale konkrétní cíl zatím nemáte.', b: 'Zároveň spoříte nebo investujete, ale konkrétní cíl zatím nemáte.' });
+    else if (a[6] === 3) f.push({ g: 'budget', a: 'Píšete, že vám teď většinou nic nezbývá.', b: 'Zároveň vám teď většinou nic nezbývá.' });
+    // zjištění k tématu výsledku jde první, zobrazí se nejvýš dvě
+    f.sort(function (x, y) { return (y.g === theme) - (x.g === theme); });
+    return f.slice(0, 2);
+  }
+
+  function pickTheme(a) {
+    var q1 = a[0], q8 = a[7], wantsHelp = q8 <= 3;
     if (q1 === 0) return 'housing';
-    if (q8 === 2 || q8 === 3) return 'realize';
-    if (q8 === 0 || q1 === 4) return 'start';
-    if (q8 === 1 || q1 === 1) return 'check';
-    if (q1 === 2 || q1 === 3) return 'check';
-    return 'start';
+    if (q1 === 1) return 'mortgage';
+    if (a[2] === 0 || a[2] === 4) return 'reserve';
+    if (a[4] === 2) return 'lifechange';
+    if (a[6] === 1 || a[6] === 2) return 'plan';
+    if (a[6] === 3) return 'budget';
+    if (a[4] === 1) return 'lifechange';
+    if (!wantsHelp) return null; // bez zjištění a bez zájmu o pomoc nic nevymýšlíme
+    if (q1 === 2) return 'security';
+    if (q1 === 3) return 'surplus';
+    if (q1 === 4) return 'start';
+    return ['start', 'review', 'decision', 'contact'][q8];
   }
 
-  function attentionBullets(a) {
-    var out = [];
-    // Q3 – rezerva (index 2). "nevím" (4) = nejasnost, ne "nemáte".
-    if (a[2] === 0) out.push('Rezerva by vám vydržela méně než měsíc — stojí za to ji postupně posílit.');
-    else if (a[2] === 4) out.push('Nevíte přesně, jak dlouho by vám rezerva vydržela — stačí sečíst nezbytné výdaje a porovnat.');
-    else if (a[2] === 1) out.push('Rezervu na měsíc až tři máte; jako cíl se bere spíš tři až šest měsíců výdajů.');
-    // Q5 – výpadek příjmu (index 4)
-    if (a[4] === 1) out.push('Počítáte s pojištěním, ale neznáte podmínky výplaty — dobré je je znát dřív, než nastanou.');
-    else if (a[4] === 2) out.push('Pro delší výpadek příjmu máte nějaké zdroje, ale nevíte, jestli by stačily.');
-    else if (a[4] === 3) out.push('Delší výpadek příjmu zatím nemáte podchycený.');
-    // Q7 – zbylé peníze (index 6). Poslední (4) je záměr, ne chyba.
-    if (a[6] === 1) out.push('Peníze odkládáte, zatím jim ale chybí konkrétní cíl.');
-    else if (a[6] === 2) out.push('Peníze vám zůstávají na účtu bez určení — hodnotu jim ukrajuje inflace.');
-    else if (a[6] === 3) out.push('Zatím vám nezbývá a rádi byste to změnili.');
-    return out.slice(0, 4);
-  }
-
-  function firstStep(a, type) {
-    if (a[2] === 4 || a[2] === 0 || a[2] === 1) return 'Pro začátek si sepište nezbytné měsíční výdaje a porovnejte je s dostupnou rezervou. Získáte první konkrétní odpověď místo odhadu.';
-    if (type === 'housing') return 'Pro začátek si sepište čistý příjem a pravidelné výdaje. Z toho se pozná, jaká splátka je pro vás dlouhodobě udržitelná.';
-    if (a[6] === 1 || a[6] === 2) return 'Pro začátek si u odkládaných peněz určete cíl a čas, kdy je budete potřebovat. Podle toho se pozná, kam je má smysl dát.';
-    if (a[4] === 1) return 'Pro začátek si zjistěte, co přesně vaše pojistka platí a za jakých podmínek. Ať víte, s čím počítáte, dřív než to budete potřebovat.';
-    return 'Pro začátek si sepište, co už máte (rezerva, pojistky, spoření), a k čemu to slouží. Z jednoho přehledu se nejlíp pozná, co doladit.';
+  // „Máte přehled“ jen tehdy, když to plyne z odpovědí (ví, jak dlouho rezerva vydrží, peníze mají účel)
+  function hasOverview(a) {
+    return [1, 2, 3].indexOf(a[2]) > -1 && [0, 4].indexOf(a[6]) > -1 && [0, 4].indexOf(a[4]) > -1;
   }
 
   // ---- render helpers ---------------------------------------------------
@@ -297,11 +379,10 @@
   function renderIntro() {
     paint(
       '<div class="kviz-eyebrow">Finanční kvíz</div>' +
-      '<h1 class="kviz-h1">Máte svoje finance v malíku?</h1>' +
-      '<p class="kviz-lead">Zkuste 8 otázek. Možná víte víc, než si myslíte. A možná narazíte na něco, co už nějakou dobu čeká na vyřešení.</p>' +
-      '<p class="kviz-lead">Na konci uvidíte správné odpovědi i témata, která podle vaší situace stojí za pozornost. Ať teprve začínáte, nebo už máte hypotéku, pojistky a investice.</p>' +
-      '<button class="btn btn-dark" data-act="start" style="margin-top:26px;">Zjistit, jak na tom jsem <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button>' +
-      '<div class="kviz-meta"><i data-lucide="clock" style="width:15px;height:15px;"></i> Přibližně 3 minuty · Výsledek hned, bez zadávání e-mailu.</div>'
+      '<h1 class="kviz-h1">Máte ve svých penězích jasno?</h1>' +
+      '<p class="kviz-lead">Osm krátkých otázek o věcech, které řešíme všichni. Zkuste si, co víte, a podívejte se, co by stálo za to dořešit u vás.</p>' +
+      '<button class="btn btn-dark" data-act="start" style="margin-top:26px;">Jdu na to <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button>' +
+      '<div class="kviz-meta"><i data-lucide="clock" style="width:15px;height:15px;"></i> Asi 3 minuty. Výsledek hned, bez e-mailu.</div>'
     );
   }
 
@@ -313,94 +394,106 @@
     }).join('');
     paint(
       '<div class="kviz-prog"><div class="track"><span style="width:' + ((qi + 1) / QUESTIONS.length * 100) + '%"></span></div>' +
-      '<div class="lbl">Otázka ' + (qi + 1) + ' / ' + QUESTIONS.length + '</div></div>' +
+      '<div class="lbl">' + (qi + 1) + ' / ' + QUESTIONS.length + '</div></div>' +
       '<div class="kviz-q">' + esc(Q.q) + '</div>' +
       (Q.help ? '<div class="kviz-qhelp">' + esc(Q.help) + '</div>' : '') +
       '<div class="kviz-opts">' + opts + '</div>' +
       '<div class="kviz-nav">' +
       '<button class="kviz-textbtn" data-act="back"' + (qi === 0 ? ' hidden' : '') + '><i data-lucide="arrow-left" style="width:15px;height:15px;"></i> Zpět</button>' +
-      (sel != null ? '<button class="btn btn-dark" data-act="next">' + (qi === QUESTIONS.length - 1 ? 'Ukázat můj výsledek' : 'Pokračovat') + ' <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button>' : '<span></span>') +
+      (sel != null ? '<button class="btn btn-dark" data-act="next">' + (qi === QUESTIONS.length - 1 ? 'Ukázat výsledek' : 'Pokračovat') + ' <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button>' : '<span></span>') +
       '</div>'
     );
   }
 
-  function renderResult() {
-    var a = state.answers, type = classify(a), T = TYPES[type];
-    var bullets = attentionBullets(a);
-    var knowHtml = KNOW.map(function (k) {
+  function knowledgeHtml(a) {
+    var right = 0;
+    var rows = KNOW.map(function (k) {
       var ok = a[k.i] === QUESTIONS[k.i].correct;
-      return '<div class="know-row"><div class="know-q"><span class="tag ' + (ok ? 'tag-ok' : 'tag-no') + '">' +
-        '<i data-lucide="' + (ok ? 'check' : 'x') + '"></i></span>' + esc(QUESTIONS[k.i].q) + '</div>' +
-        '<div class="know-a"><b>Správně:</b> ' + esc(k.correctText) + ' — ' + esc(k.exp) + '</div></div>';
-    }).join('');
-
-    var bulletsHtml = bullets.length
-      ? '<ul class="res-bullets">' + bullets.map(function (b) {
-          return '<li><span class="bic"><i data-lucide="alert-circle"></i></span><span>' + esc(b) + '</span></li>';
-        }).join('') + '</ul>'
-      : '<p class="res-note">Ve vašich odpovědích jsme nenašli nic, co by hořelo. To je dobrá zpráva.</p>';
-
-    var offerHtml;
-    if (type === 'clear') {
-      offerHtml =
-        '<div class="offer-soft">Vypadá to, že v těchhle tématech máte jasno a nejspíš to řešíte s někým dalším. ' +
-        'Kdybyste přesto chtěli něco probrat nebo si nechat zkontrolovat konkrétní věc, ' +
-        '<a data-act="tobooking">nezávazně se ozvěte</a>.</div>';
-    } else {
-      offerHtml =
-        '<div class="offer">' +
-        '<h3>Teď už víte, kde máte otazníky. Pojďme určit, čím začít.</h3>' +
-        '<p>Vyberte si 20 minut s člověkem z Finance Labu. Navážeme na vaše odpovědi, probereme, co chcete vyřešit, a domluvíme konkrétní další krok. ' + esc(T.benefit) + '</p>' +
-        '<ul class="take">' +
-        '<li><i data-lucide="flag"></i><span>první prioritu a vysvětlení, proč začít právě tam,</span></li>' +
-        '<li><i data-lucide="mail"></i><span>krátké shrnutí e-mailem: co udělat dál a co případně připravit k podrobnější kontrole.</span></li>' +
-        '</ul>' +
-        '<p class="fineprint">Nemusíte předem hledat všechny smlouvy ani vědět, jaký produkt potřebujete. Na první rozhovor stačí popsat svoji situaci. Setkání je zdarma. O další spolupráci se rozhodnete až potom.</p>' +
-        '<button class="btn btn-lime" data-act="tobooking">Vybrat si 20 minut pro svoje finance <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button>' +
+      if (ok) right++;
+      return '<div class="know-row">' +
+        '<div class="know-q"><span class="tag ' + (ok ? 'tag-ok' : 'tag-no') + '"><i data-lucide="' + (ok ? 'check' : 'x') + '"></i></span>' + esc(k.title) + '</div>' +
+        '<div class="know-a">Správně: <b>' + esc(k.correctText) + '</b></div>' +
+        '<details class="know-more"' + (ok ? '' : ' open') + '><summary>Proč?</summary><p>' + esc(k.exp) + '</p></details>' +
         '</div>';
-    }
+    }).join('');
+    return '<div class="res-section-lbl">Znalostní otázky · správně ' + right + ' ze 3</div><div class="know">' + rows + '</div>';
+  }
 
-    paint(
-      '<div class="res-head">' + esc(T.head) + '</div>' +
-      '<p class="res-sub">' + esc(T.sub) + '</p>' +
-      '<div class="res-section-lbl">Z vašich odpovědí</div>' +
-      bulletsHtml +
-      '<p class="res-note">To ještě neznamená, že máte něco nastavené špatně. Ukazuje to ale, co stojí za ověření.</p>' +
-      '<div class="res-step"><b>První krok:</b> ' + esc(firstStep(a, type)) + '</div>' +
-      '<div class="res-section-lbl">Znalostní otázky — jak to je</div>' +
-      '<div class="know">' + knowHtml + '</div>' +
-      offerHtml
-    );
+  function findingsHtml(f, T) {
+    if (!f.length && !(T && T.note)) return '';
+    var txt = f.map(function (x, i) { return i === 0 ? x.a : x.b; }).join(' ');
+    if (T && T.note) txt += (txt ? ' ' : '') + T.note;
+    return '<p class="res-sub">' + esc(txt) + '</p>';
+  }
+
+  function stepHtml(text) {
+    return '<div class="res-step"><div class="res-step-lbl">První krok</div>' + esc(text) + '</div>';
+  }
+
+  function renderResult() {
+    var a = state.answers, wantsHelp = a[7] <= 3;
+    var theme = pickTheme(a), T = theme ? THEMES[theme] : null;
+    var f = findingsFor(a, theme);
+    var html = '';
+
+    if (wantsHelp && T) {
+      var body = T.offer + (T.q8 ? ' ' + Q8_LINE[a[7]] : '') + (T.docs ? ' Smlouvy předem hledat nemusíte.' : '');
+      html =
+        '<div class="res-head">' + esc(T.head) + '</div>' +
+        findingsHtml(f, theme === 'lifechange' ? T : null) +
+        stepHtml(T.step) +
+        knowledgeHtml(a) +
+        '<div class="offer">' +
+        '<h3>' + esc(T.offerHead) + '</h3>' +
+        '<p>' + esc(body) + '</p>' +
+        '<button class="btn btn-lime" data-act="tobooking">' + esc(T.btn) + ' <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button>' +
+        '</div>';
+    } else {
+      // Poslední dvě volby v otázce 8: žádný prodejní blok, výsledek a vysvětlení zůstávají.
+      var intro;
+      if (!T && !f.length && hasOverview(a)) intro = '<p class="res-sub">Podle toho, co píšete, máte o svých penězích přehled. Níže si můžete projít vysvětlení znalostních otázek.</p>';
+      else if (!T && !f.length) intro = '<p class="res-sub">Níže si můžete projít vysvětlení znalostních otázek.</p>';
+      else intro = findingsHtml(f, theme === 'lifechange' ? T : null);
+      html =
+        '<div class="res-head">Díky za vyplnění. Tady jsou odpovědi.</div>' +
+        intro +
+        (T ? stepHtml(T.stepSelf || T.step) : '') +
+        knowledgeHtml(a) +
+        '<div class="res-end"><a href="index.html" class="btn btn-white">Zpět na Finance Lab</a></div>';
+    }
+    paint(html);
   }
 
   function renderBooking() {
-    var type = classify(state.answers), T = TYPES[type];
+    var theme = pickTheme(state.answers), T = theme ? THEMES[theme] : null;
+    var topic = T ? T.topic : 'to, co teď řešíte';
     var configured = CALENDLY_URL.indexOf('REPLACE') !== 0;
     var slot = configured
       ? '<div id="cal-embed" class="calendly-inline-widget" style="min-width:280px;height:660px;margin-top:20px;border-radius:16px;overflow:hidden;"></div>'
-      : '<div class="cal-fallback">Sem se propojí kalendář pro výběr termínu (Calendly). Zatím se dolaďuje — jakmile bude hotový, vyberete si tu čas na pár kliknutí.</div>';
+      : '<div class="cal-fallback">Výběr termínu tu brzy spustíme. Do té doby nám můžete napsat přes <a href="index.html#objednat">formulář na hlavní stránce</a> a ozveme se vám.</div>';
     paint(
       '<button class="kviz-textbtn" data-act="toresult" style="margin-bottom:14px;"><i data-lucide="arrow-left" style="width:15px;height:15px;"></i> Zpět na výsledek</button>' +
       '<div class="res-head" style="font-size:clamp(22px,3vw,30px);">Vyberte si čas, který vám sedí.</div>' +
       '<div style="font-family:Manrope,sans-serif;font-weight:700;font-size:15px;color:var(--ink);margin-top:14px;">Úvodní setkání s Finance Labem</div>' +
-      '<div class="bk-meta"><span><i data-lucide="clock"></i>20 minut</span><span><i data-lucide="video"></i>Online nebo osobně</span><span><i data-lucide="gift"></i>Zdarma</span></div>' +
-      '<p class="res-note" style="margin-top:12px;">Vaše odpovědi budeme mít připravené. Navážeme tam, kde kvíz skončil — hlavně ' + esc(T.topic) + '. Termín i pozvánku vám potvrdíme e-mailem.</p>' +
+      '<div class="bk-meta"><span><i data-lucide="message-circle"></i>Krátký rozhovor</span><span><i data-lucide="video"></i>Online nebo osobně</span></div>' +
+      '<p class="res-note" style="margin-top:12px;">Navážeme tam, kde kvíz skončil, a probereme hlavně ' + esc(topic) + '.' +
+      (configured ? ' Termín vám potvrdíme e-mailem.' : '') + '</p>' +
       slot
     );
-    if (configured) initCalendly(type, T);
+    if (configured) initCalendly(theme || 'none', topic);
   }
 
-  // Napojení Calendly inline widgetu. Kontext z kvízu (typ výsledku + téma)
-  // předáváme přes UTM parametry — poradce je uvidí u každé rezervace.
-  function initCalendly(type, T) {
+  // Napojení Calendly inline widgetu. Kontext z kvízu (téma výsledku) jde přes UTM parametry,
+  // poradce ho uvidí u každé rezervace.
+  function initCalendly(theme, topic) {
     var el = document.getElementById('cal-embed');
     if (!el) return;
     var sep = CALENDLY_URL.indexOf('?') > -1 ? '&' : '?';
     var url = CALENDLY_URL + sep +
       'hide_gdpr_banner=1&background_color=ffffff&text_color=17252b&primary_color=14352b' +
       '&utm_campaign=kviz&utm_source=web&utm_medium=kviz' +
-      '&utm_content=' + encodeURIComponent(type) +
-      '&utm_term=' + encodeURIComponent(T.topic);
+      '&utm_content=' + encodeURIComponent(theme) +
+      '&utm_term=' + encodeURIComponent(topic);
     var tries = 0;
     (function go() {
       if (window.Calendly && window.Calendly.initInlineWidget) {
@@ -416,7 +509,7 @@
     if (act === 'start') { state.screen = 'quiz'; state.qi = 0; renderQuestion(); }
     else if (act === 'pick') {
       state.answers[state.qi] = parseInt(el.getAttribute('data-i'), 10);
-      if (reduce) { renderQuestion(); }
+      if (reduce) { advance(); }
       else {
         root.querySelectorAll('.kviz-opt').forEach(function (o) { o.classList.remove('sel'); });
         el.classList.add('sel');
