@@ -142,6 +142,12 @@
   .know-more[open] > p { display: block; }
   .res-end { margin-top: 28px; }
   .cal-fallback a { color: #2f7a56; font-weight: 600; }
+  .kviz-extra { margin-top: 16px; background: var(--cream); border-radius: 16px; padding: 16px 18px; }
+  .kviz-extra label { display: block; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 14.5px; color: var(--ink); }
+  .kviz-extra label span { font-weight: 500; color: var(--ink-60); }
+  .kviz-extra-hint { font-size: 13.5px; color: var(--ink-60); margin-top: 3px; }
+  .kviz-extra textarea { width: 100%; box-sizing: border-box; margin-top: 10px; font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.5; color: var(--ink); background: #fff; border: 1.5px solid rgba(23,32,28,0.12); border-radius: 12px; padding: 11px 13px; resize: vertical; outline: none; transition: border-color .18s; }
+  .kviz-extra textarea:focus { border-color: var(--green); }
 </style>
 </head>
 <body>
@@ -171,7 +177,7 @@
 
   // ---- otázky -----------------------------------------------------------
   // Indexy: 0 zůstatek · 1 znalost (půjčky) · 2 úspory · 3 znalost (pojištění bytu)
-  //         4 znalost (úrazové pojištění) · 5 životní změny · 6 smlouvy pro blízké · 7 cíl
+  //         4 znalost (úrazové pojištění) · 5 životní změny · 6 volné peníze (+ nepovinné políčko) · 7 cíl
   var QUESTIONS = [
     { q: 'Otevřete bankovnictví. Odpovídá zůstatek tomu, co jste čekali?',
       opts: [
@@ -217,13 +223,16 @@
         'Zatím nemám moc co kontrolovat. Teprve začínám.',
         'Nic většího se nezměnilo.'
       ] },
-    { q: 'Kdyby za vás někdo blízký potřeboval vyřídit věci kolem domácnosti, našel by potřebné smlouvy a kontakty?',
+    { q: 'Když vám na konci měsíce zbydou peníze, co s nimi většinou uděláte?',
       opts: [
-        'Ano, ví, kde je hledat.',
-        'Něco ano, ale asi by se musel dost ptát.',
-        'Spíš ne. Přehled mám hlavně já.',
-        'Nemám teď nikoho, s kým tohle sdílím.'
-      ] },
+        'Dávám je na spořák.',
+        'Investuju je.',
+        'Chci s nimi něco dělat, ale v investování se zatím nevyznám.',
+        'Nechávám je na běžném účtu na další měsíc.',
+        'Teď mi většinou nic nezbývá.'
+      ],
+      // po volbě „Investuju je“ se ukáže nepovinné políčko, kvíz se pak neposouvá sám
+      extra: { on: 1, label: 'Do čeho investujete?', hint: 'Klidně napište vlastními slovy.' } },
     { q: 'Co byste si chtěli jednou dovolit?',
       help: 'Vyberte, co je vám nejbližší.',
       opts: [
@@ -255,8 +264,8 @@
     lifechange: { head: 'Od poslední kontroly se toho u vás změnilo.',
                   note: 'Podívejte se, jestli rezerva a pojistky pořád odpovídají tomu, co dnes potřebujete platit a koho potřebujete zajistit.',
                   step: 'Začněte tím, že si napíšete, co je dnes jinak. Při kontrole smluv pak budete vědět, na co se ptát.' },
-    docs:       { head: 'Ať se ve vašich věcech vyzná i někdo blízký.',
-                  step: 'Sepište si na jedno místo smlouvy, pojistky, účty a kontakty a řekněte blízkému, kde je najde. Stačí obyčejný seznam.' }
+    invest:     { head: 'Než začnete investovat, ujasněte si, kdy budete peníze potřebovat.',
+                  step: 'Rozdělte si peníze, které vám zbývají, podle toho, kdy je budete potřebovat. Na nečekané výdaje mějte peníze po ruce. O investování má smysl uvažovat u peněz, bez kterých se obejdete aspoň několik let.' }
   };
 
   // ---- nabídka podle cíle z otázky 8 -------------------------------------
@@ -280,20 +289,20 @@
   ];
 
   // ---- state ------------------------------------------------------------
-  var state = { screen: 'intro', qi: 0, answers: [] };
+  var state = { screen: 'intro', qi: 0, answers: [], extra: {} };
 
   // Zjištění = jen to, co člověk sám napsal, v pořadí důležitosti; zobrazí se nejvýš dvě.
-  // „Nevím“ u úspor je neznámá hodnota, ne nulová rezerva. „Nic se nezměnilo“ ani „nemám s kým sdílet“
-  // nic nevypovídají o tom, jak má člověk finance nastavené, takže z nich nic neplyne.
+  // „Nevím“ u úspor je neznámá hodnota, ne nulová rezerva. „Nic se nezměnilo“ nic nevypovídá o tom,
+  // jak má člověk finance nastavené. Spořák, investice ani peníze na účtu na další měsíc nejsou chyba.
   function findingsFor(a) {
     var f = [];
     if (a[2] === 4) f.push({ g: 'reserve', a: 'Píšete, že nevíte, na jak dlouho by vám úspory vystačily.', b: 'Zároveň nevíte, na jak dlouho by vám úspory vystačily.' });
     if (a[2] === 0) f.push({ g: 'reserve', a: 'Píšete, že by vám úspory zatím nevystačily ani na měsíc.', b: 'Zároveň by vám úspory zatím nevystačily ani na měsíc.' });
     if (a[0] === 2) f.push({ g: 'spending', a: 'Píšete, že si docela často říkáte, kam peníze zase zmizely.', b: 'Zároveň si docela často říkáte, kam peníze zase zmizely.' });
     if (a[5] === 2) f.push({ g: 'lifechange', a: 'Píšete, že se u vás změnil život, ale finance zatím zůstaly při starém.', b: 'Zároveň se u vás změnil život, ale finance zatím zůstaly při starém.', short: 'Píšete, že finance zatím zůstaly při starém.' });
+    if (a[6] === 2) f.push({ g: 'invest', a: 'Píšete, že byste s penězi chtěli něco dělat, ale v investování se zatím nevyznáte.', b: 'Zároveň byste s penězi chtěli něco dělat, ale v investování se zatím nevyznáte.' });
     if (a[0] === 1) f.push({ g: 'spending', a: 'Píšete, že vás občas překvapí, kolik peněz už je pryč.', b: 'Zároveň vás občas překvapí, kolik peněz už je pryč.' });
-    if (a[6] === 2) f.push({ g: 'docs', a: 'Píšete, že přehled o smlouvách a kontaktech máte hlavně vy.', b: 'Zároveň přehled o smlouvách a kontaktech máte hlavně vy.' });
-    if (a[6] === 1) f.push({ g: 'docs', a: 'Píšete, že blízký člověk by se na smlouvy a kontakty musel dost ptát.', b: 'Zároveň by se blízký člověk na smlouvy a kontakty musel dost ptát.' });
+    if (a[6] === 4) f.push({ g: 'spending', a: 'Píšete, že vám teď většinou nic nezbývá.', b: 'Zároveň vám teď většinou nic nezbývá.' });
     if (a[5] === 1) f.push({ g: 'lifechange', a: 'Píšete, že jste se po změnách ke kontrole všeho ještě nedostali.', b: 'Zároveň jste se po změnách ke kontrole všeho ještě nedostali.' });
     if (a[0] === 3) f.push({ g: 'spending', a: 'Píšete, že se na zůstatek moc nedíváte.', b: 'Zároveň se na zůstatek moc nedíváte.' });
     return f.slice(0, 2);
@@ -305,8 +314,9 @@
   // ---- render helpers ---------------------------------------------------
   function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
   function icons() { if (window.lucide && window.lucide.createIcons) { try { window.lucide.createIcons(); } catch (e) {} } }
-  function paint(html) {
+  function paint(html, quiet) {
     root.innerHTML = html;
+    if (quiet) { icons(); return; } // překreslení v rámci téže otázky: bez animace a bez skoku nahoru
     root.classList.remove('fade'); void root.offsetWidth; if (!reduce) root.classList.add('fade');
     icons();
     window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
@@ -323,8 +333,16 @@
     );
   }
 
-  function renderQuestion() {
+  function extraOpen(qi) { var Q = QUESTIONS[qi]; return !!(Q.extra && state.answers[qi] === Q.extra.on); }
+  function extraText(qi) { return extraOpen(qi) ? (state.extra[qi] || '').trim() : ''; }
+
+  function renderQuestion(quiet) {
     var qi = state.qi, Q = QUESTIONS[qi], sel = state.answers[qi];
+    var extra = extraOpen(qi)
+      ? '<div class="kviz-extra"><label for="kv-extra">' + esc(Q.extra.label) + ' <span>(nepovinné)</span></label>' +
+        '<div class="kviz-extra-hint">' + esc(Q.extra.hint) + '</div>' +
+        '<textarea id="kv-extra" rows="2" maxlength="300">' + esc(state.extra[qi] || '') + '</textarea></div>'
+      : '';
     var opts = Q.opts.map(function (t, i) {
       return '<button class="kviz-opt' + (sel === i ? ' sel' : '') + '" data-act="pick" data-i="' + i + '">' +
         '<span class="dot"><i data-lucide="check"></i></span><span>' + esc(t) + '</span></button>';
@@ -334,11 +352,12 @@
       '<div class="lbl">' + (qi + 1) + ' / ' + QUESTIONS.length + '</div></div>' +
       '<div class="kviz-q">' + esc(Q.q) + '</div>' +
       (Q.help ? '<div class="kviz-qhelp">' + esc(Q.help) + '</div>' : '') +
-      '<div class="kviz-opts">' + opts + '</div>' +
+      '<div class="kviz-opts">' + opts + '</div>' + extra +
       '<div class="kviz-nav">' +
       '<button class="kviz-textbtn" data-act="back"' + (qi === 0 ? ' hidden' : '') + '><i data-lucide="arrow-left" style="width:15px;height:15px;"></i> Zpět</button>' +
       (sel != null ? '<button class="btn btn-dark" data-act="next">' + (qi === QUESTIONS.length - 1 ? 'Ukázat výsledek' : 'Pokračovat') + ' <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button>' : '<span></span>') +
-      '</div>'
+      '</div>',
+      quiet
     );
   }
 
@@ -421,6 +440,10 @@
       '&utm_campaign=kviz&utm_source=web&utm_medium=kviz' +
       '&utm_content=' + encodeURIComponent(f.length ? f[0].g : 'none') +
       '&utm_term=' + encodeURIComponent(topic);
+    // Nepovinná odpověď „Do čeho investujete?“ se předvyplní do první vlastní otázky v Calendly,
+    // kde ji člověk před potvrzením vidí a může upravit.
+    var inv = extraText(6);
+    if (inv) url += '&a1=' + encodeURIComponent('Do čeho investuji: ' + inv);
     var tries = 0;
     (function go() {
       if (window.Calendly && window.Calendly.initInlineWidget) {
@@ -436,7 +459,16 @@
     if (act === 'start') { state.screen = 'quiz'; state.qi = 0; renderQuestion(); }
     else if (act === 'pick') {
       state.answers[state.qi] = parseInt(el.getAttribute('data-i'), 10);
-      if (reduce) { advance(); }
+      if (extraOpen(state.qi)) {
+        renderQuestion(true);
+        var ta = document.getElementById('kv-extra');
+        if (ta) {
+          // na počítači rovnou kurzor do políčka; na mobilu jen dorolovat, ať nevyskočí klávesnice
+          if (window.matchMedia && window.matchMedia('(pointer: fine)').matches) ta.focus();
+          else ta.closest('.kviz-extra').scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' });
+        }
+      }
+      else if (reduce) { advance(); }
       else {
         root.querySelectorAll('.kviz-opt').forEach(function (o) { o.classList.remove('sel'); });
         el.classList.add('sel');
@@ -447,6 +479,10 @@
     else if (act === 'back') { if (state.qi > 0) { state.qi--; renderQuestion(); } }
     else if (act === 'tobooking') { state.screen = 'booking'; renderBooking(); }
     else if (act === 'toresult') { state.screen = 'result'; renderResult(); }
+  });
+
+  root.addEventListener('input', function (e) {
+    if (e.target && e.target.id === 'kv-extra') state.extra[state.qi] = e.target.value;
   });
 
   function advance() {
