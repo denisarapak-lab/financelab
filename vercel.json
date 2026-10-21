@@ -1,0 +1,5 @@
+{
+  "redirects": [
+    { "source": "/kviz-penize.html", "destination": "/kviz.html", "permanent": false }
+  ]
+}
