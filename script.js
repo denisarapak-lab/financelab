@@ -1,5 +1,9 @@
 (function () {
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Klíč Web3Forms (zdarma na web3forms.com, navázaný na e-mail, kam mají chodit objednávky).
+  // Používá ho objednávkový formulář na hlavní stránce i formulář v kvízu.
+  var WEB3FORMS_KEY = 'REPLACE_WITH_YOUR_KEY';
+  window.FL_WEB3FORMS_KEY = WEB3FORMS_KEY;
 
   function refreshIcons() {
     if (window.lucide && window.lucide.createIcons) { try { window.lucide.createIcons(); } catch (e) {} }
@@ -194,7 +198,6 @@
   function setupBooking() {
     var form = document.getElementById('booking-form');
     if (!form) return;
-    var WEB3FORMS_KEY = 'REPLACE_WITH_YOUR_KEY'; // zdarma na web3forms.com — vloží se sem klíč
     var status = document.getElementById('bf-status');
     var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     var setErr = function (input, on) { var w = input.closest('div'); if (w) w.classList.toggle('field-err', on); };

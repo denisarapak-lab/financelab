@@ -13,8 +13,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-<link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css">
-<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 <link rel="stylesheet" href="styles.css">
 <style>
   body { background: var(--cream); }
@@ -111,12 +109,15 @@
   .bk-form label .req { color: #c0392b; }
   .bk-form input { width: 100%; box-sizing: border-box; font-family: 'Inter', sans-serif; font-size: 15px; color: var(--ink); background: var(--cream); border: 1.5px solid transparent; border-radius: 12px; padding: 13px 15px; outline: none; transition: border-color .18s, background .18s; }
   .bk-form input:focus { border-color: var(--green); background: #fff; }
+  .bk-form textarea { width: 100%; box-sizing: border-box; font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.5; color: var(--ink); background: var(--cream); border: 1.5px solid transparent; border-radius: 12px; padding: 13px 15px; outline: none; resize: vertical; transition: border-color .18s, background .18s; }
+  .bk-form textarea:focus { border-color: var(--green); background: #fff; }
   .bk-form .field-err input { border-color: #c0392b; background: #fff6f5; }
+  .bk-form .hp { display: none; }
+  .bk-consent { font-size: 12px; color: var(--ink-60); line-height: 1.5; margin-top: 12px; }
   .bk-form .emsg { font-size: 12.5px; color: #c0392b; margin-top: 6px; display: none; }
   .bk-form .field-err .emsg { display: block; }
   .bk-status { margin-top: 14px; font-size: 14px; font-weight: 700; font-family: 'Manrope', sans-serif; }
   .bk-status.bad { color: #c0392b; } .bk-status.ok { color: #2f7a56; }
-  .cal-fallback { margin-top: 20px; background: var(--cream); border: 1px dashed rgba(23,32,28,0.22); border-radius: 16px; padding: 28px 24px; font-size: 15px; line-height: 1.6; color: var(--ink-60); text-align: center; }
 
   /* done */
   .done-ic { width: 66px; height: 66px; border-radius: 50%; background: rgba(99,184,136,0.2); display: grid; place-items: center; margin: 0 auto 20px; }
@@ -141,7 +142,6 @@
   .know-more > p { display: none; font-size: 14px; line-height: 1.6; color: var(--ink-60); margin-top: 6px; }
   .know-more[open] > p { display: block; }
   .res-end { margin-top: 28px; }
-  .cal-fallback a { color: #2f7a56; font-weight: 600; }
   .kviz-extra { margin-top: 16px; background: var(--cream); border-radius: 16px; padding: 16px 18px; }
   .kviz-extra label { display: block; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 14.5px; color: var(--ink); }
   .kviz-extra label span { font-weight: 500; color: var(--ink-60); }
@@ -171,9 +171,8 @@
 (function () {
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var root = document.getElementById('quiz-root');
-  // Sem přijde odkaz na Calendly event (např. https://calendly.com/vas-ucet/uvodni-setkani).
-  // Dokud je placeholder, ukáže se u rezervace fallback místo kalendáře.
-  var CALENDLY_URL = 'REPLACE_WITH_YOUR_CALENDLY_URL';
+  // Objednávkový formulář odesílá přes Web3Forms. Klíč je jeden pro celý web, nastavuje se v script.js.
+  function formKey() { return window.FL_WEB3FORMS_KEY || ''; }
 
   // ---- otázky -----------------------------------------------------------
   // Indexy: 0 zůstatek · 1 znalost (půjčky) · 2 úspory · 3 znalost (pojištění bytu)
@@ -375,30 +374,32 @@
     return '<div class="res-section-lbl">Znalostní otázky · správně ' + right + ' ze 3</div><div class="know">' + rows + '</div>';
   }
 
-  function renderResult() {
-    var a = state.answers;
-    var f = findingsFor(a), T = f.length ? THEMES[f[0].g] : null;
-    var G = GOALS[a[7]];
-    var head, intro = '', step = '';
-
+  function resultModel(a) {
+    var f = findingsFor(a), T = f.length ? THEMES[f[0].g] : null, m = { theme: T ? f[0].g : 'none', step: '' };
     if (T) {
-      head = T.head;
-      var txt = f.map(function (x, i) { return i === 0 ? (x.short || x.a) : x.b; }).join(' ');
-      if (T.note) txt += ' ' + T.note;
-      intro = '<p class="res-sub">' + esc(txt) + '</p>';
-      step = '<div class="res-step"><div class="res-step-lbl">První krok</div>' + esc(T.step) + '</div>';
+      m.head = T.head;
+      m.text = f.map(function (x, i) { return i === 0 ? (x.short || x.a) : x.b; }).join(' ') + (T.note ? ' ' + T.note : '');
+      m.step = T.step;
     } else if (hasOverview(a)) {
-      head = 'V běžných penězích máte přehled.';
-      intro = '<p class="res-sub">Podle toho, co píšete, víte, kam vám peníze odcházejí a na jak dlouho by vám vystačily úspory. Níže si můžete projít vysvětlení znalostních otázek.</p>';
+      m.head = 'V běžných penězích máte přehled.';
+      m.text = 'Podle toho, co píšete, víte, kam vám peníze odcházejí a na jak dlouho by vám vystačily úspory. Níže si můžete projít vysvětlení znalostních otázek.';
     } else {
-      head = 'Díky za vyplnění. Tady jsou odpovědi.';
-      intro = '<p class="res-sub">Níže si můžete projít vysvětlení znalostních otázek.</p>';
+      m.head = 'Díky za vyplnění. Tady jsou odpovědi.';
+      m.text = 'Níže si můžete projít vysvětlení znalostních otázek.';
     }
+    m.right = KNOW.filter(function (k) { return a[k.i] === QUESTIONS[k.i].correct; }).length;
+    return m;
+  }
+
+  function renderResult() {
+    var a = state.answers, m = resultModel(a), G = GOALS[a[7]];
+    var head = m.head, intro = '<p class="res-sub">' + esc(m.text) + '</p>';
+    var step = m.step ? '<div class="res-step"><div class="res-step-lbl">První krok</div>' + esc(m.step) + '</div>' : '';
 
     var offer;
     if (G.soft) {
       offer = '<div class="offer-soft">Svůj plán už máte. Kdybyste si ho chtěli s někým projít nebo něco ověřit, ' +
-        '<a data-act="tobooking">můžete si vybrat termín</a>.</div>' +
+        '<a data-act="tobooking">napište nám</a>.</div>' +
         '<div class="res-end"><a href="index.html" class="btn btn-white">Zpět na Finance Lab</a></div>';
     } else {
       offer = '<div class="offer">' +
@@ -411,45 +412,105 @@
     paint('<div class="res-head">' + esc(head) + '</div>' + intro + step + knowledgeHtml(a) + offer);
   }
 
-  function renderBooking() {
-    var topic = GOALS[state.answers[7]].topic;
-    var configured = CALENDLY_URL.indexOf('REPLACE') !== 0;
-    var slot = configured
-      ? '<div id="cal-embed" class="calendly-inline-widget" style="min-width:280px;height:660px;margin-top:20px;border-radius:16px;overflow:hidden;"></div>'
-      : '<div class="cal-fallback">Výběr termínu tu brzy spustíme. Do té doby nám můžete napsat přes <a href="index.html#objednat">formulář na hlavní stránce</a> a ozveme se vám.</div>';
-    paint(
-      '<button class="kviz-textbtn" data-act="toresult" style="margin-bottom:14px;"><i data-lucide="arrow-left" style="width:15px;height:15px;"></i> Zpět na výsledek</button>' +
-      '<div class="res-head" style="font-size:clamp(22px,3vw,30px);">Vyberte si čas, který vám sedí.</div>' +
-      '<div style="font-family:Manrope,sans-serif;font-weight:700;font-size:15px;color:var(--ink);margin-top:14px;">Úvodní setkání s Finance Labem</div>' +
-      '<div class="bk-meta"><span><i data-lucide="message-circle"></i>Krátký rozhovor</span><span><i data-lucide="video"></i>Online nebo osobně</span></div>' +
-      '<p class="res-note" style="margin-top:12px;">Navážeme tam, kde kvíz skončil, a probereme hlavně ' + esc(topic) + '.' +
-      (configured ? ' Termín vám potvrdíme e-mailem.' : '') + '</p>' +
-      slot
-    );
-    if (configured) initCalendly(topic);
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function localDt(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes()); }
+  function fmtDt(v) {
+    var d = new Date(v); if (isNaN(d)) return v;
+    return d.toLocaleString('cs-CZ', { weekday: 'short', day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
   }
 
-  // Napojení Calendly inline widgetu. Kontext z kvízu jde přes UTM parametry.
-  function initCalendly(topic) {
-    var el = document.getElementById('cal-embed');
-    if (!el) return;
-    var f = findingsFor(state.answers);
-    var sep = CALENDLY_URL.indexOf('?') > -1 ? '&' : '?';
-    var url = CALENDLY_URL + sep +
-      'hide_gdpr_banner=1&background_color=ffffff&text_color=17252b&primary_color=14352b' +
-      '&utm_campaign=kviz&utm_source=web&utm_medium=kviz' +
-      '&utm_content=' + encodeURIComponent(f.length ? f[0].g : 'none') +
-      '&utm_term=' + encodeURIComponent(topic);
-    // Nepovinná odpověď „Do čeho investujete?“ se předvyplní do první vlastní otázky v Calendly,
-    // kde ji člověk před potvrzením vidí a může upravit.
-    var inv = extraText(6);
-    if (inv) url += '&a1=' + encodeURIComponent('Do čeho investuji: ' + inv);
-    var tries = 0;
-    (function go() {
-      if (window.Calendly && window.Calendly.initInlineWidget) {
-        window.Calendly.initInlineWidget({ url: url, parentElement: el });
-      } else if (tries++ < 40) { setTimeout(go, 150); }
-    })();
+  function renderBooking() {
+    var topic = GOALS[state.answers[7]].topic;
+    paint(
+      '<button class="kviz-textbtn" data-act="toresult" style="margin-bottom:14px;"><i data-lucide="arrow-left" style="width:15px;height:15px;"></i> Zpět na výsledek</button>' +
+      '<div class="res-head" style="font-size:clamp(22px,3vw,30px);">Napište nám a domluvíme termín.</div>' +
+      '<div class="bk-meta"><span><i data-lucide="message-circle"></i>Úvodní setkání s Finance Labem</span><span><i data-lucide="video"></i>Online nebo osobně</span></div>' +
+      '<p class="res-note" style="margin-top:12px;">Navážeme tam, kde kvíz skončil, a probereme hlavně ' + esc(topic) + '. Spolu s kontaktem nám pošlete i odpovědi z kvízu, ať je máme připravené.</p>' +
+      '<form class="bk-form" id="bk-form" novalidate>' +
+      '<input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
+      '<div class="frow"><label for="bk-name">Jméno a příjmení</label><input id="bk-name" name="name" type="text" autocomplete="name" placeholder="Jan Novák"></div>' +
+      '<div class="frow2">' +
+      '<div class="frow"><label for="bk-email">E-mail <span class="req">*</span></label><input id="bk-email" name="email" type="email" autocomplete="email" placeholder="vas@email.cz" required><div class="emsg">Zadejte platný e-mail.</div></div>' +
+      '<div class="frow"><label for="bk-phone">Telefon <span class="req">*</span></label><input id="bk-phone" name="phone" type="tel" autocomplete="tel" placeholder="+420 777 123 456" required><div class="emsg">Zadejte telefonní číslo.</div></div>' +
+      '</div>' +
+      '<div class="frow"><label for="bk-time">Preferovaný termín schůzky <span class="req">*</span></label><input id="bk-time" name="preferred_time" type="datetime-local" min="' + localDt(new Date()) + '" required><div class="emsg">Vyberte termín, který vám sedí.</div></div>' +
+      '<div class="frow"><label for="bk-msg">Doplňující zpráva</label><textarea id="bk-msg" name="message" rows="3" placeholder="Napište nám krátce k vaší situaci (nepovinné)."></textarea></div>' +
+      '<button type="submit" class="btn btn-dark" style="width:100%;justify-content:center;margin-top:20px;">Odeslat objednávku <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button>' +
+      '<div class="bk-status" id="bk-status" role="status" aria-live="polite"></div>' +
+      '<p class="bk-consent">Odesláním souhlasíte se zpracováním údajů za účelem kontaktu. Vaše data nikam neprodáváme.</p>' +
+      '</form>'
+    );
+    bindForm(topic);
+  }
+
+  function bindForm(topic) {
+    var form = document.getElementById('bk-form');
+    if (!form) return;
+    var status = document.getElementById('bk-status');
+    var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    var say = function (cls, t) { status.className = 'bk-status' + (cls ? ' ' + cls : ''); status.textContent = t; };
+    var setErr = function (input, on) { var w = input.closest('.frow'); if (w) w.classList.toggle('field-err', on); };
+    ['email', 'phone', 'preferred_time'].forEach(function (n) {
+      form[n].addEventListener('input', function () { setErr(form[n], false); say('', ''); });
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var t = form.preferred_time.value, when = t ? new Date(t) : null;
+      var checks = [
+        [form.email, emailRe.test((form.email.value || '').trim())],
+        [form.phone, (form.phone.value || '').replace(/\s/g, '').length >= 6],
+        [form.preferred_time, !!when && !isNaN(when) && when > new Date()]
+      ];
+      var firstBad = null;
+      checks.forEach(function (c) { setErr(c[0], !c[1]); if (!c[1] && !firstBad) firstBad = c[0]; });
+      if (firstBad) { say('bad', 'Zkontrolujte prosím vyznačená pole.'); firstBad.focus(); return; }
+      if (form.botcheck.checked) { renderSent(); return; } // robot vyplnil skryté pole
+      var key = formKey();
+      if (!key || key.indexOf('REPLACE') === 0) { say('bad', 'Formulář zatím není propojený s e-mailem (chybí přístupový klíč).'); return; }
+
+      var a = state.answers, m = resultModel(a), inv = extraText(6);
+      var answers = QUESTIONS.map(function (Q, i) {
+        return (i + 1) + '. ' + Q.q + '\n   → ' + Q.opts[a[i]] + (i === 6 && inv ? '\n   Do čeho investuje: ' + inv : '');
+      }).join('\n');
+      var fd = new FormData();
+      fd.append('access_key', key);
+      fd.append('subject', 'Nová objednávka z kvízu — Finance Lab');
+      fd.append('from_name', 'Finance Lab kvíz');
+      fd.append('name', form.name.value || '—');
+      fd.append('email', form.email.value.trim());
+      fd.append('phone', form.phone.value.trim());
+      fd.append('preferovany_termin', fmtDt(t));
+      fd.append('zprava', form.message.value || '—');
+      fd.append('tema', topic);
+      fd.append('vysledek', m.head + (m.theme !== 'none' ? ' — ' + m.text : ''));
+      fd.append('znalostni_otazky', m.right + ' ze 3 správně');
+      fd.append('do_ceho_investuje', inv || '—');
+      fd.append('odpovedi_z_kvizu', answers);
+
+      var btn = form.querySelector('button[type=submit]'); btn.disabled = true;
+      say('', 'Odesílám…');
+      fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          if (d && d.success) renderSent();
+          else { btn.disabled = false; say('bad', 'Odeslání se nepodařilo. Zkuste to prosím znovu.'); }
+        })
+        .catch(function () { btn.disabled = false; say('bad', 'Odeslání se nepodařilo. Zkuste to prosím znovu.'); });
+    });
+  }
+
+  // Formulář jen předává preferovaný termín, není to potvrzená rezervace.
+  function renderSent() {
+    state.screen = 'sent';
+    paint(
+      '<div class="done-wrap">' +
+      '<div class="done-ic"><i data-lucide="check"></i></div>' +
+      '<h2>Děkujeme, máme to.</h2>' +
+      '<p>Ozveme se vám a domluvíme termín, který vám sedí. Vaše odpovědi z kvízu budeme mít připravené.</p>' +
+      '<a href="index.html" class="btn btn-white" style="margin-top:22px;">Zpět na Finance Lab</a>' +
+      '</div>'
+    );
   }
 
   // ---- global click handling -------------------------------------------
