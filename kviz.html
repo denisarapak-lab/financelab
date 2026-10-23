@@ -133,6 +133,7 @@
     .fade { animation: none; }
     .kviz-prog .track > span { transition: none; }
   }
+  .res-form { margin-top: 34px; padding-top: 30px; border-top: 1px solid rgba(23,32,28,0.1); scroll-margin-top: 80px; }
   .res-step-btn { margin-top: 14px; padding: 11px 20px; font-size: 14px; }
   .res-step-lbl { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #2f7a56; margin-bottom: 6px; }
   .know-more { margin-top: 8px; }
@@ -396,22 +397,22 @@
     var a = state.answers, m = resultModel(a), G = GOALS[a[7]];
     var head = m.head, intro = '<p class="res-sub">' + esc(m.text) + '</p>';
     var step = m.step ? '<div class="res-step"><div class="res-step-lbl">První krok</div>' + esc(m.step) +
-      '<div><button class="btn btn-dark res-step-btn" data-act="tobooking" data-src="analysis">Chci podrobnou analýzu <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button></div></div>' : '';
+      '<div><button class="btn btn-dark res-step-btn" data-act="toform" data-src="analysis">Chci podrobnou analýzu <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button></div></div>' : '';
 
     var offer;
     if (G.soft) {
       offer = '<div class="offer-soft">Svůj plán už máte. Kdybyste si ho chtěli s někým projít nebo něco ověřit, ' +
-        '<a data-act="tobooking">napište nám</a>.</div>' +
-        '<div class="res-end"><a href="index.html" class="btn btn-white">Zpět na Finance Lab</a></div>';
+        'napište nám níže.</div>';
     } else {
       offer = '<div class="offer">' +
         '<h3>' + esc(G.head) + '</h3>' +
         '<p>' + esc(G.body) + '</p>' +
-        '<button class="btn btn-lime" data-act="tobooking">' + esc(G.btn) + ' <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button>' +
         '</div>';
     }
 
-    paint('<div class="res-head">' + esc(head) + '</div>' + intro + step + knowledgeHtml(a) + offer);
+    state.src = 'goal';
+    paint('<div class="res-head">' + esc(head) + '</div>' + intro + step + knowledgeHtml(a) + offer + formHtml());
+    bindForm();
   }
 
   function pad(n) { return (n < 10 ? '0' : '') + n; }
@@ -421,13 +422,18 @@
     return d.toLocaleString('cs-CZ', { weekday: 'short', day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
   }
 
-  function renderBooking() {
-    var topic = state.src === 'analysis' ? 'podrobnou analýzu vašich příjmů a výdajů' : GOALS[state.answers[7]].topic;
-    paint(
-      '<button class="kviz-textbtn" data-act="toresult" style="margin-bottom:14px;"><i data-lucide="arrow-left" style="width:15px;height:15px;"></i> Zpět na výsledek</button>' +
+  function formTopic() { return state.src === 'analysis' ? 'Podrobná analýza příjmů a výdajů' : GOALS[state.answers[7]].topic; }
+  function formNote() {
+    return 'Navážeme tam, kde kvíz skončil, ' +
+      (state.src === 'analysis' ? 'a uděláme s vámi podrobnou analýzu příjmů a výdajů' : 'a probereme hlavně ' + GOALS[state.answers[7]].topic) +
+      '. Spolu s kontaktem nám pošlete i odpovědi z kvízu, ať je máme připravené.';
+  }
+
+  function formHtml() {
+    return '<div class="res-form" id="bk-wrap">' +
       '<div class="res-head" style="font-size:clamp(22px,3vw,30px);">Napište nám a domluvíme termín.</div>' +
       '<div class="bk-meta"><span><i data-lucide="message-circle"></i>Úvodní setkání s Finance Labem</span><span><i data-lucide="video"></i>Online nebo osobně</span></div>' +
-      '<p class="res-note" style="margin-top:12px;">Navážeme tam, kde kvíz skončil, ' + (state.src === 'analysis' ? 'a uděláme s vámi podrobnou analýzu příjmů a výdajů' : 'a probereme hlavně ' + esc(topic)) + '. Spolu s kontaktem nám pošlete i odpovědi z kvízu, ať je máme připravené.</p>' +
+      '<p class="res-note" id="bk-note" style="margin-top:12px;">' + esc(formNote()) + '</p>' +
       '<form class="bk-form" id="bk-form" novalidate>' +
       '<input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
       '<div class="frow"><label for="bk-name">Jméno a příjmení</label><input id="bk-name" name="name" type="text" autocomplete="name" placeholder="Jan Novák"></div>' +
@@ -440,12 +446,10 @@
       '<button type="submit" class="btn btn-dark" style="width:100%;justify-content:center;margin-top:20px;">Odeslat objednávku <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button>' +
       '<div class="bk-status" id="bk-status" role="status" aria-live="polite"></div>' +
       '<p class="bk-consent">Odesláním souhlasíte se zpracováním údajů za účelem kontaktu. Vaše data nikam neprodáváme.</p>' +
-      '</form>'
-    );
-    bindForm(topic);
+      '</form></div>';
   }
 
-  function bindForm(topic) {
+  function bindForm() {
     var form = document.getElementById('bk-form');
     if (!form) return;
     var status = document.getElementById('bk-status');
@@ -484,7 +488,7 @@
       fd.append('phone', form.phone.value.trim());
       fd.append('preferovany_termin', fmtDt(t));
       fd.append('zprava', form.message.value || '—');
-      fd.append('tema', state.src === 'analysis' ? 'Podrobná analýza příjmů a výdajů' : topic);
+      fd.append('tema', formTopic());
       fd.append('vysledek', m.head + (m.theme !== 'none' ? ' — ' + m.text : ''));
       fd.append('znalostni_otazky', m.right + ' ze 3 správně');
       fd.append('do_ceho_investuje', inv || '—');
@@ -504,15 +508,15 @@
 
   // Formulář jen předává preferovaný termín, není to potvrzená rezervace.
   function renderSent() {
-    state.screen = 'sent';
-    paint(
-      '<div class="done-wrap">' +
+    var w = document.getElementById('bk-wrap'); if (!w) return;
+    w.innerHTML = '<div class="done-wrap">' +
       '<div class="done-ic"><i data-lucide="check"></i></div>' +
       '<h2>Děkujeme, máme to.</h2>' +
       '<p>Ozveme se vám a domluvíme termín, který vám sedí. Vaše odpovědi z kvízu budeme mít připravené.</p>' +
       '<a href="index.html" class="btn btn-white" style="margin-top:22px;">Zpět na Finance Lab</a>' +
-      '</div>'
-    );
+      '</div>';
+    icons();
+    w.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' });
   }
 
   // ---- global click handling -------------------------------------------
@@ -540,8 +544,11 @@
     }
     else if (act === 'next') { advance(); }
     else if (act === 'back') { if (state.qi > 0) { state.qi--; renderQuestion(); } }
-    else if (act === 'tobooking') { state.src = el.getAttribute('data-src') || 'goal'; state.screen = 'booking'; renderBooking(); }
-    else if (act === 'toresult') { state.screen = 'result'; renderResult(); }
+    else if (act === 'toform') {
+      state.src = el.getAttribute('data-src') || 'goal';
+      var note = document.getElementById('bk-note'); if (note) note.textContent = formNote();
+      var w = document.getElementById('bk-wrap'); if (w) w.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' });
+    }
   });
 
   root.addEventListener('input', function (e) {
