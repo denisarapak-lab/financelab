@@ -133,6 +133,7 @@
     .fade { animation: none; }
     .kviz-prog .track > span { transition: none; }
   }
+  .res-step-btn { margin-top: 14px; padding: 11px 20px; font-size: 14px; }
   .res-step-lbl { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #2f7a56; margin-bottom: 6px; }
   .know-more { margin-top: 8px; }
   .know-more > summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 13px; color: #2f7a56; }
@@ -257,14 +258,14 @@
   // ---- témata výsledku podle osobních odpovědí ----------------------------
   var THEMES = {
     reserve:    { head: 'Začít můžete tím, kolik potřebujete mít po ruce.',
-                  step: 'Sečtěte si nutné měsíční výdaje. Pak jimi vydělte úspory, které nemáte určené na něco jiného. Vyjde vám, na kolik měsíců by vystačily. Podle toho se vám bude snáz rozhodovat, co nechat dostupné a o čem přemýšlet dál.' },
+                  step: 'Na schůzce s vámi uděláme podrobnou analýzu příjmů a výdajů a spočítáme, na jak dlouho by vám úspory vystačily. Podle toho se domluvíme, kolik mít po ruce a co s ostatními penězi.' },
     spending:   { head: 'Začít můžete tím, kam vám peníze odcházejí.',
-                  step: 'Projděte si výpis z účtu za poslední měsíc a rozdělte platby na nutné, pravidelné a ostatní. Většinou se rychle ukáže, kde peníze mizí nejvíc.' },
+                  step: 'Na schůzce s vámi uděláme podrobnou analýzu příjmů a výdajů. Ukážeme vám, kam peníze odcházejí, a domluvíme se, co upravit.' },
     lifechange: { head: 'Od poslední kontroly se toho u vás změnilo.',
-                  note: 'Podívejte se, jestli rezerva a pojistky pořád odpovídají tomu, co dnes potřebujete platit a koho potřebujete zajistit.',
-                  step: 'Začněte tím, že si napíšete, co je dnes jinak. Při kontrole smluv pak budete vědět, na co se ptát.' },
-    invest:     { head: 'Než začnete investovat, ujasněte si, kdy budete peníze potřebovat.',
-                  step: 'Rozdělte si peníze, které vám zbývají, podle toho, kdy je budete potřebovat. Na nečekané výdaje mějte peníze po ruce. O investování má smysl uvažovat u peněz, bez kterých se obejdete aspoň několik let.' }
+                  note: 'Vyplatí se ověřit, jestli rezerva a pojistky pořád odpovídají tomu, co dnes potřebujete platit a koho potřebujete zajistit.',
+                  step: 'Na schůzce s vámi uděláme podrobnou analýzu příjmů a výdajů a projdeme, co už máte sjednané. Řekneme vám, co po změnách upravit a co může zůstat.' },
+    invest:     { head: 'Než začnete investovat, vyplatí se vědět, kdy budete peníze potřebovat.',
+                  step: 'Na schůzce s vámi uděláme podrobnou analýzu příjmů a výdajů a spočítáme, kolik peněz můžete investovat a kolik je lepší mít po ruce. Vysvětlíme vám to tak, abyste věděli, do čeho jdete.' }
   };
 
   // ---- nabídka podle cíle z otázky 8 -------------------------------------
@@ -394,7 +395,8 @@
   function renderResult() {
     var a = state.answers, m = resultModel(a), G = GOALS[a[7]];
     var head = m.head, intro = '<p class="res-sub">' + esc(m.text) + '</p>';
-    var step = m.step ? '<div class="res-step"><div class="res-step-lbl">První krok</div>' + esc(m.step) + '</div>' : '';
+    var step = m.step ? '<div class="res-step"><div class="res-step-lbl">První krok</div>' + esc(m.step) +
+      '<div><button class="btn btn-dark res-step-btn" data-act="tobooking" data-src="analysis">Chci podrobnou analýzu <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button></div></div>' : '';
 
     var offer;
     if (G.soft) {
@@ -420,12 +422,12 @@
   }
 
   function renderBooking() {
-    var topic = GOALS[state.answers[7]].topic;
+    var topic = state.src === 'analysis' ? 'podrobnou analýzu vašich příjmů a výdajů' : GOALS[state.answers[7]].topic;
     paint(
       '<button class="kviz-textbtn" data-act="toresult" style="margin-bottom:14px;"><i data-lucide="arrow-left" style="width:15px;height:15px;"></i> Zpět na výsledek</button>' +
       '<div class="res-head" style="font-size:clamp(22px,3vw,30px);">Napište nám a domluvíme termín.</div>' +
       '<div class="bk-meta"><span><i data-lucide="message-circle"></i>Úvodní setkání s Finance Labem</span><span><i data-lucide="video"></i>Online nebo osobně</span></div>' +
-      '<p class="res-note" style="margin-top:12px;">Navážeme tam, kde kvíz skončil, a probereme hlavně ' + esc(topic) + '. Spolu s kontaktem nám pošlete i odpovědi z kvízu, ať je máme připravené.</p>' +
+      '<p class="res-note" style="margin-top:12px;">Navážeme tam, kde kvíz skončil, ' + (state.src === 'analysis' ? 'a uděláme s vámi podrobnou analýzu příjmů a výdajů' : 'a probereme hlavně ' + esc(topic)) + '. Spolu s kontaktem nám pošlete i odpovědi z kvízu, ať je máme připravené.</p>' +
       '<form class="bk-form" id="bk-form" novalidate>' +
       '<input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
       '<div class="frow"><label for="bk-name">Jméno a příjmení</label><input id="bk-name" name="name" type="text" autocomplete="name" placeholder="Jan Novák"></div>' +
@@ -482,7 +484,7 @@
       fd.append('phone', form.phone.value.trim());
       fd.append('preferovany_termin', fmtDt(t));
       fd.append('zprava', form.message.value || '—');
-      fd.append('tema', topic);
+      fd.append('tema', state.src === 'analysis' ? 'Podrobná analýza příjmů a výdajů' : topic);
       fd.append('vysledek', m.head + (m.theme !== 'none' ? ' — ' + m.text : ''));
       fd.append('znalostni_otazky', m.right + ' ze 3 správně');
       fd.append('do_ceho_investuje', inv || '—');
@@ -538,7 +540,7 @@
     }
     else if (act === 'next') { advance(); }
     else if (act === 'back') { if (state.qi > 0) { state.qi--; renderQuestion(); } }
-    else if (act === 'tobooking') { state.screen = 'booking'; renderBooking(); }
+    else if (act === 'tobooking') { state.src = el.getAttribute('data-src') || 'goal'; state.screen = 'booking'; renderBooking(); }
     else if (act === 'toresult') { state.screen = 'result'; renderResult(); }
   });
 
