@@ -302,6 +302,8 @@
   .faq-item[open] .faq-chev { transform: rotate(180deg); }
   .faq-item .faq-a { display: none; padding: 0 4px 26px; font-size: 15.5px; line-height: 1.65; color: var(--ink-60); max-width: 720px; }
   .faq-item[open] .faq-a { display: block; }
+  .faq-a a { color: #2f7a56; font-weight: 600; text-decoration: underline; text-decoration-color: var(--lime); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+  .faq-a a:hover { color: var(--forest); text-decoration-color: var(--green); }
 
   /* BOOKING FORM */
   .booking { background: #fff; border-radius: var(--radius-lg); padding: clamp(24px, 3vw, 36px); border: 1px solid rgba(23,32,28,0.08); }
