@@ -2,7 +2,7 @@
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   // Klíč Web3Forms (zdarma na web3forms.com, navázaný na e-mail, kam mají chodit objednávky).
   // Používá ho objednávkový formulář na hlavní stránce i formulář v kvízu.
-  var WEB3FORMS_KEY = 'REPLACE_WITH_YOUR_KEY';
+  var WEB3FORMS_KEY = '684780b7-d4df-4533-8538-75a18d48086b';
   window.FL_WEB3FORMS_KEY = WEB3FORMS_KEY;
 
   function refreshIcons() {
