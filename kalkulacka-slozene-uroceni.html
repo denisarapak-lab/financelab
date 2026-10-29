@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kalkulačka složeného úročení | Finance Lab</title>
+<meta name="description" content="Spočítejte si, kolik může vydělat jednorázová investice nebo pravidelné měsíční vklady díky složenému úročení. Kalkulačka Finance Lab zdarma.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#14352B">
+<link rel="canonical" href="https://financelab-psi.vercel.app/kalkulacka-slozene-uroceni.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="cs_CZ">
+<meta property="og:site_name" content="Finance Lab">
+<meta property="og:title" content="Kalkulačka složeného úročení | Finance Lab">
+<meta property="og:description" content="Jednorázová investice, pravidelné vklady nebo obojí. Uvidíte, co to udělá v čase.">
+<meta property="og:url" content="https://financelab-psi.vercel.app/kalkulacka-slozene-uroceni.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<link rel="stylesheet" href="styles.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Domů", "item": "https://financelab-psi.vercel.app/" },
+    { "@type": "ListItem", "position": 2, "name": "Kalkulačky", "item": "https://financelab-psi.vercel.app/kalkulacky.html" },
+    { "@type": "ListItem", "position": 3, "name": "Složené úročení", "item": "https://financelab-psi.vercel.app/kalkulacka-slozene-uroceni.html" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Kalkulačka složeného úročení",
+  "url": "https://financelab-psi.vercel.app/kalkulacka-slozene-uroceni.html",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Web",
+  "inLanguage": "cs",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CZK" },
+  "description": "Výpočet zhodnocení jednorázové investice a pravidelných vkladů pomocí složeného úročení. Zdarma a bez registrace."
+}
+</script>
+</head>
+<body>
+
+<div id="scroll-progress" class="scroll-progress" aria-hidden="true"></div>
+
+<a href="#hlavni" class="btn" style="position:absolute; left:-999px; top:0;" onfocus="this.style.left='12px';this.style.top='12px';this.style.zIndex='100';" onblur="this.style.left='-999px';">Přeskočit na obsah</a>
+
+<nav class="site" aria-label="Hlavní navigace">
+  <div class="container nav-in">
+    <a href="index.html" class="logo" aria-label="Finance Lab — domů">
+      <span class="mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15 L10 9 L14 12 L20 5"/></svg></span>
+      <span class="wm">Finance Lab</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#sluzby">S čím pomůžeme</a>
+      <a href="kalkulacky.html" aria-current="page">Kalkulačky</a>
+      <a href="index.html#jak">Jak to funguje</a>
+      <a href="index.html#faq">Časté dotazy</a>
+    </div>
+    <div class="nav-actions">
+      <a href="index.html#objednat" class="btn btn-dark">Domluvit konzultaci</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Otevřít menu" aria-expanded="false" aria-controls="mmenu">Menu <i data-lucide="menu" style="width:18px;height:18px;"></i></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mmenu">
+  <a href="index.html#sluzby">S čím pomůžeme</a>
+  <a href="kalkulacky.html">Kalkulačky</a>
+  <a href="index.html#jak">Jak to funguje</a>
+  <a href="index.html#faq">Časté dotazy</a>
+  <div class="mobile-cta">
+    <a href="index.html#objednat" class="btn btn-dark">Domluvit konzultaci</a>
+  </div>
+</div>
+
+<main id="hlavni">
+
+<section class="pad calc-page">
+  <div class="container">
+    <nav class="crumbs" aria-label="Drobečková navigace"><a href="index.html">Domů</a><span aria-hidden="true">/</span><a href="kalkulacky.html">Kalkulačky</a><span aria-hidden="true">/</span><span aria-current="page">Složené úročení</span></nav>
+      <div class="calc reveal">
+      <div style="margin-bottom: 22px;">
+        <span class="eyebrow" style="color:#2f7a56;">Kalkulačka</span>
+        <h1 class="h-section" style="font-size:clamp(26px,3.4vw,40px);margin-top:10px;">Nechte peníze <span class="serif">pracovat za vás.</span></h1>
+        <p class="lead" style="margin-top:10px;max-width:640px;">Složené úročení znamená, že výnosy vydělávají další výnosy. Zvolte jednorázovou investici, pravidelné vklady nebo obojí — a uvidíte, co to udělá v čase.</p>
+      </div>
+
+      <div class="ci-seg" id="ci-seg" role="tablist" aria-label="Typ investování">
+        <button type="button" data-mode="jednorazova" role="tab" aria-selected="false">Jednorázová</button>
+        <button type="button" data-mode="pravidelna" role="tab" aria-selected="false">Pravidelná</button>
+        <button type="button" data-mode="kombinace" class="on" role="tab" aria-selected="true">Kombinace</button>
+      </div>
+
+      <div class="ci-fields">
+        <div class="field" id="ci-field-initial"><div class="row"><label for="ci-initial">Jednorázová investice</label><span class="val" id="ci-initial-v"></span></div><input id="ci-initial" type="range" min="0" max="2000000" step="10000" value="100000"></div>
+        <div class="field" id="ci-field-monthly"><div class="row"><label for="ci-monthly">Pravidelně měsíčně</label><span class="val" id="ci-monthly-v"></span></div><input id="ci-monthly" type="range" min="0" max="50000" step="500" value="5000"></div>
+        <div class="field"><div class="row"><label for="ci-rate">Roční výnos</label><span class="val" id="ci-rate-v"></span></div><input id="ci-rate" type="range" min="0" max="15" step="0.5" value="7"></div>
+        <div class="field"><div class="row"><label for="ci-years">Doba investování</label><span class="val" id="ci-years-v"></span></div><input id="ci-years" type="range" min="1" max="40" step="1" value="20"></div>
+      </div>
+
+      <div class="ci-stats">
+        <div class="ci-stat"><div class="cap">Konečná hodnota</div><div class="amt" id="ci-final" style="color:var(--forest);"></div></div>
+        <div class="ci-stat"><div class="cap">Celkem vloženo</div><div class="amt" id="ci-contrib"></div></div>
+        <div class="ci-stat"><div class="cap">Zhodnocení (výnos)</div><div class="amt" id="ci-gains" style="color:#2f7a56;"></div></div>
+      </div>
+
+      <div class="ci-chart" id="ci-chart">
+        <svg viewBox="0 0 640 300" width="100%" style="height:auto;display:block;overflow:visible;" role="img" aria-label="Graf růstu hodnoty investice v čase">
+          <defs><clipPath id="ci-clip"><rect id="ci-cliprect" x="0" y="0" width="640" height="300"/></clipPath></defs>
+          <line x1="64" y1="20" x2="624" y2="20" stroke="rgba(23,32,28,0.08)"/>
+          <line x1="64" y1="135" x2="624" y2="135" stroke="rgba(23,32,28,0.08)"/>
+          <line x1="64" y1="250" x2="624" y2="250" stroke="rgba(23,32,28,0.18)"/>
+          <text id="ci-y2" x="56" y="24" text-anchor="end" font-size="11" fill="rgba(23,32,28,0.5)" font-family="Inter,sans-serif"></text>
+          <text id="ci-y1" x="56" y="139" text-anchor="end" font-size="11" fill="rgba(23,32,28,0.5)" font-family="Inter,sans-serif"></text>
+          <text id="ci-y0" x="56" y="254" text-anchor="end" font-size="11" fill="rgba(23,32,28,0.5)" font-family="Inter,sans-serif"></text>
+          <g id="ci-bars"></g>
+          <text id="ci-x0" x="64" y="273" text-anchor="start" font-size="11" fill="rgba(23,32,28,0.5)" font-family="Inter,sans-serif"></text>
+          <text id="ci-x1" x="344" y="273" text-anchor="middle" font-size="11" fill="rgba(23,32,28,0.5)" font-family="Inter,sans-serif"></text>
+          <text id="ci-x2" x="624" y="273" text-anchor="end" font-size="11" fill="rgba(23,32,28,0.5)" font-family="Inter,sans-serif"></text>
+        </svg>
+        <div class="ci-legend">
+          <span><i style="background:#63B888;"></i>Vloženo (vaše vklady)</span>
+          <span><i style="background:rgba(239,245,106,0.95);"></i>Úroky (zhodnocení)</span>
+          <span style="color:#2f7a56;font-weight:600;">Součet obou = konečná hodnota</span>
+        </div>
+      </div>
+
+      <p style="font-size:12px;color:var(--ink-60);line-height:1.5;margin-top:16px;">Orientační výpočet s měsíčním připisováním výnosů. Skutečné výnosy v čase kolísají a nejsou zaručené — nejde o investiční doporučení.</p>
+    </div>
+
+    <div class="calc-next">
+      <div class="eyebrow" style="color:#2f7a56; margin-bottom:14px;">Další kalkulačka</div>
+      <div class="calc-links calc-links--one">
+      <a href="kalkulacka-koupe-nebo-najem.html" class="calc-link calc-link--lime reveal">
+        <span class="ic"><i data-lucide="home" style="width:22px;height:22px;"></i></span>
+        <h2>Vyplatí se koupě, nebo pronájem?</h2>
+        <p>Porovnejte hypotéku s nájmem a investováním rozdílu. Uvidíte, která varianta vám po letech nechá víc.</p>
+        <span class="go">Otevřít kalkulačku <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+      </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="sec-forest">
+  <div class="container">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="index.html#top" class="logo logo--light" aria-label="Finance Lab — nahoru">
+          <span class="mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15 L10 9 L14 12 L20 5"/></svg></span>
+          <span class="wm">Finance Lab</span>
+        </a>
+        <p>Finanční poradci pro Prahu, Ostravu a okolí. Hypotéky, pojištění, investice i penze — všechno u jednoho člověka.</p>
+        <div class="socials">
+          <a href="#" aria-label="Instagram"><i data-lucide="camera" style="width:18px;height:18px;"></i></a>
+          <a href="index.html#objednat" aria-label="Napište nám"><i data-lucide="at-sign" style="width:18px;height:18px;"></i></a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Navigace</h4>
+        <a href="index.html#sluzby">S čím pomůžeme</a>
+        <a href="kalkulacky.html">Kalkulačky</a>
+        <a href="index.html#faq">Časté dotazy</a>
+      </div>
+      <div class="foot-col">
+        <h4>Finance Lab</h4>
+        <a href="index.html#uvod">O nás</a>
+        <a href="index.html#jak">Jak to funguje</a>
+        <a href="index.html#objednat">Objednat schůzku</a>
+      </div>
+      <div class="foot-col">
+        <h4>Právní</h4>
+        <a href="index.html">Podmínky</a>
+        <a href="index.html">Ochrana osobních údajů</a>
+        <a href="index.html">Registrace ČNB</a>
+        <a href="index.html">Cookies</a>
+      </div>
+    </div>
+    <p class="foot-line">Peníze jsou nástroj, tak je nechte pracovat pro vás místo toho, abyste vy pracovali pro peníze.</p>
+    <div class="foot-bottom">
+      <span>© 2026 Finance Lab · Registrovaný poradce ČNB</span>
+      <span>Praha &amp; Ostrava</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
