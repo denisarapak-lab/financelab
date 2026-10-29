@@ -136,7 +136,7 @@
   .hero-pills a { display: inline-flex; align-items: center; gap: 12px; min-width: 250px; padding: 11px 22px 11px 18px; border-radius: 999px; font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 16px; color: #fff; text-decoration: none; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.16); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: background .2s, border-color .2s, transform .2s var(--ease); }
   .hero-pills a::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--lime); flex-shrink: 0; }
   .hero-pills a:hover { background: rgba(255,255,255,0.18); border-color: rgba(239,245,106,0.5); transform: translateX(4px); }
-  .hero h1 { color: #fff; font-size: clamp(42px, 5.9vw, 86px); line-height: 0.95; letter-spacing: -0.045em; }
+  .hero h1 { color: #fff; font-size: clamp(32px, 4.4vw, 64px); line-height: 0.95; letter-spacing: -0.045em; }
   .hero h1 .hl { color: var(--lime); }
   .hero h1 .line { display: block; opacity: 0; transform: translateY(20px); animation: lineUp .7s var(--ease) forwards; }
   .hero h1 .line:nth-child(1) { animation-delay: .15s; }
