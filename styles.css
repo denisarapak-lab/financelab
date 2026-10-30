@@ -402,3 +402,20 @@
     .hero h1 .line, .hero-pills li, .hero .lead, .hero-btns, .hero-trust { opacity: 1 !important; transform: none !important; }
     .scroll-progress { display: none; }
   }
+
+  /* BANK EXPERIENCE */
+  .bank-xp-wrap { padding: 0 0 clamp(64px, 9vw, 130px); }
+  .bank-xp { position: relative; overflow: hidden; border-radius: var(--radius-lg); padding: clamp(32px, 5vw, 64px); display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(28px, 4vw, 56px); align-items: center; isolation: isolate; }
+  .bank-xp::before { content: ""; position: absolute; width: 520px; height: 520px; right: -160px; top: -200px; border-radius: 50%; background: radial-gradient(circle, rgba(239,245,106,0.18), transparent 65%); z-index: -1; }
+  .bank-xp-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: var(--lime); color: var(--forest); font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+  .bank-xp h2 { color: #fff; font-size: clamp(30px, 4vw, 50px); margin-top: 20px; }
+  .bank-xp h2 .hl { color: var(--lime); }
+  .bank-xp-main > p { color: rgba(255,255,255,0.78); font-size: clamp(17px, 1.4vw, 19px); line-height: 1.6; margin-top: 18px; max-width: 520px; }
+  .bank-xp-main .btn { margin-top: 28px; }
+  .bank-xp-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .bank-xp-list li { display: flex; gap: 16px; align-items: flex-start; padding: 20px 22px; border-radius: 20px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); transition: transform .3s var(--ease), background .3s var(--ease); }
+  .bank-xp-list li:hover { transform: translateX(4px); background: rgba(255,255,255,0.1); }
+  .bank-xp-list .ic { width: 44px; height: 44px; flex-shrink: 0; border-radius: 50%; background: var(--lime); color: var(--forest); display: grid; place-items: center; }
+  .bank-xp-list h3 { color: #fff; font-size: 18px; }
+  .bank-xp-list p { color: rgba(255,255,255,0.72); font-size: 15px; line-height: 1.5; margin-top: 4px; }
+  @media (max-width: 900px) { .bank-xp { grid-template-columns: 1fr; } }
