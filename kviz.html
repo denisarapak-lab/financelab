@@ -415,13 +415,6 @@
     bindForm();
   }
 
-  function pad(n) { return (n < 10 ? '0' : '') + n; }
-  function localDt(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes()); }
-  function fmtDt(v) {
-    var d = new Date(v); if (isNaN(d)) return v;
-    return d.toLocaleString('cs-CZ', { weekday: 'short', day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-  }
-
   function formTopic() { return state.src === 'analysis' ? 'Podrobná analýza příjmů a výdajů' : GOALS[state.answers[7]].topic; }
   function formNote() {
     return 'Navážeme tam, kde kvíz skončil, ' +
@@ -441,7 +434,7 @@
       '<div class="frow"><label for="bk-email">E-mail <span class="req">*</span></label><input id="bk-email" name="email" type="email" autocomplete="email" placeholder="vas@email.cz" required><div class="emsg">Zadejte platný e-mail.</div></div>' +
       '<div class="frow"><label for="bk-phone">Telefon <span class="req">*</span></label><input id="bk-phone" name="phone" type="tel" autocomplete="tel" placeholder="+420 777 123 456" required><div class="emsg">Zadejte telefonní číslo.</div></div>' +
       '</div>' +
-      '<div class="frow"><label for="bk-time">Preferovaný termín schůzky <span class="req">*</span></label><input id="bk-time" name="preferred_time" type="datetime-local" min="' + localDt(new Date()) + '" required><div class="emsg">Vyberte termín, který vám sedí.</div></div>' +
+      '<div class="frow"><label for="bk-time">Preferovaný termín schůzky <span class="req">*</span></label><textarea id="bk-time" name="preferred_time" rows="2" maxlength="300" required placeholder="Např. úterý nebo čtvrtek odpoledne, příští týden po 17:00. Klidně napište víc termínů."></textarea><div class="emsg">Napište, kdy se vám schůzka hodí.</div></div>' +
       '<div class="frow"><label for="bk-msg">Doplňující zpráva</label><textarea id="bk-msg" name="message" rows="3" placeholder="Napište nám krátce k vaší situaci (nepovinné)."></textarea></div>' +
       '<button type="submit" class="btn btn-dark" style="width:100%;justify-content:center;margin-top:20px;">Odeslat objednávku <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button>' +
       '<div class="bk-status" id="bk-status" role="status" aria-live="polite"></div>' +
@@ -462,11 +455,10 @@
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var t = form.preferred_time.value, when = t ? new Date(t) : null;
       var checks = [
         [form.email, emailRe.test((form.email.value || '').trim())],
         [form.phone, (form.phone.value || '').replace(/\s/g, '').length >= 6],
-        [form.preferred_time, !!when && !isNaN(when) && when > new Date()]
+        [form.preferred_time, !!(form.preferred_time.value || '').trim()]
       ];
       var firstBad = null;
       checks.forEach(function (c) { setErr(c[0], !c[1]); if (!c[1] && !firstBad) firstBad = c[0]; });
@@ -486,7 +478,7 @@
       fd.append('name', form.name.value || '—');
       fd.append('email', form.email.value.trim());
       fd.append('phone', form.phone.value.trim());
-      fd.append('preferovany_termin', fmtDt(t));
+      fd.append('preferovany_termin', form.preferred_time.value.trim());
       fd.append('zprava', form.message.value || '—');
       fd.append('tema', formTopic());
       fd.append('vysledek', m.head + (m.theme !== 'none' ? ' — ' + m.text : ''));

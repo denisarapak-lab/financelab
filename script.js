@@ -206,7 +206,7 @@
         [form.email, emailRe.test((form.email.value || '').trim())],
         [form.phone, (form.phone.value || '').replace(/\s/g, '').length >= 6],
         [form.topic, !!form.topic.value],
-        [form.preferred_time, !!form.preferred_time.value]
+        [form.preferred_time, !!(form.preferred_time.value || '').trim()]
       ];
       var firstBad = null;
       checks.forEach(function (c) { setErr(c[0], !c[1]); if (!c[1] && !firstBad) firstBad = c[0]; });

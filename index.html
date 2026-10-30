@@ -353,8 +353,8 @@
         </div>
         <div class="frow">
           <label for="bf-time">Preferovaný termín schůzky <span class="req">*</span></label>
-          <input id="bf-time" name="preferred_time" type="datetime-local" required>
-          <div class="emsg">Vyberte preferovaný termín.</div>
+          <textarea id="bf-time" name="preferred_time" rows="2" maxlength="300" required placeholder="Např. úterý nebo čtvrtek odpoledne, příští týden po 17:00. Klidně napište víc termínů."></textarea>
+          <div class="emsg">Napište, kdy se vám schůzka hodí.</div>
         </div>
         <button type="submit" class="btn btn-dark" style="width:100%;justify-content:center;margin-top:6px;">Odeslat objednávku <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button>
         <div class="form-status" id="bf-status" role="status" aria-live="polite"></div>
