@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ochrana osobních údajů | Finance Lab</title>
+<meta name="description" content="Jak Finance Lab zpracovává údaje z formulářů na webu: kdo je správce, k čemu údaje slouží, jak dlouho je uchováváme a jaká máte práva.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#14352B">
+<link rel="canonical" href="https://financelab-psi.vercel.app/ochrana-osobnich-udaju.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="scroll-progress" class="scroll-progress" aria-hidden="true"></div>
+
+<a href="#hlavni" class="btn" style="position:absolute; left:-999px; top:0;" onfocus="this.style.left='12px';this.style.top='12px';this.style.zIndex='100';" onblur="this.style.left='-999px';">Přeskočit na obsah</a>
+
+<nav class="site" aria-label="Hlavní navigace">
+  <div class="container nav-in">
+    <a href="index.html" class="logo" aria-label="Finance Lab - domů">
+      <span class="mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15 L10 9 L14 12 L20 5"/></svg></span>
+      <span class="wm">Finance Lab</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#sluzby">S čím pomůžeme</a>
+      <a href="kalkulacky.html">Kalkulačky</a>
+      <a href="index.html#jak">Jak to funguje</a>
+      <a href="index.html#faq">Časté dotazy</a>
+    </div>
+    <div class="nav-actions">
+      <a href="index.html#objednat" class="btn btn-dark">Domluvit konzultaci</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Otevřít menu" aria-expanded="false" aria-controls="mmenu">Menu <i data-lucide="menu" style="width:18px;height:18px;"></i></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mmenu">
+  <a href="index.html#sluzby">S čím pomůžeme</a>
+  <a href="kalkulacky.html">Kalkulačky</a>
+  <a href="index.html#jak">Jak to funguje</a>
+  <a href="index.html#faq">Časté dotazy</a>
+  <div class="mobile-cta">
+    <a href="index.html#objednat" class="btn btn-dark">Domluvit konzultaci</a>
+  </div>
+</div>
+
+<main id="hlavni">
+
+<section class="pad calc-page">
+  <div class="container">
+    <nav class="crumbs" aria-label="Drobečková navigace"><a href="index.html">Domů</a><span aria-hidden="true">/</span><span aria-current="page">Ochrana osobních údajů</span></nav>
+    <article class="legal">
+      <h1 class="h-section" style="font-size:clamp(30px,4.2vw,50px);">Ochrana osobních údajů</h1>
+      <p class="lead" style="margin-top:18px;">Stručně a bez kliček: co se děje s údaji, které nám pošlete přes formulář na tomto webu.</p>
+
+      <h2>Kdo vaše údaje zpracovává</h2>
+      <p>Správcem osobních údajů je společnost <b>Broker Trust, a.s.</b>, Želetavská 1525/1, 140 00 Praha 4 - Michle, IČ 26439719, zapsaná v obchodním rejstříku u Městského soudu v Praze, oddíl B, vložka 7141. Poradci Finance Lab jsou vázanými zástupci společnosti Broker Trust.</p>
+      <p>Kontakt: <a href="mailto:centrala@brokertrust.cz">centrala@brokertrust.cz</a>, tel. 267 912 730.</p>
+
+      <h2>Jaké údaje od vás máme</h2>
+      <p>Jen to, co sami vyplníte ve formuláři:</p>
+      <ul>
+        <li>jméno, e-mail a telefon,</li>
+        <li>téma, preferovaný termín schůzky a vaši zprávu,</li>
+        <li>u kvízu vaše odpovědi a výsledek,</li>
+        <li>u propočtu „Kolik mi banka půjčí“ údaje potřebné k výpočtu, například příjmy, splátky, počet dětí nebo hodnotu nemovitosti.</li>
+      </ul>
+
+      <h2>K čemu je použijeme</h2>
+      <p>Abychom vás mohli kontaktovat, domluvit schůzku a připravit nabídku nebo propočet, o který jste požádali. Zpracování je nutné k vyřízení vaší žádosti ještě před uzavřením smlouvy (čl. 6 odst. 1 písm. b) GDPR), takže k němu nepotřebujeme váš souhlas.</p>
+      <p>Údaje nikomu neprodáváme a nepoužíváme je k reklamě.</p>
+
+      <h2>Kdo k nim má přístup</h2>
+      <ul>
+        <li>poradci Finance Lab a společnost Broker Trust, pokud je to potřeba k vyřízení vaší žádosti,</li>
+        <li>služba Web3Forms, která nám vyplněný formulář doručí e-mailem,</li>
+        <li>banka, pojišťovna nebo jiná společnost, o jejíž službu máte zájem. To ale až ve chvíli, kdy s námi budete chtít připravit konkrétní nabídku.</li>
+      </ul>
+
+      <h2>Jak dlouho je uchováváme</h2>
+      <p>Pokud se nestanete naším klientem, údaje z formuláře smažeme nejpozději do 12 měsíců od jejich odeslání.</p>
+
+      <h2>Když se stanete naším klientem</h2>
+      <p>Při založení do našeho systému od nás dostanete Jednotný informační list Broker Trust a podepíšete podrobný souhlas se zpracováním osobních údajů. Od té chvíle se řídíme těmito dokumenty.</p>
+
+      <h2>Vaše práva</h2>
+      <p>Můžete nás požádat o přístup ke svým údajům, jejich opravu nebo výmaz, omezení zpracování nebo vznést námitku. Stačí napsat na <a href="mailto:centrala@brokertrust.cz">centrala@brokertrust.cz</a>. Pokud nebudete spokojeni, můžete podat stížnost u Úřadu pro ochranu osobních údajů (<a href="https://uoou.gov.cz" rel="noopener" target="_blank">uoou.gov.cz</a>).</p>
+      <p>Podrobné informace najdete v <a href="https://www.brokertrust.cz/zasady-ochrany-soukromi" rel="noopener" target="_blank">zásadách ochrany soukromí Broker Trust</a>.</p>
+
+      <h2 id="cookies">Cookies</h2>
+      <p>Tento web nepoužívá analytické ani reklamní cookies a nesleduje vás, proto po vás nechceme souhlas v cookie liště. Písma a ikony se načítají z externích serverů (Google Fonts a unpkg), které při tom vidí vaši IP adresu stejně jako u každé jiné stránky.</p>
+
+      <p class="legal-date">Platné od 2. 11. 2026</p>
+    </article>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="sec-forest">
+  <div class="container">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="index.html#top" class="logo logo--light" aria-label="Finance Lab - nahoru">
+          <span class="mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15 L10 9 L14 12 L20 5"/></svg></span>
+          <span class="wm">Finance Lab</span>
+        </a>
+        <p>Finanční poradci pro Prahu, Ostravu a okolí. Hypotéky, pojištění, investice i penze - všechno u jednoho člověka.</p>
+        <div class="socials">
+          <a href="#" aria-label="Instagram"><i data-lucide="camera" style="width:18px;height:18px;"></i></a>
+          <a href="index.html#objednat" aria-label="Napište nám"><i data-lucide="at-sign" style="width:18px;height:18px;"></i></a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Navigace</h4>
+        <a href="index.html#sluzby">S čím pomůžeme</a>
+        <a href="kalkulacky.html">Kalkulačky</a>
+        <a href="index.html#faq">Časté dotazy</a>
+      </div>
+      <div class="foot-col">
+        <h4>Finance Lab</h4>
+        <a href="index.html#uvod">O nás</a>
+        <a href="index.html#jak">Jak to funguje</a>
+        <a href="index.html#objednat">Objednat schůzku</a>
+      </div>
+      <div class="foot-col">
+        <h4>Právní</h4>
+        <a href="index.html">Podmínky</a>
+        <a href="ochrana-osobnich-udaju.html">Ochrana osobních údajů</a>
+        <a href="index.html">Registrace ČNB</a>
+        <a href="ochrana-osobnich-udaju.html#cookies">Cookies</a>
+      </div>
+    </div>
+    <p class="foot-line">Peníze jsou nástroj, tak je nechte pracovat pro vás místo toho, abyste vy pracovali pro peníze.</p>
+    <div class="foot-bottom">
+      <span>© 2026 Finance Lab · Registrovaný poradce ČNB</span>
+      <span>Praha &amp; Ostrava</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

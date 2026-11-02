@@ -421,3 +421,14 @@
   .bank-xp-list h3 { color: #fff; font-size: 18px; }
   .bank-xp-list p { color: rgba(255,255,255,0.72); font-size: 15px; line-height: 1.5; margin-top: 4px; }
   @media (max-width: 900px) { .bank-xp { grid-template-columns: 1fr; } }
+
+  /* ---------- LEGAL ---------- */
+  .legal { max-width: 760px; }
+  .legal h2 { font-size: clamp(20px, 2vw, 24px); margin: 38px 0 10px; letter-spacing: -0.02em; scroll-margin-top: 110px; }
+  .legal p, .legal li { font-size: 16.5px; line-height: 1.65; color: rgba(23,37,43,0.82); }
+  .legal p + p { margin-top: 10px; }
+  .legal ul { margin: 8px 0 0; padding-left: 22px; }
+  .legal li + li { margin-top: 6px; }
+  .legal a { color: #2f7a56; font-weight: 600; text-decoration: underline; text-decoration-color: var(--lime); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+  .legal a:hover { color: var(--forest); }
+  .legal-date { margin-top: 40px !important; font-size: 13.5px !important; color: var(--ink-60) !important; }
