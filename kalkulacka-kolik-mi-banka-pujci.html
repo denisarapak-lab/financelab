@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kolik mi banka půjčí na hypotéku? Propočet zdarma | Finance Lab</title>
-<meta name="description" content="Zjistěte, kolik vám banka půjčí na hypotéku. Bývalí zaměstnanci bank vám to spočítají podle metodik jednotlivých bank, zdarma a nezávazně.">
+<meta name="description" content="Zjistěte, kolik vám banka půjčí na koupi, výstavbu, rekonstrukci, refinancování nebo vypořádání. Bývalí zaměstnanci bank vám to spočítají podle metodik jednotlivých bank, zdarma a nezávazně.">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="theme-color" content="#14352B">
 <link rel="canonical" href="https://financelab-psi.vercel.app/kalkulacka-kolik-mi-banka-pujci.html">
@@ -76,7 +76,8 @@
   .hp-pills input:focus-visible + span { outline: 3px solid var(--forest); outline-offset: 2px; }
   .hp-app { margin-top: 18px; padding: 18px; border-radius: 18px; border: 1px solid rgba(23,32,28,0.1); }
   .hp-app h3 { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 15px; color: #2f7a56; }
-  .hp-app[hidden] { display: none; }
+  .hp-app[hidden], .hp-form [hidden] { display: none; }
+  .hp-case { margin-top: 4px; padding: 4px 0 0; }
   .hp-form .emsg { font-size: 12.5px; color: #c0392b; margin-top: 6px; display: none; }
   .hp-form .field-err .emsg { display: block; }
   .hp-form .field-err input, .hp-form .field-err select, .hp-form .field-err .hp-pills span { border-color: #c0392b; }
@@ -149,29 +150,221 @@
 
           <fieldset>
             <legend><span class="n">1</span>Nemovitost a hypotéka</legend>
-            <div class="frow" data-req="ucel">
+            <div class="frow" data-req="radio">
               <span class="lbl">K čemu hypotéku potřebujete? <span class="req">*</span></span>
               <div class="hp-pills">
-                <label><input type="radio" name="ucel" value="Koupě bytu nebo domu"><span>Koupě bytu nebo domu</span></label>
-                <label><input type="radio" name="ucel" value="Výstavba domu"><span>Výstavba domu</span></label>
-                <label><input type="radio" name="ucel" value="Refinancování"><span>Refinancování</span></label>
-                <label><input type="radio" name="ucel" value="Rekonstrukce"><span>Rekonstrukce</span></label>
-                <label><input type="radio" name="ucel" value="Jiné"><span>Jiné</span></label>
+                <label><input type="radio" name="ucel" value="Koupě bytu nebo domu" data-case="koupe"><span>Koupě bytu nebo domu</span></label>
+                <label><input type="radio" name="ucel" value="Výstavba domu" data-case="vystavba"><span>Výstavba domu</span></label>
+                <label><input type="radio" name="ucel" value="Refinancování" data-case="refi"><span>Refinancování</span></label>
+                <label><input type="radio" name="ucel" value="Rekonstrukce" data-case="rekon"><span>Rekonstrukce</span></label>
+                <label><input type="radio" name="ucel" value="Koupě družstevního bydlení" data-case="druzstvo"><span>Koupě družstevního bydlení</span></label>
+                <label><input type="radio" name="ucel" value="Vypořádání dědictví" data-case="dedictvi"><span>Vypořádání dědictví</span></label>
+                <label><input type="radio" name="ucel" value="Vypořádání po rozvodu" data-case="rozvod"><span>Vypořádání po rozvodu</span></label>
               </div>
               <div class="emsg">Vyberte, k čemu hypotéku potřebujete.</div>
             </div>
-            <div class="frow frow2">
-              <div data-req="cena">
-                <label for="hp-cena">Cena nemovitosti <span class="req">*</span></label>
-                <div class="money"><input id="hp-cena" name="cena" type="text" inputmode="numeric" placeholder="např. 5 500 000"></div>
-                <div class="emsg">Napište cenu nemovitosti.</div>
-              </div>
-              <div>
-                <label for="hp-vlastni">Vlastní zdroje</label>
-                <div class="money"><input id="hp-vlastni" name="vlastni" type="text" inputmode="numeric" placeholder="např. 1 100 000"></div>
-                <div class="hint">Kolik máte naspořeno na vlastní podíl.</div>
+
+            <!-- Koupě -->
+            <div class="hp-case" data-case="koupe" hidden>
+              <div class="frow frow2">
+                <div data-req="money">
+                  <label for="k-cena">Cena nemovitosti <span class="req">*</span></label>
+                  <div class="money"><input id="k-cena" name="k_cena" type="text" inputmode="numeric" placeholder="např. 5 500 000"></div>
+                  <div class="emsg">Napište cenu nemovitosti.</div>
+                </div>
+                <div>
+                  <label for="k-vlastni">Vlastní zdroje</label>
+                  <div class="money"><input id="k-vlastni" name="k_vlastni" type="text" inputmode="numeric" placeholder="např. 1 100 000"></div>
+                  <div class="hint">Kolik máte naspořeno na vlastní podíl.</div>
+                </div>
               </div>
             </div>
+
+            <!-- Výstavba -->
+            <div class="hp-case" data-case="vystavba" hidden>
+              <div class="frow frow2">
+                <div data-req="money">
+                  <label for="v-hypo">Kolik na stavbu chcete z hypotéky <span class="req">*</span></label>
+                  <div class="money"><input id="v-hypo" name="v_hypo" type="text" inputmode="numeric" placeholder="např. 4 000 000"></div>
+                  <div class="emsg">Napište, kolik chcete z hypotéky.</div>
+                </div>
+                <div>
+                  <label for="v-vlastni">Kolik dáte z vlastních zdrojů</label>
+                  <div class="money"><input id="v-vlastni" name="v_vlastni" type="text" inputmode="numeric" placeholder="např. 800 000"></div>
+                </div>
+              </div>
+              <div class="frow" data-req="radio">
+                <span class="lbl">Pozemek <span class="req">*</span></span>
+                <div class="hp-pills">
+                  <label><input type="radio" name="v_pozemek" value="Pozemek už mám, bez hypotéky"><span>Už mám, bez hypotéky</span></label>
+                  <label><input type="radio" name="v_pozemek" value="Pozemek už mám, je na něm hypotéka"><span>Už mám, je na něm hypotéka</span></label>
+                  <label><input type="radio" name="v_pozemek" value="Pozemek teprve kupuji"><span>Teprve ho kupuji</span></label>
+                </div>
+                <div class="emsg">Vyberte, jak je to s pozemkem.</div>
+              </div>
+              <div class="frow frow2">
+                <div data-show="v_pozemek=Pozemek už mám, bez hypotéky|Pozemek už mám, je na něm hypotéka" hidden>
+                  <label for="v-poz-hodnota">Hodnota pozemku</label>
+                  <div class="money"><input id="v-poz-hodnota" name="v_poz_hodnota" type="text" inputmode="numeric" placeholder="např. 1 500 000"></div>
+                </div>
+                <div data-show="v_pozemek=Pozemek už mám, je na něm hypotéka" data-req="money" hidden>
+                  <label for="v-poz-zustatek">Kolik z hypotéky na pozemek zbývá splatit <span class="req">*</span></label>
+                  <div class="money"><input id="v-poz-zustatek" name="v_poz_zustatek" type="text" inputmode="numeric" placeholder="např. 600 000"></div>
+                  <div class="emsg">Napište zůstatek hypotéky na pozemku.</div>
+                </div>
+                <div data-show="v_pozemek=Pozemek teprve kupuji" data-req="money" hidden>
+                  <label for="v-poz-cena">Cena pozemku <span class="req">*</span></label>
+                  <div class="money"><input id="v-poz-cena" name="v_poz_cena" type="text" inputmode="numeric" placeholder="např. 1 500 000"></div>
+                  <div class="emsg">Napište cenu pozemku.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Refinancování -->
+            <div class="hp-case" data-case="refi" hidden>
+              <div class="frow frow2">
+                <div data-req="money">
+                  <label for="r-zustatek">Kolik zbývá splatit <span class="req">*</span></label>
+                  <div class="money"><input id="r-zustatek" name="r_zustatek" type="text" inputmode="numeric" placeholder="např. 2 800 000"></div>
+                  <div class="emsg">Napište zůstatek hypotéky.</div>
+                </div>
+                <div>
+                  <label for="r-hodnota">Hodnota nemovitosti</label>
+                  <div class="money"><input id="r-hodnota" name="r_hodnota" type="text" inputmode="numeric" placeholder="např. 6 000 000"></div>
+                </div>
+              </div>
+              <div class="frow frow2">
+                <div>
+                  <label for="r-fixace">Kdy vám končí fixace</label>
+                  <input id="r-fixace" name="r_fixace" type="text" placeholder="např. březen 2027">
+                </div>
+                <div>
+                  <label for="r-sazba">Současná úroková sazba</label>
+                  <input id="r-sazba" name="r_sazba" type="text" inputmode="decimal" placeholder="např. 5,2 %">
+                </div>
+              </div>
+            </div>
+
+            <!-- Rekonstrukce -->
+            <div class="hp-case" data-case="rekon" hidden>
+              <div class="frow" data-req="radio">
+                <span class="lbl">Co budete rekonstruovat? <span class="req">*</span></span>
+                <div class="hp-pills">
+                  <label><input type="radio" name="re_typ" value="Byt"><span>Byt</span></label>
+                  <label><input type="radio" name="re_typ" value="Dům"><span>Dům</span></label>
+                </div>
+                <div class="emsg">Vyberte byt nebo dům.</div>
+              </div>
+              <div class="frow frow2">
+                <div data-req="money">
+                  <label for="re-castka">Za kolik rekonstrukci plánujete <span class="req">*</span></label>
+                  <div class="money"><input id="re-castka" name="re_castka" type="text" inputmode="numeric" placeholder="např. 900 000"></div>
+                  <div class="emsg">Napište, za kolik rekonstrukci plánujete.</div>
+                </div>
+                <div>
+                  <label for="re-vlastni">Kolik dáte z vlastních zdrojů</label>
+                  <div class="money"><input id="re-vlastni" name="re_vlastni" type="text" inputmode="numeric" placeholder="např. 200 000"></div>
+                </div>
+              </div>
+              <div class="frow">
+                <label for="re-hodnota">Hodnota nemovitosti</label>
+                <div class="money"><input id="re-hodnota" name="re_hodnota" type="text" inputmode="numeric" placeholder="např. 5 000 000"></div>
+              </div>
+              <div class="frow" data-req="radio">
+                <span class="lbl">Je už na nemovitosti hypotéka? <span class="req">*</span></span>
+                <div class="hp-pills">
+                  <label><input type="radio" name="re_hypo" value="Ne"><span>Ne</span></label>
+                  <label><input type="radio" name="re_hypo" value="Ano"><span>Ano, třeba z koupě</span></label>
+                </div>
+                <div class="emsg">Vyberte, jestli už na nemovitosti hypotéka je.</div>
+              </div>
+              <div class="frow" data-show="re_hypo=Ano" data-req="money" hidden>
+                <label for="re-zustatek">Kolik z ní zbývá splatit <span class="req">*</span></label>
+                <div class="money"><input id="re-zustatek" name="re_zustatek" type="text" inputmode="numeric" placeholder="např. 2 500 000"></div>
+                <div class="emsg">Napište zůstatek současné hypotéky.</div>
+              </div>
+            </div>
+
+            <!-- Družstevní bydlení -->
+            <div class="hp-case" data-case="druzstvo" hidden>
+              <div class="frow frow2">
+                <div data-req="money">
+                  <label for="d-cena">Cena družstevního podílu <span class="req">*</span></label>
+                  <div class="money"><input id="d-cena" name="d_cena" type="text" inputmode="numeric" placeholder="např. 3 800 000"></div>
+                  <div class="emsg">Napište cenu družstevního podílu.</div>
+                </div>
+                <div>
+                  <label for="d-vlastni">Vlastní zdroje</label>
+                  <div class="money"><input id="d-vlastni" name="d_vlastni" type="text" inputmode="numeric" placeholder="např. 800 000"></div>
+                </div>
+              </div>
+              <div class="frow" data-req="radio">
+                <span class="lbl">Máte jinou nemovitost, kterou by šlo dát bance do zástavy? <span class="req">*</span></span>
+                <div class="hp-pills">
+                  <label><input type="radio" name="d_zastava" value="Ano"><span>Ano</span></label>
+                  <label><input type="radio" name="d_zastava" value="Ne"><span>Ne</span></label>
+                </div>
+                <div class="hint">Družstevní byt bance do zástavy dát nejde, proto se ptáme. Řešení najdeme i bez toho.</div>
+                <div class="emsg">Vyberte ano nebo ne.</div>
+              </div>
+            </div>
+
+            <!-- Dědictví -->
+            <div class="hp-case" data-case="dedictvi" hidden>
+              <div class="frow frow2">
+                <div data-req="money">
+                  <label for="de-castka">Kolik potřebujete vyplatit ostatním dědicům <span class="req">*</span></label>
+                  <div class="money"><input id="de-castka" name="de_castka" type="text" inputmode="numeric" placeholder="např. 2 000 000"></div>
+                  <div class="emsg">Napište, kolik potřebujete vyplatit.</div>
+                </div>
+                <div>
+                  <label for="de-hodnota">Hodnota nemovitosti</label>
+                  <div class="money"><input id="de-hodnota" name="de_hodnota" type="text" inputmode="numeric" placeholder="např. 6 000 000"></div>
+                </div>
+              </div>
+              <div class="frow" data-req="radio">
+                <span class="lbl">Je na nemovitosti hypotéka? <span class="req">*</span></span>
+                <div class="hp-pills">
+                  <label><input type="radio" name="de_hypo" value="Ne"><span>Ne</span></label>
+                  <label><input type="radio" name="de_hypo" value="Ano"><span>Ano</span></label>
+                </div>
+                <div class="emsg">Vyberte, jestli je na nemovitosti hypotéka.</div>
+              </div>
+              <div class="frow" data-show="de_hypo=Ano" data-req="money" hidden>
+                <label for="de-zustatek">Kolik z ní zbývá splatit <span class="req">*</span></label>
+                <div class="money"><input id="de-zustatek" name="de_zustatek" type="text" inputmode="numeric" placeholder="např. 900 000"></div>
+                <div class="emsg">Napište zůstatek hypotéky.</div>
+              </div>
+            </div>
+
+            <!-- Rozvod -->
+            <div class="hp-case" data-case="rozvod" hidden>
+              <div class="frow frow2">
+                <div data-req="money">
+                  <label for="ro-castka">Kolik potřebujete vyplatit bývalému partnerovi <span class="req">*</span></label>
+                  <div class="money"><input id="ro-castka" name="ro_castka" type="text" inputmode="numeric" placeholder="např. 1 500 000"></div>
+                  <div class="emsg">Napište, kolik potřebujete vyplatit.</div>
+                </div>
+                <div>
+                  <label for="ro-hodnota">Hodnota nemovitosti</label>
+                  <div class="money"><input id="ro-hodnota" name="ro_hodnota" type="text" inputmode="numeric" placeholder="např. 5 500 000"></div>
+                </div>
+              </div>
+              <div class="frow" data-req="radio">
+                <span class="lbl">Je na nemovitosti společná hypotéka? <span class="req">*</span></span>
+                <div class="hp-pills">
+                  <label><input type="radio" name="ro_hypo" value="Ne"><span>Ne</span></label>
+                  <label><input type="radio" name="ro_hypo" value="Ano"><span>Ano</span></label>
+                </div>
+                <div class="emsg">Vyberte, jestli je na nemovitosti hypotéka.</div>
+              </div>
+              <div class="frow" data-show="ro_hypo=Ano" data-req="money" hidden>
+                <label for="ro-zustatek">Kolik z ní zbývá splatit <span class="req">*</span></label>
+                <div class="money"><input id="ro-zustatek" name="ro_zustatek" type="text" inputmode="numeric" placeholder="např. 2 200 000"></div>
+                <div class="emsg">Napište zůstatek hypotéky.</div>
+              </div>
+            </div>
+
             <div class="frow frow2">
               <div>
                 <label for="hp-doba">Doba splácení</label>
@@ -202,7 +395,7 @@
             <div class="hp-app" data-app="1">
               <h3>Žadatel 1</h3>
               <div class="frow frow2">
-                <div data-req="vek1">
+                <div data-req="age">
                   <label for="hp-vek1">Věk <span class="req">*</span></label>
                   <input id="hp-vek1" name="vek1" type="text" inputmode="numeric" maxlength="2" placeholder="např. 32">
                   <div class="emsg">Napište věk.</div>
@@ -221,7 +414,7 @@
                 </div>
               </div>
               <div class="frow frow2">
-                <div data-req="prijem1">
+                <div data-req="money">
                   <label for="hp-prijem1">Čistý měsíční příjem <span class="req">*</span></label>
                   <div class="money"><input id="hp-prijem1" name="prijem1" type="text" inputmode="numeric" placeholder="např. 45 000"></div>
                   <div class="hint">OSVČ: průměrný měsíční příjem za poslední rok.</div>
@@ -239,7 +432,7 @@
             <div class="hp-app" data-app="2" hidden>
               <h3>Žadatel 2</h3>
               <div class="frow frow2">
-                <div data-req="vek2">
+                <div data-req="age">
                   <label for="hp-vek2">Věk <span class="req">*</span></label>
                   <input id="hp-vek2" name="vek2" type="text" inputmode="numeric" maxlength="2" placeholder="např. 30">
                   <div class="emsg">Napište věk.</div>
@@ -403,58 +596,93 @@
   var kc = function (v) { var d = digits(v); return d ? Number(d).toLocaleString('cs-CZ') + ' Kč' : '-'; };
   var val = function (n) { return (form[n].value || '').trim(); };
   var two = function () { return form.pocet.value === '2'; };
+  var isHidden = function (el) { return !!el.closest('[hidden]'); };
+  var labelOf = function (el) {
+    var l = el.id ? form.querySelector('label[for="' + el.id + '"]') : el.closest('.frow').querySelector('.lbl');
+    return l ? l.textContent.replace('*', '').trim() : el.name;
+  };
 
-  // Částky s mezerami po tisících
-  form.querySelectorAll('.money input').forEach(function (inp) {
-    inp.addEventListener('blur', function () { var d = digits(inp.value); inp.value = d ? Number(d).toLocaleString('cs-CZ') : ''; });
-  });
-  form.querySelectorAll('input[name=pocet]').forEach(function (r) {
-    r.addEventListener('change', function () { app2.hidden = !two(); });
+  // Přepínání polí podle účelu a podle odpovědí (data-show="pole=hodnota|hodnota")
+  function sync() {
+    var checked = form.querySelector('input[name=ucel]:checked');
+    var c = checked ? checked.getAttribute('data-case') : '';
+    form.querySelectorAll('.hp-case').forEach(function (el) { el.hidden = el.getAttribute('data-case') !== c; });
+    form.querySelectorAll('[data-show]').forEach(function (el) {
+      var p = el.getAttribute('data-show').split('='), cur = form[p[0]].value;
+      el.hidden = p[1].split('|').indexOf(cur) < 0;
+    });
+    app2.hidden = !two();
+  }
+  form.addEventListener('change', function (e) {
+    var w = e.target.closest('[data-req]'); if (w) w.classList.remove('field-err');
+    if (e.target.type === 'radio') sync();
   });
   form.addEventListener('input', function (e) {
     var w = e.target.closest('[data-req]'); if (w) w.classList.remove('field-err');
     say('', '');
   });
-  form.addEventListener('change', function (e) {
-    var w = e.target.closest('[data-req]'); if (w) w.classList.remove('field-err');
+  // Částky s mezerami po tisících
+  form.querySelectorAll('.money input').forEach(function (inp) {
+    inp.addEventListener('blur', function () { var d = digits(inp.value); inp.value = d ? Number(d).toLocaleString('cs-CZ') : ''; });
   });
+  sync();
+
+  function ok(w) {
+    var t = w.getAttribute('data-req'), inp = w.querySelector('input');
+    if (t === 'radio') return !!w.querySelector('input:checked');
+    if (t === 'money') return digits(inp.value).length >= 4;
+    if (t === 'age') { var a = +digits(inp.value); return a >= 18 && a <= 99; }
+    if (t === 'email') return emailRe.test(inp.value.trim());
+    if (t === 'phone') return inp.value.replace(/\s/g, '').length >= 6;
+    return true;
+  }
+
+  // Souhrn kroku 1: všechna viditelná pole zvoleného účelu
+  function purposeLines() {
+    var box = form.querySelector('.hp-case:not([hidden])'), out = [], seen = {};
+    if (!box) return out;
+    box.querySelectorAll('input, select').forEach(function (el) {
+      if (isHidden(el) || seen[el.name]) return;
+      var v;
+      if (el.type === 'radio') { seen[el.name] = 1; v = form[el.name].value; }
+      else v = el.closest('.money') ? (digits(el.value) ? kc(el.value) : '') : el.value.trim();
+      if (v) out.push(labelOf(el) + ': ' + v);
+    });
+    return out;
+  }
+  function estimate() {
+    var c = form.querySelector('.hp-case:not([hidden])').getAttribute('data-case');
+    var pair = { koupe: ['k_cena', 'k_vlastni'], druzstvo: ['d_cena', 'd_vlastni'] }[c];
+    if (!pair) return '';
+    var cena = +digits(val(pair[0])), vl = +digits(val(pair[1]));
+    if (!vl) return '';
+    var need = Math.max(cena - vl, 0);
+    return 'Potřebná hypotéka cca: ' + kc(String(need)) + (c === 'koupe' ? ' (LTV ' + Math.round(need / cena * 100) + ' %)' : '');
+  }
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    var checks = [
-      ['ucel', !!form.ucel.value],
-      ['cena', digits(val('cena')).length >= 5],
-      ['vek1', +digits(val('vek1')) >= 18],
-      ['prijem1', !!digits(val('prijem1'))],
-      ['vek2', !two() || +digits(val('vek2')) >= 18],
-      ['email', emailRe.test(val('email'))],
-      ['phone', val('phone').replace(/\s/g, '').length >= 6]
-    ];
     var firstBad = null;
-    checks.forEach(function (c) {
-      var w = form.querySelector('[data-req="' + c[0] + '"]');
-      w.classList.toggle('field-err', !c[1]);
-      if (!c[1] && !firstBad) firstBad = w;
+    form.querySelectorAll('[data-req]').forEach(function (w) {
+      var good = isHidden(w) || ok(w);
+      w.classList.toggle('field-err', !good);
+      if (!good && !firstBad) firstBad = w;
     });
     if (firstBad) {
       say('bad', 'Zkontrolujte prosím vyznačená pole.');
       firstBad.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' });
-      var f = firstBad.querySelector('input'); if (f) f.focus({ preventScroll: true });
+      var f = firstBad.querySelector('input:not([type=radio])'); if (f) f.focus({ preventScroll: true });
       return;
     }
     if (form.botcheck.checked) { done(); return; }
     var key = window.FL_WEB3FORMS_KEY;
     if (!key || key.indexOf('REPLACE') === 0) { say('bad', 'Formulář zatím není propojený s e-mailem (chybí přístupový klíč).'); return; }
 
-    var cena = +digits(val('cena')), vlastni = +digits(val('vlastni'));
     var zadatel = function (i) {
       return 'věk ' + digits(val('vek' + i)) + ', ' + val('typ' + i) + ', čistý příjem ' + kc(val('prijem' + i)) + ' měsíčně, příjem má: ' + val('delka' + i);
     };
-    var souhrn = [
-      'Účel: ' + form.ucel.value,
-      'Cena nemovitosti: ' + kc(val('cena')),
-      'Vlastní zdroje: ' + kc(val('vlastni')),
-      'Potřebná hypotéka cca: ' + (vlastni ? kc(String(Math.max(cena - vlastni, 0))) + ' (LTV ' + Math.round((cena - vlastni) / cena * 100) + ' %)' : '-'),
+    var est = estimate();
+    var souhrn = ['Účel: ' + form.ucel.value].concat(purposeLines(), est ? [est] : [], [
       'Doba splácení: ' + val('doba'),
       'Kdy: ' + val('kdy'),
       '',
@@ -462,13 +690,13 @@
       two() ? 'Žadatel 2: ' + zadatel(2) : 'Žádá jen jeden člověk',
       '',
       'Děti v domácnosti: ' + val('deti'),
-      'Splátky jiných úvěrů: ' + kc(val('splatky')) + ' měsíčně',
-      'Limity karet a kontokorentů: ' + kc(val('limity'))
-    ].join('\n');
+      'Splátky jiných úvěrů: ' + (digits(val('splatky')) ? kc(val('splatky')) + ' měsíčně' : 'nevyplněno'),
+      'Limity karet a kontokorentů: ' + (digits(val('limity')) ? kc(val('limity')) : 'nevyplněno')
+    ]).join('\n');
 
     var fd = new FormData();
     fd.append('access_key', key);
-    fd.append('subject', 'Kolik mi banka půjčí: nový propočet - Finance Lab');
+    fd.append('subject', 'Kolik mi banka půjčí: ' + form.ucel.value + ' - Finance Lab');
     fd.append('from_name', 'Finance Lab web');
     fd.append('name', val('name') || '-');
     fd.append('email', val('email'));
