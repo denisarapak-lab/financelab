@@ -251,34 +251,6 @@
                   <input id="r-sazba" name="r_sazba" type="text" inputmode="decimal" placeholder="např. 5,2 %">
                 </div>
               </div>
-              <div class="frow" data-req="radio">
-                <span class="lbl">Chcete úvěr zachovat ve stejné výši, nebo si půjčit něco navíc? <span class="req">*</span></span>
-                <div class="hp-pills">
-                  <label><input type="radio" name="r_navic" value="Zachovat stejnou výši"><span>Zachovat stejnou výši</span></label>
-                  <label><input type="radio" name="r_navic" value="Půjčit si něco navíc"><span>Půjčit si něco navíc</span></label>
-                </div>
-                <div class="emsg">Vyberte jednu možnost.</div>
-              </div>
-              <div class="frow" data-show="r_navic=Půjčit si něco navíc" data-req="money" hidden>
-                <label for="r-navic-castka">Kolik si chcete půjčit navíc? <span class="req">*</span></label>
-                <div class="money"><input id="r-navic-castka" name="r_navic_castka" type="text" inputmode="numeric" placeholder="např. 400 000"></div>
-                <div class="emsg">Napište, kolik si chcete půjčit navíc.</div>
-              </div>
-              <div class="frow" data-show="r_navic=Půjčit si něco navíc" data-req="radio" hidden>
-                <span class="lbl">Na co peníze navíc použijete? <span class="req">*</span></span>
-                <div class="hp-pills">
-                  <label><input type="checkbox" name="r_navic_na" value="Splatit jiné úvěry"><span>Splatit jiné úvěry</span></label>
-                  <label><input type="checkbox" name="r_navic_na" value="Koupě auta"><span>Koupě auta</span></label>
-                  <label><input type="checkbox" name="r_navic_na" value="Vybavení domácnosti"><span>Vybavení domácnosti</span></label>
-                  <label><input type="checkbox" name="r_navic_na" value="Něco jiného"><span>Něco jiného</span></label>
-                </div>
-                <div class="hint">Můžete vybrat víc možností.</div>
-                <div class="emsg">Vyberte aspoň jednu možnost.</div>
-              </div>
-              <div class="frow" data-show="r_navic=Půjčit si něco navíc" hidden>
-                <label for="r-navic-pozn">Upřesnění</label>
-                <input id="r-navic-pozn" name="r_navic_pozn" type="text" maxlength="300" placeholder="např. spotřebitelský úvěr 150 000 Kč, auto za 250 000 Kč">
-              </div>
             </div>
 
             <!-- Rekonstrukce -->
@@ -398,6 +370,38 @@
                 <label for="ro-zustatek">Kolik z ní zbývá splatit <span class="req">*</span></label>
                 <div class="money"><input id="ro-zustatek" name="ro_zustatek" type="text" inputmode="numeric" placeholder="např. 2 200 000"></div>
                 <div class="emsg">Napište zůstatek hypotéky.</div>
+              </div>
+            </div>
+
+            <div id="hp-navic" hidden>
+              <div class="frow" data-req="radio">
+                <span class="lbl">Chcete si k tomu půjčit i něco navíc? <span class="req">*</span></span>
+                <div class="hp-pills">
+                  <label><input type="radio" name="navic" value="Ne, nic navíc"><span>Ne, nic navíc</span></label>
+                  <label><input type="radio" name="navic" value="Ano, půjčit si něco navíc"><span>Ano, půjčit si něco navíc</span></label>
+                </div>
+                <div class="hint">Třeba na splacení jiných úvěrů, auto nebo vybavení domácnosti.</div>
+                <div class="emsg">Vyberte jednu možnost.</div>
+              </div>
+              <div class="frow" data-show="navic=Ano, půjčit si něco navíc" data-req="money" hidden>
+                <label for="hp-navic-castka">Kolik si chcete půjčit navíc? <span class="req">*</span></label>
+                <div class="money"><input id="hp-navic-castka" name="navic_castka" type="text" inputmode="numeric" placeholder="např. 400 000"></div>
+                <div class="emsg">Napište, kolik si chcete půjčit navíc.</div>
+              </div>
+              <div class="frow" data-show="navic=Ano, půjčit si něco navíc" data-req="radio" hidden>
+                <span class="lbl">Na co peníze navíc použijete? <span class="req">*</span></span>
+                <div class="hp-pills">
+                  <label><input type="checkbox" name="navic_na" value="Splatit jiné úvěry"><span>Splatit jiné úvěry</span></label>
+                  <label><input type="checkbox" name="navic_na" value="Koupě auta"><span>Koupě auta</span></label>
+                  <label><input type="checkbox" name="navic_na" value="Vybavení domácnosti"><span>Vybavení domácnosti</span></label>
+                  <label><input type="checkbox" name="navic_na" value="Něco jiného"><span>Něco jiného</span></label>
+                </div>
+                <div class="hint">Můžete vybrat víc možností.</div>
+                <div class="emsg">Vyberte aspoň jednu možnost.</div>
+              </div>
+              <div class="frow" data-show="navic=Ano, půjčit si něco navíc" hidden>
+                <label for="hp-navic-pozn">Upřesnění</label>
+                <input id="hp-navic-pozn" name="navic_pozn" type="text" maxlength="300" placeholder="např. spotřebitelský úvěr 150 000 Kč, auto za 250 000 Kč">
               </div>
             </div>
 
@@ -692,6 +696,7 @@
     var checked = form.querySelector('input[name=ucel]:checked');
     var c = checked ? checked.getAttribute('data-case') : '';
     form.querySelectorAll('.hp-case').forEach(function (el) { el.hidden = el.getAttribute('data-case') !== c; });
+    form.querySelector('#hp-navic').hidden = !c;
     form.querySelectorAll('[data-show]').forEach(function (el) {
       var p = el.getAttribute('data-show').split('='), cur = form[p[0]].value;
       el.hidden = p[1].split('|').indexOf(cur) < 0;
@@ -725,8 +730,8 @@
   }
 
   // Souhrn kroku 1: všechna viditelná pole zvoleného účelu
-  function purposeLines() {
-    var box = form.querySelector('.hp-case:not([hidden])'), out = [], seen = {};
+  function purposeLines(box) {
+    var out = [], seen = {};
     if (!box) return out;
     box.querySelectorAll('input, select').forEach(function (el) {
       if (isHidden(el) || seen[el.name]) return;
@@ -777,7 +782,7 @@
       return 'věk ' + digits(val('vek' + i)) + ', ' + typ(i) + ', profese/obor: ' + val('obor' + i) + ', čistý příjem ' + kc(val('prijem' + i)) + ' měsíčně, příjem má: ' + val('delka' + i);
     };
     var est = estimate();
-    var souhrn = ['Účel: ' + form.ucel.value].concat(purposeLines(), est ? [est] : [], [
+    var souhrn = ['Účel: ' + form.ucel.value].concat(purposeLines(form.querySelector('.hp-case:not([hidden])')), purposeLines(form.querySelector('#hp-navic')), est ? [est] : [], [
       'Doba splácení: ' + val('doba'),
       'Kdy: ' + val('kdy'),
       '',
