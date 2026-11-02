@@ -251,6 +251,34 @@
                   <input id="r-sazba" name="r_sazba" type="text" inputmode="decimal" placeholder="např. 5,2 %">
                 </div>
               </div>
+              <div class="frow" data-req="radio">
+                <span class="lbl">Chcete úvěr zachovat ve stejné výši, nebo si půjčit něco navíc? <span class="req">*</span></span>
+                <div class="hp-pills">
+                  <label><input type="radio" name="r_navic" value="Zachovat stejnou výši"><span>Zachovat stejnou výši</span></label>
+                  <label><input type="radio" name="r_navic" value="Půjčit si něco navíc"><span>Půjčit si něco navíc</span></label>
+                </div>
+                <div class="emsg">Vyberte jednu možnost.</div>
+              </div>
+              <div class="frow" data-show="r_navic=Půjčit si něco navíc" data-req="money" hidden>
+                <label for="r-navic-castka">Kolik si chcete půjčit navíc? <span class="req">*</span></label>
+                <div class="money"><input id="r-navic-castka" name="r_navic_castka" type="text" inputmode="numeric" placeholder="např. 400 000"></div>
+                <div class="emsg">Napište, kolik si chcete půjčit navíc.</div>
+              </div>
+              <div class="frow" data-show="r_navic=Půjčit si něco navíc" data-req="radio" hidden>
+                <span class="lbl">Na co peníze navíc použijete? <span class="req">*</span></span>
+                <div class="hp-pills">
+                  <label><input type="checkbox" name="r_navic_na" value="Splatit jiné úvěry"><span>Splatit jiné úvěry</span></label>
+                  <label><input type="checkbox" name="r_navic_na" value="Koupě auta"><span>Koupě auta</span></label>
+                  <label><input type="checkbox" name="r_navic_na" value="Vybavení domácnosti"><span>Vybavení domácnosti</span></label>
+                  <label><input type="checkbox" name="r_navic_na" value="Něco jiného"><span>Něco jiného</span></label>
+                </div>
+                <div class="hint">Můžete vybrat víc možností.</div>
+                <div class="emsg">Vyberte aspoň jednu možnost.</div>
+              </div>
+              <div class="frow" data-show="r_navic=Půjčit si něco navíc" hidden>
+                <label for="r-navic-pozn">Upřesnění</label>
+                <input id="r-navic-pozn" name="r_navic_pozn" type="text" maxlength="300" placeholder="např. spotřebitelský úvěr 150 000 Kč, auto za 250 000 Kč">
+              </div>
             </div>
 
             <!-- Rekonstrukce -->
@@ -704,6 +732,7 @@
       if (isHidden(el) || seen[el.name]) return;
       var v;
       if (el.type === 'radio') { seen[el.name] = 1; v = form[el.name].value; }
+      else if (el.type === 'checkbox') { seen[el.name] = 1; v = [].map.call(form.querySelectorAll('input[name="' + el.name + '"]:checked'), function (c) { return c.value; }).join(', '); }
       else v = el.closest('.money') ? (digits(el.value) ? kc(el.value) : '') : el.value.trim();
       if (v) out.push(labelOf(el) + ': ' + v);
     });
