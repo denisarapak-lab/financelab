@@ -421,6 +421,11 @@
                   </select>
                 </div>
               </div>
+              <div class="frow">
+                <label for="hp-obor1">Čím se zabýváte? Obor nebo profese</label>
+                <input id="hp-obor1" name="obor1" type="text" maxlength="160" placeholder="např. zdravotní sestra v nemocnici, vlastní truhlářská dílna">
+                <div class="hint">Zaměstnanci: pozice a obor firmy. Podnikatelé: čím se živíte.</div>
+              </div>
               <div class="frow frow2">
                 <div data-req="money">
                   <label for="hp-prijem1">Čistý měsíční příjem <span class="req">*</span></label>
@@ -458,6 +463,11 @@
                     <option>Bez příjmu</option>
                   </select>
                 </div>
+              </div>
+              <div class="frow">
+                <label for="hp-obor2">Čím se zabývá? Obor nebo profese</label>
+                <input id="hp-obor2" name="obor2" type="text" maxlength="160" placeholder="např. programátor v IT firmě, kadeřnice na živnost">
+                <div class="hint">Zaměstnanci: pozice a obor firmy. Podnikatelé: čím se živíte.</div>
               </div>
               <div class="frow frow2">
                 <div>
@@ -687,7 +697,7 @@
     if (!key || key.indexOf('REPLACE') === 0) { say('bad', 'Formulář zatím není propojený s e-mailem (chybí přístupový klíč).'); return; }
 
     var zadatel = function (i) {
-      return 'věk ' + digits(val('vek' + i)) + ', ' + val('typ' + i) + ', čistý příjem ' + kc(val('prijem' + i)) + ' měsíčně, příjem má: ' + val('delka' + i);
+      return 'věk ' + digits(val('vek' + i)) + ', ' + val('typ' + i) + ', profese/obor: ' + (val('obor' + i).trim() || 'nevyplněno') + ', čistý příjem ' + kc(val('prijem' + i)) + ' měsíčně, příjem má: ' + val('delka' + i);
     };
     var est = estimate();
     var souhrn = ['Účel: ' + form.ucel.value].concat(purposeLines(), est ? [est] : [], [
