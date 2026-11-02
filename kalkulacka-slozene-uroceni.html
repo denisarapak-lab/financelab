@@ -14,10 +14,16 @@
 <meta property="og:title" content="Kalkulačka složeného úročení | Finance Lab">
 <meta property="og:description" content="Jednorázová investice, pravidelné vklady nebo obojí. Uvidíte, co to udělá v čase.">
 <meta property="og:url" content="https://financelab-psi.vercel.app/kalkulacka-slozene-uroceni.html">
+<meta property="og:image" content="https://financelab-psi.vercel.app/images/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Finance Lab - finanční konzultanti pro Prahu a Ostravu">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://financelab-psi.vercel.app/images/og.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script async src="https://unpkg.com/lucide@1.59.0/dist/umd/lucide.min.js" onload="lucide.createIcons()"></script>
 <link rel="stylesheet" href="styles.css">
 
 <script type="application/ld+json">
@@ -42,6 +48,46 @@
   "inLanguage": "cs",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CZK" },
   "description": "Výpočet zhodnocení jednorázové investice a pravidelných vkladů pomocí složeného úročení. Zdarma a bez registrace."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Jaký roční výnos mám do kalkulačky zadat?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Záleží na tom, do čeho investujete. Spořicí účty a dluhopisy dlouhodobě vynášejí méně. Akciové investice víc, jejich hodnota ale víc kolísá. Pro dlouhodobé akciové investice se často počítá s 6 až 8 % ročně. Výnos ale nikdy není zaručený."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Je lepší investovat jednorázově, nebo pravidelně?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Jednorázová investice má víc času na zhodnocení. Pravidelné investování zase rozloží nákupy do různých období, takže vás tolik nepoloží špatné načasování. Spoustě lidí dává smysl kombinace obojího."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Od jaké částky se vyplatí začít?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Začít můžete klidně s pár stovkami měsíčně. U složeného úročení víc než výše vkladu rozhoduje, jak brzy začnete a jak dlouho vydržíte."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Počítá kalkulačka s poplatky, daněmi a inflací?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ne. Jde o orientační výpočet s měsíčním připisováním výnosů. Skutečný výsledek ovlivní poplatky, daně, inflace i vývoj trhů. Přesný propočet pro vaši situaci vám rádi uděláme na nezávazné konzultaci."
+      }
+    }
+  ]
 }
 </script>
 </head>
@@ -134,6 +180,35 @@
       <p style="font-size:12px;color:var(--ink-60);line-height:1.5;margin-top:16px;">Orientační výpočet s měsíčním připisováním výnosů. Skutečné výnosy v čase kolísají a nejsou zaručené, nejde o investiční doporučení.</p>
     </div>
 
+  </div>
+</section>
+
+<section class="pad" style="padding-top:clamp(36px,5vw,64px);">
+  <div class="container">
+    <div class="reveal" style="max-width:760px;">
+      <span class="eyebrow" style="color:#2f7a56;">Jak to funguje</span>
+      <h2 class="h-section" style="font-size:clamp(26px,3.4vw,40px); margin-top:10px;">Co je složené <span class="serif">úročení?</span></h2>
+      <p class="lead" style="margin-top:16px;">Když investujete, výnos se připisuje k vašim penězům. V dalším roce se tak nezhodnocuje jen to, co jste vložili, ale i výnosy z minulých let. Částka proto roste čím dál rychleji a nejvíc za vás pracuje čas.</p>
+      <p class="lead" style="margin-top:16px;">Příklad: když budete 20 let posílat 5 000 Kč měsíčně, vložíte celkem 1,2 milionu Kč. Při průměrném výnosu 7 % ročně z toho může být zhruba 2,6 milionu Kč. Víc než polovinu by tvořily samotné výnosy.</p>
+    </div>
+    <div class="reveal d1" style="max-width:840px; margin-top:28px;">
+      <details class="faq-item">
+        <summary>Jaký roční výnos mám do kalkulačky zadat?<span class="faq-chev"><i data-lucide="chevron-down" style="width:22px;height:22px;"></i></span></summary>
+        <div class="faq-a">Záleží na tom, do čeho investujete. Spořicí účty a dluhopisy dlouhodobě vynášejí méně. Akciové investice víc, jejich hodnota ale víc kolísá. Pro dlouhodobé akciové investice se často počítá s 6 až 8 % ročně. Výnos ale nikdy není zaručený.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Je lepší investovat jednorázově, nebo pravidelně?<span class="faq-chev"><i data-lucide="chevron-down" style="width:22px;height:22px;"></i></span></summary>
+        <div class="faq-a">Jednorázová investice má víc času na zhodnocení. Pravidelné investování zase rozloží nákupy do různých období, takže vás tolik nepoloží špatné načasování. Spoustě lidí dává smysl kombinace obojího.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Od jaké částky se vyplatí začít?<span class="faq-chev"><i data-lucide="chevron-down" style="width:22px;height:22px;"></i></span></summary>
+        <div class="faq-a">Začít můžete klidně s pár stovkami měsíčně. U složeného úročení víc než výše vkladu rozhoduje, jak brzy začnete a jak dlouho vydržíte.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Počítá kalkulačka s poplatky, daněmi a inflací?<span class="faq-chev"><i data-lucide="chevron-down" style="width:22px;height:22px;"></i></span></summary>
+        <div class="faq-a">Ne. Jde o orientační výpočet s měsíčním připisováním výnosů. Skutečný výsledek ovlivní poplatky, daně, inflace i vývoj trhů. Přesný propočet pro vaši situaci vám rádi uděláme na <a href="index.html#objednat">nezávazné konzultaci</a>.</div>
+      </details>
+    </div>
     <div class="calc-next">
       <div class="eyebrow" style="color:#2f7a56; margin-bottom:14px;">Další kalkulačka</div>
       <div class="calc-links calc-links--one">
@@ -147,7 +222,6 @@
     </div>
   </div>
 </section>
-
 </main>
 
 <!-- FOOTER -->

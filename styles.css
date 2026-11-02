@@ -114,8 +114,9 @@
 
   /* Hero content entrance (stagger) - only when motion is welcome */
   @media (prefers-reduced-motion: no-preference) {
-    .hero-pills li, .hero .lead, .hero-btns, .hero-trust { opacity: 0; animation: heroUp .7s var(--ease) forwards; }
+    .hero-pills li, .hero-kicker, .hero .lead, .hero-btns, .hero-trust { opacity: 0; animation: heroUp .7s var(--ease) forwards; }
     .hero-pills li:nth-child(1) { animation-delay: .05s; } .hero-pills li:nth-child(2) { animation-delay: .12s; } .hero-pills li:nth-child(3) { animation-delay: .19s; }
+    .hero-kicker { animation-delay: .24s; }
     .hero .lead { animation-delay: .42s; }
     .hero-btns { animation-delay: .54s; }
     .hero-trust { animation-delay: .66s; }
@@ -137,6 +138,7 @@
   .hero-pills a::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--lime); flex-shrink: 0; }
   .hero-pills a:hover { background: rgba(255,255,255,0.18); border-color: rgba(239,245,106,0.5); transform: translateX(4px); }
   .hero h1 { color: #fff; font-size: clamp(32px, 4.4vw, 64px); line-height: 0.95; letter-spacing: -0.045em; }
+  .hero-kicker { margin: 0 0 14px; font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--lime); }
   .hero h1 .hl { color: var(--lime); }
   .hero h1 .line { display: block; opacity: 0; transform: translateY(20px); animation: lineUp .7s var(--ease) forwards; }
   .hero h1 .line:nth-child(1) { animation-delay: .15s; }
@@ -401,7 +403,7 @@
     html { scroll-behavior: auto; }
     *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
     .reveal { opacity: 1 !important; transform: none !important; filter: none !important; }
-    .hero h1 .line, .hero-pills li, .hero .lead, .hero-btns, .hero-trust { opacity: 1 !important; transform: none !important; }
+    .hero h1 .line, .hero-pills li, .hero-kicker, .hero .lead, .hero-btns, .hero-trust { opacity: 1 !important; transform: none !important; }
     .scroll-progress { display: none; }
   }
 
