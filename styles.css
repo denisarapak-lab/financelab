@@ -366,6 +366,8 @@
   .socials a { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: rgba(255,255,255,0.08); color: #fff; }
   .socials a:hover { background: var(--lime); color: var(--forest); }
   .foot-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 46px; padding-top: 26px; border-top: 1px solid rgba(255,255,255,0.14); font-size: 13.5px; color: rgba(255,255,255,0.6); }
+  .foot-legal { margin-top: 30px; max-width: 860px; font-size: 12.5px; line-height: 1.6; color: rgba(255,255,255,0.62); }
+  .foot-legal a { color: #fff; text-decoration: underline; text-underline-offset: 2px; }
   .foot-line { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: clamp(18px, 2.4vw, 26px); color: #fff; letter-spacing: -0.02em; margin-top: 20px; max-width: 640px; }
 
   /* RESPONSIVE */

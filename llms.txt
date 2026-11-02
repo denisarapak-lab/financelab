@@ -1,13 +1,13 @@
 # Finance Lab
 
-> Finance Lab je tým finančních konzultantů pro Prahu, Ostravu a okolí. Pomáhá s hypotékami a refinancováním, úvěry, pojištěním, investicemi a spořením na penzi. Konzultanti dřív pracovali v bankách a znají jejich metodiky. Pro klienta jsou služby zdarma, odměnu platí banka nebo pojišťovna.
+> Finance Lab je tým finančních konzultantů pro Prahu, Ostravu a okolí. Pomáhá s hypotékami a refinancováním, úvěry, pojištěním, investicemi a spořením na penzi. Konzultanti dřív pracovali v bankách a znají jejich metodiky. Konzultanty odměňuje provizí banka, pojišťovna nebo jiná instituce, u které klient produkt sjedná.
 
 Konzultanti Finance Lab jsou vázanými zástupci společnosti Broker Trust, a.s. (IČ 26439719), která je registrovaná u České národní banky. Kanceláře jsou v Praze a v Ostravě, konzultace probíhají osobně i online. Komunikace je v češtině.
 
 ## Hlavní stránky
 
 - [Úvodní stránka](https://financelab-psi.vercel.app/): služby, jak spolupráce probíhá, časté dotazy a objednání nezávazné konzultace
-- [Kalkulačky](https://financelab-psi.vercel.app/kalkulacky.html): rozcestník finančních kalkulaček zdarma
+- [Kalkulačky](https://financelab-psi.vercel.app/kalkulacky.html): rozcestník finančních kalkulaček
 
 ## Kalkulačky
 
