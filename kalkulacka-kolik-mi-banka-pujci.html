@@ -530,6 +530,12 @@
               <div class="money"><input id="hp-limity" name="limity" type="text" inputmode="numeric" placeholder="0"></div>
               <div class="hint">Banka je počítá, i když je nevyužíváte. Napište součet limitů.</div>
             </div>
+            <div class="frow" data-req="text">
+              <label for="hp-banky">V jakých bankách máte účet? <span class="req">*</span></label>
+              <input id="hp-banky" name="banky" type="text" maxlength="200" placeholder="např. Česká spořitelna, Fio banka">
+              <div class="hint">Pokud žádáte ve dvou, napište banky obou.</div>
+              <div class="emsg">Napište, v jakých bankách máte účet.</div>
+            </div>
             <div class="frow">
               <label for="hp-spec">Specifika vaší situace</label>
               <textarea id="hp-spec" name="spec" rows="4" maxlength="1500" placeholder="Máte nepravidelný příjem? Žádá vás více lidí v domácnosti nebo ve více domácnostech? Napište nám to."></textarea>
@@ -752,6 +758,7 @@
       'Děti v domácnosti: ' + val('deti'),
       'Splátky jiných úvěrů: ' + (digits(val('splatky')) ? kc(val('splatky')) + ' měsíčně' : 'nevyplněno'),
       'Limity karet a kontokorentů: ' + (digits(val('limity')) ? kc(val('limity')) : 'nevyplněno'),
+      'Účty v bankách: ' + val('banky'),
       '',
       'Specifika situace: ' + (val('spec') || 'nevyplněno')
     ]).join('\n');
