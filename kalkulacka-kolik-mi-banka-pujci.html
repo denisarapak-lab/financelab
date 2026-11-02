@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kolik mi banka půjčí na hypotéku? Propočet zdarma | Finance Lab</title>
+<meta name="description" content="Zjistěte, kolik vám banka půjčí na hypotéku. Bývalí zaměstnanci bank vám to spočítají podle metodik jednotlivých bank, zdarma a nezávazně.">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#14352B">
+<link rel="canonical" href="https://financelab-psi.vercel.app/kalkulacka-kolik-mi-banka-pujci.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="cs_CZ">
+<meta property="og:site_name" content="Finance Lab">
+<meta property="og:title" content="Kolik mi banka půjčí na hypotéku? | Finance Lab">
+<meta property="og:description" content="Spočítáme vám to podle metodik jednotlivých bank. Zdarma a nezávazně.">
+<meta property="og:url" content="https://financelab-psi.vercel.app/kalkulacka-kolik-mi-banka-pujci.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<link rel="stylesheet" href="styles.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Domů", "item": "https://financelab-psi.vercel.app/" },
+    { "@type": "ListItem", "position": 2, "name": "Kalkulačky", "item": "https://financelab-psi.vercel.app/kalkulacky.html" },
+    { "@type": "ListItem", "position": 3, "name": "Kolik mi banka půjčí", "item": "https://financelab-psi.vercel.app/kalkulacka-kolik-mi-banka-pujci.html" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Propočet: kolik mi banka půjčí na hypotéku",
+  "url": "https://financelab-psi.vercel.app/kalkulacka-kolik-mi-banka-pujci.html",
+  "serviceType": "Propočet výše hypotéky",
+  "provider": { "@type": "FinancialService", "name": "Finance Lab", "url": "https://financelab-psi.vercel.app/" },
+  "areaServed": "CZ",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CZK" },
+  "description": "Bývalí zaměstnanci bank spočítají podle metodik jednotlivých bank, kolik vám půjčí na hypotéku. Zdarma a nezávazně."
+}
+</script>
+<style>
+  .hp-wrap { max-width: 820px; }
+  .hp-perks { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+  .hp-perks span { display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 999px; background: var(--cream); font-size: 14px; font-weight: 600; color: var(--ink); }
+  .hp-perks i { width: 16px; height: 16px; color: #2f7a56; }
+  .hp-why { margin-top: 22px; padding: 18px 20px; border-radius: 18px; background: var(--forest); color: rgba(255,255,255,0.82); font-size: 15px; line-height: 1.6; }
+  .hp-why b { color: var(--lime); }
+
+  .hp-form fieldset { border: 0; margin: 0; padding: 0; }
+  .hp-form fieldset + fieldset { margin-top: 30px; padding-top: 26px; border-top: 1px solid rgba(23,32,28,0.08); }
+  .hp-form legend { display: flex; align-items: center; gap: 10px; font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 19px; color: var(--ink); padding: 0; }
+  .hp-form legend .n { width: 28px; height: 28px; border-radius: 50%; background: var(--lime); color: var(--forest); display: grid; place-items: center; font-size: 14px; }
+  .hp-form .frow { margin-top: 16px; }
+  .hp-form .frow2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .hp-form label, .hp-form .lbl { display: block; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 13.5px; color: var(--ink); margin-bottom: 7px; }
+  .hp-form .req { color: #c0392b; }
+  .hp-form .hint { font-size: 12.5px; color: var(--ink-60); margin-top: 6px; line-height: 1.45; }
+  .hp-form input[type=text], .hp-form input[type=email], .hp-form input[type=tel], .hp-form select, .hp-form textarea { width: 100%; box-sizing: border-box; font-family: 'Inter', sans-serif; font-size: 15px; color: var(--ink); background: var(--cream); border: 1.5px solid transparent; border-radius: 12px; padding: 13px 15px; outline: none; transition: border-color .18s, background .18s; }
+  .hp-form textarea { resize: vertical; line-height: 1.5; }
+  .hp-form input:focus, .hp-form select:focus, .hp-form textarea:focus { border-color: var(--green); background: #fff; }
+  .hp-form .money { position: relative; }
+  .hp-form .money input { padding-right: 46px; }
+  .hp-form .money::after { content: "Kč"; position: absolute; right: 15px; top: 50%; transform: translateY(-50%); font-size: 14px; color: var(--ink-60); pointer-events: none; }
+  .hp-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .hp-pills label { margin: 0; cursor: pointer; }
+  .hp-pills input { position: absolute; opacity: 0; pointer-events: none; }
+  .hp-pills span { display: inline-block; padding: 10px 16px; border-radius: 999px; background: var(--cream); border: 1.5px solid transparent; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 14.5px; color: var(--ink); transition: background .18s, border-color .18s; }
+  .hp-pills label:hover span { border-color: rgba(20,53,43,0.25); }
+  .hp-pills input:checked + span { background: var(--forest); color: #fff; }
+  .hp-pills input:focus-visible + span { outline: 3px solid var(--forest); outline-offset: 2px; }
+  .hp-app { margin-top: 18px; padding: 18px; border-radius: 18px; border: 1px solid rgba(23,32,28,0.1); }
+  .hp-app h3 { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 15px; color: #2f7a56; }
+  .hp-app[hidden] { display: none; }
+  .hp-form .emsg { font-size: 12.5px; color: #c0392b; margin-top: 6px; display: none; }
+  .hp-form .field-err .emsg { display: block; }
+  .hp-form .field-err input, .hp-form .field-err select, .hp-form .field-err .hp-pills span { border-color: #c0392b; }
+  .hp-form .hp-hide { display: none; }
+  .hp-submit { margin-top: 26px; width: 100%; justify-content: center; }
+  .hp-status { margin-top: 14px; font-size: 14px; font-weight: 700; font-family: 'Manrope', sans-serif; }
+  .hp-status.bad { color: #c0392b; }
+  .hp-consent { font-size: 12px; color: var(--ink-60); line-height: 1.5; margin-top: 12px; }
+  .hp-done { text-align: center; padding: 20px 0; }
+  .hp-done .ic { width: 66px; height: 66px; border-radius: 50%; background: rgba(99,184,136,0.2); display: grid; place-items: center; margin: 0 auto 20px; color: #2f7a56; }
+  .hp-done h2 { font-family: 'Manrope', sans-serif; font-weight: 800; letter-spacing: -0.02em; font-size: clamp(26px, 3.4vw, 34px); color: var(--ink); }
+  .hp-done p { font-size: 16px; line-height: 1.65; color: var(--ink-60); margin: 14px auto 0; max-width: 480px; }
+  @media (max-width: 620px) { .hp-form .frow2 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div id="scroll-progress" class="scroll-progress" aria-hidden="true"></div>
+
+<a href="#hlavni" class="btn" style="position:absolute; left:-999px; top:0;" onfocus="this.style.left='12px';this.style.top='12px';this.style.zIndex='100';" onblur="this.style.left='-999px';">Přeskočit na obsah</a>
+
+<nav class="site" aria-label="Hlavní navigace">
+  <div class="container nav-in">
+    <a href="index.html" class="logo" aria-label="Finance Lab - domů">
+      <span class="mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15 L10 9 L14 12 L20 5"/></svg></span>
+      <span class="wm">Finance Lab</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#sluzby">S čím pomůžeme</a>
+      <a href="kalkulacky.html" aria-current="page">Kalkulačky</a>
+      <a href="index.html#jak">Jak to funguje</a>
+      <a href="index.html#faq">Časté dotazy</a>
+    </div>
+    <div class="nav-actions">
+      <a href="index.html#objednat" class="btn btn-dark">Domluvit konzultaci</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Otevřít menu" aria-expanded="false" aria-controls="mmenu">Menu <i data-lucide="menu" style="width:18px;height:18px;"></i></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mmenu">
+  <a href="index.html#sluzby">S čím pomůžeme</a>
+  <a href="kalkulacky.html">Kalkulačky</a>
+  <a href="index.html#jak">Jak to funguje</a>
+  <a href="index.html#faq">Časté dotazy</a>
+  <div class="mobile-cta">
+    <a href="index.html#objednat" class="btn btn-dark">Domluvit konzultaci</a>
+  </div>
+</div>
+
+<main id="hlavni">
+
+<section class="pad calc-page">
+  <div class="container">
+    <nav class="crumbs" aria-label="Drobečková navigace"><a href="index.html">Domů</a><span aria-hidden="true">/</span><a href="kalkulacky.html">Kalkulačky</a><span aria-hidden="true">/</span><span aria-current="page">Kolik mi banka půjčí</span></nav>
+
+    <div class="hp-wrap">
+      <span class="eyebrow" style="color:#2f7a56;">Propočet hypotéky</span>
+      <h1 class="h-section" style="font-size:clamp(28px,4vw,48px);margin-top:10px;">Kolik vám banka <span class="serif">půjčí na hypotéku?</span></h1>
+      <p class="lead" style="margin-top:14px;max-width:660px;">Vyplňte pár údajů a my vám podle metodik jednotlivých bank spočítáme, kolik si reálně můžete půjčit a kde dostanete nejlepší podmínky.</p>
+      <div class="hp-perks">
+        <span><i data-lucide="badge-check"></i>Zdarma a nezávazně</span>
+        <span><i data-lucide="landmark"></i>Podle metodik bank</span>
+        <span><i data-lucide="mail"></i>Výsledek pošleme e-mailem</span>
+      </div>
+      <p class="hp-why"><b>Proč to nepočítá automatická kalkulačka?</b> Každá banka posuzuje příjmy, závazky i typ příjmu jinak. Automat by vám ukázal jen hrubý odhad. Dřív jsme v bankách pracovali, takže vám to spočítáme přesně podle jejich pravidel.</p>
+
+      <div class="calc" id="hp-box">
+        <form class="hp-form" id="hp-form" novalidate>
+          <input type="checkbox" name="botcheck" class="hp-hide" tabindex="-1" autocomplete="off">
+
+          <fieldset>
+            <legend><span class="n">1</span>Nemovitost a hypotéka</legend>
+            <div class="frow" data-req="ucel">
+              <span class="lbl">K čemu hypotéku potřebujete? <span class="req">*</span></span>
+              <div class="hp-pills">
+                <label><input type="radio" name="ucel" value="Koupě bytu nebo domu"><span>Koupě bytu nebo domu</span></label>
+                <label><input type="radio" name="ucel" value="Výstavba domu"><span>Výstavba domu</span></label>
+                <label><input type="radio" name="ucel" value="Refinancování"><span>Refinancování</span></label>
+                <label><input type="radio" name="ucel" value="Rekonstrukce"><span>Rekonstrukce</span></label>
+                <label><input type="radio" name="ucel" value="Jiné"><span>Jiné</span></label>
+              </div>
+              <div class="emsg">Vyberte, k čemu hypotéku potřebujete.</div>
+            </div>
+            <div class="frow frow2">
+              <div data-req="cena">
+                <label for="hp-cena">Cena nemovitosti <span class="req">*</span></label>
+                <div class="money"><input id="hp-cena" name="cena" type="text" inputmode="numeric" placeholder="např. 5 500 000"></div>
+                <div class="emsg">Napište cenu nemovitosti.</div>
+              </div>
+              <div>
+                <label for="hp-vlastni">Vlastní zdroje</label>
+                <div class="money"><input id="hp-vlastni" name="vlastni" type="text" inputmode="numeric" placeholder="např. 1 100 000"></div>
+                <div class="hint">Kolik máte naspořeno na vlastní podíl.</div>
+              </div>
+            </div>
+            <div class="frow frow2">
+              <div>
+                <label for="hp-doba">Doba splácení</label>
+                <select id="hp-doba" name="doba">
+                  <option value="Nevím, poraďte">Nevím, poraďte</option>
+                  <option>15 let</option><option>20 let</option><option>25 let</option><option>30 let</option>
+                </select>
+              </div>
+              <div>
+                <label for="hp-kdy">Kdy hypotéku potřebujete?</label>
+                <select id="hp-kdy" name="kdy">
+                  <option>Co nejdřív</option><option>Do 3 měsíců</option><option>Do půl roku</option><option>Zatím jen zjišťuju</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend><span class="n">2</span>Příjmy</legend>
+            <div class="frow">
+              <span class="lbl">Kolik lidí bude o hypotéku žádat?</span>
+              <div class="hp-pills">
+                <label><input type="radio" name="pocet" value="1" checked><span>Jen já</span></label>
+                <label><input type="radio" name="pocet" value="2"><span>Dva (např. s partnerem)</span></label>
+              </div>
+            </div>
+
+            <div class="hp-app" data-app="1">
+              <h3>Žadatel 1</h3>
+              <div class="frow frow2">
+                <div data-req="vek1">
+                  <label for="hp-vek1">Věk <span class="req">*</span></label>
+                  <input id="hp-vek1" name="vek1" type="text" inputmode="numeric" maxlength="2" placeholder="např. 32">
+                  <div class="emsg">Napište věk.</div>
+                </div>
+                <div>
+                  <label for="hp-typ1">Typ příjmu</label>
+                  <select id="hp-typ1" name="typ1">
+                    <option>Zaměstnanec, smlouva na dobu neurčitou</option>
+                    <option>Zaměstnanec, smlouva na dobu určitou</option>
+                    <option>OSVČ s paušální daní</option>
+                    <option>OSVČ, daňové přiznání</option>
+                    <option>Jednatel nebo společník firmy</option>
+                    <option>Rodičovská nebo mateřská</option>
+                    <option>Jiný příjem</option>
+                  </select>
+                </div>
+              </div>
+              <div class="frow frow2">
+                <div data-req="prijem1">
+                  <label for="hp-prijem1">Čistý měsíční příjem <span class="req">*</span></label>
+                  <div class="money"><input id="hp-prijem1" name="prijem1" type="text" inputmode="numeric" placeholder="např. 45 000"></div>
+                  <div class="hint">OSVČ: průměrný měsíční příjem za poslední rok.</div>
+                  <div class="emsg">Napište čistý měsíční příjem.</div>
+                </div>
+                <div>
+                  <label for="hp-delka1">Jak dlouho tento příjem máte?</label>
+                  <select id="hp-delka1" name="delka1">
+                    <option>Déle než 2 roky</option><option>1 až 2 roky</option><option>3 až 12 měsíců</option><option>Méně než 3 měsíce</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="hp-app" data-app="2" hidden>
+              <h3>Žadatel 2</h3>
+              <div class="frow frow2">
+                <div data-req="vek2">
+                  <label for="hp-vek2">Věk <span class="req">*</span></label>
+                  <input id="hp-vek2" name="vek2" type="text" inputmode="numeric" maxlength="2" placeholder="např. 30">
+                  <div class="emsg">Napište věk.</div>
+                </div>
+                <div>
+                  <label for="hp-typ2">Typ příjmu</label>
+                  <select id="hp-typ2" name="typ2">
+                    <option>Zaměstnanec, smlouva na dobu neurčitou</option>
+                    <option>Zaměstnanec, smlouva na dobu určitou</option>
+                    <option>OSVČ s paušální daní</option>
+                    <option>OSVČ, daňové přiznání</option>
+                    <option>Jednatel nebo společník firmy</option>
+                    <option>Rodičovská nebo mateřská</option>
+                    <option>Jiný příjem</option>
+                    <option>Bez příjmu</option>
+                  </select>
+                </div>
+              </div>
+              <div class="frow frow2">
+                <div>
+                  <label for="hp-prijem2">Čistý měsíční příjem</label>
+                  <div class="money"><input id="hp-prijem2" name="prijem2" type="text" inputmode="numeric" placeholder="např. 38 000"></div>
+                </div>
+                <div>
+                  <label for="hp-delka2">Jak dlouho tento příjem má?</label>
+                  <select id="hp-delka2" name="delka2">
+                    <option>Déle než 2 roky</option><option>1 až 2 roky</option><option>3 až 12 měsíců</option><option>Méně než 3 měsíce</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend><span class="n">3</span>Domácnost a závazky</legend>
+            <div class="frow frow2">
+              <div>
+                <label for="hp-deti">Počet dětí v domácnosti</label>
+                <select id="hp-deti" name="deti"><option>0</option><option>1</option><option>2</option><option>3</option><option>4 a víc</option></select>
+              </div>
+              <div>
+                <label for="hp-splatky">Splátky jiných úvěrů měsíčně</label>
+                <div class="money"><input id="hp-splatky" name="splatky" type="text" inputmode="numeric" placeholder="0"></div>
+                <div class="hint">Půjčky, leasing, jiná hypotéka.</div>
+              </div>
+            </div>
+            <div class="frow">
+              <label for="hp-limity">Limity kreditních karet a kontokorentů</label>
+              <div class="money"><input id="hp-limity" name="limity" type="text" inputmode="numeric" placeholder="0"></div>
+              <div class="hint">Banka je počítá, i když je nevyužíváte. Napište součet limitů.</div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend><span class="n">4</span>Kam vám pošleme výsledek</legend>
+            <div class="frow">
+              <label for="hp-name">Jméno a příjmení</label>
+              <input id="hp-name" name="name" type="text" autocomplete="name" placeholder="Jan Novák">
+            </div>
+            <div class="frow frow2">
+              <div data-req="email">
+                <label for="hp-email">E-mail <span class="req">*</span></label>
+                <input id="hp-email" name="email" type="email" autocomplete="email" placeholder="vas@email.cz">
+                <div class="emsg">Zadejte platný e-mail.</div>
+              </div>
+              <div data-req="phone">
+                <label for="hp-phone">Telefon <span class="req">*</span></label>
+                <input id="hp-phone" name="phone" type="tel" autocomplete="tel" placeholder="+420 777 123 456">
+                <div class="emsg">Zadejte telefonní číslo.</div>
+              </div>
+            </div>
+            <div class="frow">
+              <label for="hp-msg">Poznámka</label>
+              <textarea id="hp-msg" name="message" rows="3" placeholder="Cokoli dalšího, co bychom měli vědět. Třeba zůstatek současné hypotéky u refinancování."></textarea>
+            </div>
+          </fieldset>
+
+          <button type="submit" class="btn btn-dark hp-submit">Chci spočítat, kolik mi banka půjčí</button>
+          <div class="hp-status" id="hp-status" role="status" aria-live="polite"></div>
+          <p class="hp-consent">Odesláním souhlasíte se zpracováním údajů za účelem propočtu a kontaktu. Vaše data nikam neprodáváme.</p>
+        </form>
+      </div>
+    </div>
+
+    <div class="calc-next">
+      <div class="eyebrow" style="color:#2f7a56; margin-bottom:14px;">Další kalkulačky</div>
+      <div class="calc-links">
+        <a href="kalkulacka-koupe-nebo-najem.html" class="calc-link calc-link--lime">
+          <span class="ic"><i data-lucide="home" style="width:22px;height:22px;"></i></span>
+          <h2>Vyplatí se koupě, nebo pronájem?</h2>
+          <p>Porovnejte hypotéku s nájmem a investováním rozdílu. Uvidíte, která varianta vám po letech nechá víc.</p>
+          <span class="go">Otevřít kalkulačku <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+        </a>
+        <a href="kalkulacka-slozene-uroceni.html" class="calc-link calc-link--peach">
+          <span class="ic"><i data-lucide="line-chart" style="width:22px;height:22px;"></i></span>
+          <h2>Složené úročení</h2>
+          <p>Spočítejte, kolik z jednorázové investice nebo pravidelných vkladů může být za 10, 20 nebo 30 let.</p>
+          <span class="go">Otevřít kalkulačku <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="sec-forest">
+  <div class="container">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="index.html#top" class="logo logo--light" aria-label="Finance Lab - nahoru">
+          <span class="mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15 L10 9 L14 12 L20 5"/></svg></span>
+          <span class="wm">Finance Lab</span>
+        </a>
+        <p>Finanční poradci pro Prahu, Ostravu a okolí. Hypotéky, pojištění, investice i penze - všechno u jednoho člověka.</p>
+        <div class="socials">
+          <a href="#" aria-label="Instagram"><i data-lucide="camera" style="width:18px;height:18px;"></i></a>
+          <a href="index.html#objednat" aria-label="Napište nám"><i data-lucide="at-sign" style="width:18px;height:18px;"></i></a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Navigace</h4>
+        <a href="index.html#sluzby">S čím pomůžeme</a>
+        <a href="kalkulacky.html">Kalkulačky</a>
+        <a href="index.html#faq">Časté dotazy</a>
+      </div>
+      <div class="foot-col">
+        <h4>Finance Lab</h4>
+        <a href="index.html#uvod">O nás</a>
+        <a href="index.html#jak">Jak to funguje</a>
+        <a href="index.html#objednat">Objednat schůzku</a>
+      </div>
+      <div class="foot-col">
+        <h4>Právní</h4>
+        <a href="index.html">Podmínky</a>
+        <a href="index.html">Ochrana osobních údajů</a>
+        <a href="index.html">Registrace ČNB</a>
+        <a href="index.html">Cookies</a>
+      </div>
+    </div>
+    <p class="foot-line">Peníze jsou nástroj, tak je nechte pracovat pro vás místo toho, abyste vy pracovali pro peníze.</p>
+    <div class="foot-bottom">
+      <span>© 2026 Finance Lab · Registrovaný poradce ČNB</span>
+      <span>Praha &amp; Ostrava</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+(function () {
+  var form = document.getElementById('hp-form');
+  var status = document.getElementById('hp-status');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  var app2 = document.querySelector('[data-app="2"]');
+
+  var say = function (cls, t) { status.className = 'hp-status' + (cls ? ' ' + cls : ''); status.textContent = t; };
+  var digits = function (v) { return (v || '').replace(/\D/g, ''); };
+  var kc = function (v) { var d = digits(v); return d ? Number(d).toLocaleString('cs-CZ') + ' Kč' : '-'; };
+  var val = function (n) { return (form[n].value || '').trim(); };
+  var two = function () { return form.pocet.value === '2'; };
+
+  // Částky s mezerami po tisících
+  form.querySelectorAll('.money input').forEach(function (inp) {
+    inp.addEventListener('blur', function () { var d = digits(inp.value); inp.value = d ? Number(d).toLocaleString('cs-CZ') : ''; });
+  });
+  form.querySelectorAll('input[name=pocet]').forEach(function (r) {
+    r.addEventListener('change', function () { app2.hidden = !two(); });
+  });
+  form.addEventListener('input', function (e) {
+    var w = e.target.closest('[data-req]'); if (w) w.classList.remove('field-err');
+    say('', '');
+  });
+  form.addEventListener('change', function (e) {
+    var w = e.target.closest('[data-req]'); if (w) w.classList.remove('field-err');
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var checks = [
+      ['ucel', !!form.ucel.value],
+      ['cena', digits(val('cena')).length >= 5],
+      ['vek1', +digits(val('vek1')) >= 18],
+      ['prijem1', !!digits(val('prijem1'))],
+      ['vek2', !two() || +digits(val('vek2')) >= 18],
+      ['email', emailRe.test(val('email'))],
+      ['phone', val('phone').replace(/\s/g, '').length >= 6]
+    ];
+    var firstBad = null;
+    checks.forEach(function (c) {
+      var w = form.querySelector('[data-req="' + c[0] + '"]');
+      w.classList.toggle('field-err', !c[1]);
+      if (!c[1] && !firstBad) firstBad = w;
+    });
+    if (firstBad) {
+      say('bad', 'Zkontrolujte prosím vyznačená pole.');
+      firstBad.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' });
+      var f = firstBad.querySelector('input'); if (f) f.focus({ preventScroll: true });
+      return;
+    }
+    if (form.botcheck.checked) { done(); return; }
+    var key = window.FL_WEB3FORMS_KEY;
+    if (!key || key.indexOf('REPLACE') === 0) { say('bad', 'Formulář zatím není propojený s e-mailem (chybí přístupový klíč).'); return; }
+
+    var cena = +digits(val('cena')), vlastni = +digits(val('vlastni'));
+    var zadatel = function (i) {
+      return 'věk ' + digits(val('vek' + i)) + ', ' + val('typ' + i) + ', čistý příjem ' + kc(val('prijem' + i)) + ' měsíčně, příjem má: ' + val('delka' + i);
+    };
+    var souhrn = [
+      'Účel: ' + form.ucel.value,
+      'Cena nemovitosti: ' + kc(val('cena')),
+      'Vlastní zdroje: ' + kc(val('vlastni')),
+      'Potřebná hypotéka cca: ' + (vlastni ? kc(String(Math.max(cena - vlastni, 0))) + ' (LTV ' + Math.round((cena - vlastni) / cena * 100) + ' %)' : '-'),
+      'Doba splácení: ' + val('doba'),
+      'Kdy: ' + val('kdy'),
+      '',
+      'Žadatel 1: ' + zadatel(1),
+      two() ? 'Žadatel 2: ' + zadatel(2) : 'Žádá jen jeden člověk',
+      '',
+      'Děti v domácnosti: ' + val('deti'),
+      'Splátky jiných úvěrů: ' + kc(val('splatky')) + ' měsíčně',
+      'Limity karet a kontokorentů: ' + kc(val('limity'))
+    ].join('\n');
+
+    var fd = new FormData();
+    fd.append('access_key', key);
+    fd.append('subject', 'Kolik mi banka půjčí: nový propočet - Finance Lab');
+    fd.append('from_name', 'Finance Lab web');
+    fd.append('name', val('name') || '-');
+    fd.append('email', val('email'));
+    fd.append('phone', val('phone'));
+    fd.append('poznamka', val('message') || '-');
+    fd.append('udaje_k_propoctu', souhrn);
+
+    var btn = form.querySelector('button[type=submit]'); btn.disabled = true;
+    say('', 'Odesílám…');
+    fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (d && d.success) done();
+        else { btn.disabled = false; say('bad', 'Odeslání se nepodařilo. Zkuste to prosím znovu.'); }
+      })
+      .catch(function () { btn.disabled = false; say('bad', 'Odeslání se nepodařilo. Zkuste to prosím znovu.'); });
+  });
+
+  function done() {
+    var box = document.getElementById('hp-box');
+    box.innerHTML = '<div class="hp-done"><div class="ic"><i data-lucide="check" style="width:32px;height:32px;"></i></div>' +
+      '<h2>Děkujeme, máme to.</h2>' +
+      '<p>Spočítáme podle metodik bank, kolik vám půjčí a výsledek vám pošleme na e-mail. Kdyby nám něco chybělo, zavoláme vám.</p>' +
+      '<a href="index.html" class="btn btn-white" style="margin-top:22px;">Zpět na Finance Lab</a></div>';
+    if (window.lucide) window.lucide.createIcons();
+    box.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' });
+  }
+})();
+</script>
+</body>
+</html>
