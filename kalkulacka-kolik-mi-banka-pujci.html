@@ -418,9 +418,21 @@
                     <option>Jednatel nebo společník firmy</option>
                     <option>Rodičovská nebo mateřská</option>
                     <option>Příjem z pronájmu</option>
+                    <option>Příjem ze zahraničí</option>
+                    <option>Více druhů příjmů najednou</option>
                     <option>Jiný příjem</option>
                   </select>
                 </div>
+              </div>
+              <div class="frow" data-show="typ1=Více druhů příjmů najednou" data-req="text" hidden>
+                <label for="hp-vice1">Jaké příjmy máte? Napište je i s částkami <span class="req">*</span></label>
+                <input id="hp-vice1" name="vice1" type="text" maxlength="300" placeholder="např. zaměstnání 40 000 Kč, pronájem bytu 12 000 Kč">
+                <div class="emsg">Napište, jaké příjmy máte.</div>
+              </div>
+              <div class="frow" data-show="typ1=Příjem ze zahraničí" data-req="text" hidden>
+                <label for="hp-zahr1">Z jaké země a v jaké měně? <span class="req">*</span></label>
+                <input id="hp-zahr1" name="zahr1" type="text" maxlength="160" placeholder="např. Německo, eura">
+                <div class="emsg">Napište zemi a měnu.</div>
               </div>
               <div class="frow" data-req="text">
                 <label for="hp-obor1">Čím se zabýváte? Obor nebo profese <span class="req">*</span></label>
@@ -432,7 +444,7 @@
                 <div data-req="money">
                   <label for="hp-prijem1">Čistý měsíční příjem <span class="req">*</span></label>
                   <div class="money"><input id="hp-prijem1" name="prijem1" type="text" inputmode="numeric" placeholder="např. 45 000"></div>
-                  <div class="hint">OSVČ: průměrný měsíční příjem za poslední rok.</div>
+                  <div class="hint">OSVČ: průměrný měsíční příjem za poslední rok. Více příjmů: napište součet.</div>
                   <div class="emsg">Napište čistý měsíční příjem.</div>
                 </div>
                 <div>
@@ -462,10 +474,22 @@
                     <option>Jednatel nebo společník firmy</option>
                     <option>Rodičovská nebo mateřská</option>
                     <option>Příjem z pronájmu</option>
+                    <option>Příjem ze zahraničí</option>
+                    <option>Více druhů příjmů najednou</option>
                     <option>Jiný příjem</option>
                     <option>Bez příjmu</option>
                   </select>
                 </div>
+              </div>
+              <div class="frow" data-show="typ2=Více druhů příjmů najednou" data-req="text" hidden>
+                <label for="hp-vice2">Jaké příjmy má? Napište je i s částkami <span class="req">*</span></label>
+                <input id="hp-vice2" name="vice2" type="text" maxlength="300" placeholder="např. zaměstnání 40 000 Kč, pronájem bytu 12 000 Kč">
+                <div class="emsg">Napište, jaké příjmy má.</div>
+              </div>
+              <div class="frow" data-show="typ2=Příjem ze zahraničí" data-req="text" hidden>
+                <label for="hp-zahr2">Z jaké země a v jaké měně? <span class="req">*</span></label>
+                <input id="hp-zahr2" name="zahr2" type="text" maxlength="160" placeholder="např. Německo, eura">
+                <div class="emsg">Napište zemi a měnu.</div>
               </div>
               <div class="frow" data-req="text" id="hp-obor2-wrap">
                 <label for="hp-obor2">Čím se zabývá? Obor nebo profese <span class="req">*</span></label>
@@ -638,7 +662,7 @@
   }
   form.addEventListener('change', function (e) {
     var w = e.target.closest('[data-req]'); if (w) w.classList.remove('field-err');
-    if (e.target.type === 'radio' || e.target.name === 'typ2') sync();
+    if (e.target.type === 'radio' || e.target.tagName === 'SELECT') sync();
   });
   form.addEventListener('input', function (e) {
     var w = e.target.closest('[data-req]'); if (w) w.classList.remove('field-err');
@@ -702,9 +726,15 @@
     var key = window.FL_WEB3FORMS_KEY;
     if (!key || key.indexOf('REPLACE') === 0) { say('bad', 'Formulář zatím není propojený s e-mailem (chybí přístupový klíč).'); return; }
 
+    var typ = function (i) {
+      var t = val('typ' + i);
+      if (t === 'Více druhů příjmů najednou') return t + ' (' + val('vice' + i) + ')';
+      if (t === 'Příjem ze zahraničí') return t + ' (' + val('zahr' + i) + ')';
+      return t;
+    };
     var zadatel = function (i) {
       if (val('typ' + i) === 'Bez příjmu') return 'věk ' + digits(val('vek' + i)) + ', bez příjmu';
-      return 'věk ' + digits(val('vek' + i)) + ', ' + val('typ' + i) + ', profese/obor: ' + val('obor' + i) + ', čistý příjem ' + kc(val('prijem' + i)) + ' měsíčně, příjem má: ' + val('delka' + i);
+      return 'věk ' + digits(val('vek' + i)) + ', ' + typ(i) + ', profese/obor: ' + val('obor' + i) + ', čistý příjem ' + kc(val('prijem' + i)) + ' měsíčně, příjem má: ' + val('delka' + i);
     };
     var est = estimate();
     var souhrn = ['Účel: ' + form.ucel.value].concat(purposeLines(), est ? [est] : [], [
