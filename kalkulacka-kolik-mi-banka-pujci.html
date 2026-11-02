@@ -421,10 +421,11 @@
                   </select>
                 </div>
               </div>
-              <div class="frow">
-                <label for="hp-obor1">Čím se zabýváte? Obor nebo profese</label>
+              <div class="frow" data-req="text">
+                <label for="hp-obor1">Čím se zabýváte? Obor nebo profese <span class="req">*</span></label>
                 <input id="hp-obor1" name="obor1" type="text" maxlength="160" placeholder="např. zdravotní sestra v nemocnici, vlastní truhlářská dílna">
                 <div class="hint">Zaměstnanci: pozice a obor firmy. Podnikatelé: čím se živíte.</div>
+                <div class="emsg">Napište, čím se zabýváte.</div>
               </div>
               <div class="frow frow2">
                 <div data-req="money">
@@ -464,10 +465,11 @@
                   </select>
                 </div>
               </div>
-              <div class="frow">
-                <label for="hp-obor2">Čím se zabývá? Obor nebo profese</label>
+              <div class="frow" data-req="text" id="hp-obor2-wrap">
+                <label for="hp-obor2">Čím se zabývá? Obor nebo profese <span class="req">*</span></label>
                 <input id="hp-obor2" name="obor2" type="text" maxlength="160" placeholder="např. programátor v IT firmě, kadeřnice na živnost">
                 <div class="hint">Zaměstnanci: pozice a obor firmy. Podnikatelé: čím se živíte.</div>
+                <div class="emsg">Napište, čím se zabývá.</div>
               </div>
               <div class="frow frow2">
                 <div>
@@ -630,10 +632,11 @@
       el.hidden = p[1].split('|').indexOf(cur) < 0;
     });
     app2.hidden = !two();
+    form.querySelector('#hp-obor2-wrap').hidden = form.typ2.value === 'Bez příjmu';
   }
   form.addEventListener('change', function (e) {
     var w = e.target.closest('[data-req]'); if (w) w.classList.remove('field-err');
-    if (e.target.type === 'radio') sync();
+    if (e.target.type === 'radio' || e.target.name === 'typ2') sync();
   });
   form.addEventListener('input', function (e) {
     var w = e.target.closest('[data-req]'); if (w) w.classList.remove('field-err');
@@ -652,6 +655,7 @@
     if (t === 'age') { var a = +digits(inp.value); return a >= 18 && a <= 99; }
     if (t === 'email') return emailRe.test(inp.value.trim());
     if (t === 'phone') return inp.value.replace(/\s/g, '').length >= 6;
+    if (t === 'text') return inp.value.trim().length >= 2;
     return true;
   }
 
@@ -697,7 +701,8 @@
     if (!key || key.indexOf('REPLACE') === 0) { say('bad', 'Formulář zatím není propojený s e-mailem (chybí přístupový klíč).'); return; }
 
     var zadatel = function (i) {
-      return 'věk ' + digits(val('vek' + i)) + ', ' + val('typ' + i) + ', profese/obor: ' + (val('obor' + i).trim() || 'nevyplněno') + ', čistý příjem ' + kc(val('prijem' + i)) + ' měsíčně, příjem má: ' + val('delka' + i);
+      if (val('typ' + i) === 'Bez příjmu') return 'věk ' + digits(val('vek' + i)) + ', bez příjmu';
+      return 'věk ' + digits(val('vek' + i)) + ', ' + val('typ' + i) + ', profese/obor: ' + val('obor' + i) + ', čistý příjem ' + kc(val('prijem' + i)) + ' měsíčně, příjem má: ' + val('delka' + i);
     };
     var est = estimate();
     var souhrn = ['Účel: ' + form.ucel.value].concat(purposeLines(), est ? [est] : [], [
