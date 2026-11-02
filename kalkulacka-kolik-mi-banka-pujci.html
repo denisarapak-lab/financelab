@@ -530,6 +530,11 @@
               <div class="money"><input id="hp-limity" name="limity" type="text" inputmode="numeric" placeholder="0"></div>
               <div class="hint">Banka je počítá, i když je nevyužíváte. Napište součet limitů.</div>
             </div>
+            <div class="frow">
+              <label for="hp-spec">Specifika vaší situace</label>
+              <textarea id="hp-spec" name="spec" rows="4" maxlength="1500" placeholder="Máte nepravidelný příjem? Žádá vás více lidí v domácnosti nebo ve více domácnostech? Napište nám to."></textarea>
+              <div class="hint">Stačí stručně. Vše podrobně probereme na schůzce.</div>
+            </div>
           </fieldset>
 
           <fieldset>
@@ -746,7 +751,9 @@
       '',
       'Děti v domácnosti: ' + val('deti'),
       'Splátky jiných úvěrů: ' + (digits(val('splatky')) ? kc(val('splatky')) + ' měsíčně' : 'nevyplněno'),
-      'Limity karet a kontokorentů: ' + (digits(val('limity')) ? kc(val('limity')) : 'nevyplněno')
+      'Limity karet a kontokorentů: ' + (digits(val('limity')) ? kc(val('limity')) : 'nevyplněno'),
+      '',
+      'Specifika situace: ' + (val('spec') || 'nevyplněno')
     ]).join('\n');
 
     var fd = new FormData();
