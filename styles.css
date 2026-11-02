@@ -112,7 +112,7 @@
   .card-photo image-slot { transition: transform .55s var(--ease); }
   .card.card-photo:hover image-slot { transform: scale(1.06); }
 
-  /* Hero content entrance (stagger) — only when motion is welcome */
+  /* Hero content entrance (stagger) - only when motion is welcome */
   @media (prefers-reduced-motion: no-preference) {
     .hero-pills li, .hero .lead, .hero-btns, .hero-trust { opacity: 0; animation: heroUp .7s var(--ease) forwards; }
     .hero-pills li:nth-child(1) { animation-delay: .05s; } .hero-pills li:nth-child(2) { animation-delay: .12s; } .hero-pills li:nth-child(3) { animation-delay: .19s; }
@@ -122,7 +122,7 @@
   }
   @keyframes heroUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 
-  /* HERO — framed photo card, big headline over the image */
+  /* HERO - framed photo card, big headline over the image */
   .hero { padding: 14px clamp(10px, 1.4vw, 20px) 0; background: #fff; }
   .hero-card { position: relative; overflow: hidden; border-radius: var(--radius-lg); background: var(--forest); min-height: min(calc(100svh - 96px), 820px); display: flex; isolation: isolate; }
   .hero-bg { position: absolute; inset: 0; z-index: -2; animation: heroZoom 14s ease-out forwards; }

@@ -111,8 +111,8 @@
       if (bb) bb.style.width = (buyNet / max * 100) + '%'; if (rb) rb.style.width = (rentNet / max * 100) + '%';
       var d = buyNet - rentNet, v = document.getElementById('br-verdict');
       if (Math.abs(d) < max * 0.02) v.innerHTML = 'Obě varianty vyjdou <em>zhruba nastejno</em>. Rozhodne pohodlí a flexibilita.';
-      else if (d > 0) v.innerHTML = 'Vyplatí se <em>koupě</em> — o <em>' + czk(d) + '</em> víc po ' + years + ' letech.';
-      else v.innerHTML = 'Vyplatí se <em>pronájem + investice</em> — o <em>' + czk(-d) + '</em> víc po ' + years + ' letech.';
+      else if (d > 0) v.innerHTML = 'Vyplatí se <em>koupě</em>, o <em>' + czk(d) + '</em> víc po ' + years + ' letech.';
+      else v.innerHTML = 'Vyplatí se <em>pronájem + investice</em>, o <em>' + czk(-d) + '</em> víc po ' + years + ' letech.';
     }
     fields.forEach(function (k) { el[k].addEventListener('input', recompute); });
     recompute();
@@ -225,7 +225,7 @@
       status.className = 'form-status'; status.textContent = 'Odesílám…';
       var fd = new FormData(form);
       fd.append('access_key', WEB3FORMS_KEY);
-      fd.append('subject', 'Nová objednávka schůzky — Finance Lab');
+      fd.append('subject', 'Nová objednávka schůzky - Finance Lab');
       fd.append('from_name', 'Finance Lab web');
       fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd })
         .then(function (r) { return r.json(); })
