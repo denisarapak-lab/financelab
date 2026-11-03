@@ -22,10 +22,10 @@
 <meta property="og:image:alt" content="Finance Lab - finanční konzultanti pro Prahu, Středočeský a Moravskoslezský kraj">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://financelab-psi.vercel.app/images/og.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<script async src="https://unpkg.com/lucide@1.59.0/dist/umd/lucide.min.js" onload="lucide.createIcons()"></script>
+<link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<script defer src="/icons.js"></script>
 <link rel="stylesheet" href="styles.css">
 
 <script type="application/ld+json">
@@ -240,7 +240,6 @@
         </a>
         <p>Finanční konzultanti pro Prahu, Středočeský a Moravskoslezský kraj, online odkudkoliv. Hypotéky, pojištění, investice i penze - všechno u jednoho člověka.</p>
         <div class="socials">
-          <a href="#" aria-label="Instagram"><i data-lucide="camera" style="width:18px;height:18px;"></i></a>
           <a href="index.html#objednat" aria-label="Napište nám"><i data-lucide="at-sign" style="width:18px;height:18px;"></i></a>
         </div>
       </div>
@@ -275,5 +274,28 @@
 </footer>
 
 <script src="script.js"></script>
+<script>
+// Graf se na mobilu zmenší, popisky os proto zvětšíme, aby měly na displeji aspoň 11 px.
+(function () {
+  var svg = document.querySelector('#ci-chart svg'); if (!svg) return;
+  var ys = [['ci-y2', 24], ['ci-y1', 139], ['ci-y0', 254]], xs = ['ci-x0', 'ci-x1', 'ci-x2'];
+  function fit() {
+    var w = svg.getBoundingClientRect().width; if (!w) return;
+    var k = Math.max(1, 640 / w), small = k > 1.5, fs = Math.min(11 * k, 28);
+    xs.concat(ys.map(function (y) { return y[0]; })).forEach(function (id) { document.getElementById(id).setAttribute('font-size', fs); });
+    svg.style.setProperty('--ci-bar-fs', Math.min(12.5 * k, 22) + 'px'); // hodnoty nad sloupci (vykresluje script.js)
+    ys.forEach(function (y) {
+      var t = document.getElementById(y[0]);
+      // úzký graf: popisky hodnot dáme nad čáry dovnitř grafu, nulu schováme
+      t.setAttribute('x', small ? 66 : 56);
+      t.setAttribute('y', small ? y[1] - 10 : y[1]);
+      t.setAttribute('text-anchor', small ? 'start' : 'end');
+      t.style.display = small && y[0] === 'ci-y0' ? 'none' : '';
+    });
+  }
+  fit();
+  window.addEventListener('resize', fit);
+})();
+</script>
 </body>
 </html>

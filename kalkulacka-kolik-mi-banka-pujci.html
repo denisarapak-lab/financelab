@@ -22,10 +22,10 @@
 <meta property="og:image:alt" content="Finance Lab - finanční konzultanti pro Prahu, Středočeský a Moravskoslezský kraj">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://financelab-psi.vercel.app/images/og.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<script async src="https://unpkg.com/lucide@1.59.0/dist/umd/lucide.min.js" onload="lucide.createIcons()"></script>
+<link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<script defer src="/icons.js"></script>
 <link rel="stylesheet" href="styles.css">
 
 <script type="application/ld+json">
@@ -51,7 +51,64 @@
   "description": "Bývalí zaměstnanci bank spočítají podle metodik jednotlivých bank, kolik vám půjčí na hypotéku. Nezávazně."
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Proč to nespočítá automatická kalkulačka?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Každá banka počítá příjmy, výdaje i závazky trochu jinak. Jinak bere třeba příjem OSVČ, příjem ze zahraničí nebo z pronájmu. Automatická kalkulačka by vám ukázala jen hrubý odhad. Dřív jsme pracovali v bankách, takže vám to spočítáme podle pravidel jednotlivých bank."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Co mi po odeslání pošlete?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Na e-mail vám pošleme, kolik vám podle metodik jednotlivých bank půjčí a u kterých bank máte šanci uspět. Kdyby nám něco chybělo, zavoláme vám."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Zavazuje mě odeslání formuláře k něčemu?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ne. Propočet je nezávazný. Co s výsledkem uděláte, je jen na vás."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Proč se ptáte na profesi a obor?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Banky posuzují i to, jak stabilní je váš příjem. U některých profesí, třeba u lékařů, advokátů nebo dalších komorových profesí, mívají banky vstřícnější podmínky."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Proč chcete vědět, v jakých bankách máte účet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Banka, u které máte účet, vidí vaše příjmy a platby. Podle toho poznáme, kde může být vyřízení jednodušší."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Může o hypotéku žádat víc lidí?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ano. Ve formuláři vyplníte jednoho nebo dva žadatele. Pokud vás žádá víc, třeba i z více domácností, napište nám to do pole Specifika vaší situace."
+      }
+    }
+  ]
+}
+</script>
 <style>
+  .hp-faq { max-width: 820px; margin-top: clamp(48px, 6vw, 80px); }
   .hp-wrap { max-width: 820px; }
   .hp-perks { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
   .hp-perks span { display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 999px; background: var(--cream); font-size: 14px; font-weight: 600; color: var(--ink); }
@@ -617,6 +674,35 @@
       </div>
     </div>
 
+    <div class="hp-faq">
+      <span class="eyebrow" style="color:#2f7a56;">Časté dotazy</span>
+      <h2 class="h-section" style="font-size:clamp(26px,3.4vw,40px); margin:10px 0 18px;">Na co se lidé ptají</h2>
+      <details class="faq-item">
+        <summary>Proč to nespočítá automatická kalkulačka?<span class="faq-chev"><i data-lucide="chevron-down" style="width:22px;height:22px;"></i></span></summary>
+        <div class="faq-a">Každá banka počítá příjmy, výdaje i závazky trochu jinak. Jinak bere třeba příjem OSVČ, příjem ze zahraničí nebo z pronájmu. Automatická kalkulačka by vám ukázala jen hrubý odhad. Dřív jsme pracovali v bankách, takže vám to spočítáme podle pravidel jednotlivých bank.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Co mi po odeslání pošlete?<span class="faq-chev"><i data-lucide="chevron-down" style="width:22px;height:22px;"></i></span></summary>
+        <div class="faq-a">Na e-mail vám pošleme, kolik vám podle metodik jednotlivých bank půjčí a u kterých bank máte šanci uspět. Kdyby nám něco chybělo, zavoláme vám.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Zavazuje mě odeslání formuláře k něčemu?<span class="faq-chev"><i data-lucide="chevron-down" style="width:22px;height:22px;"></i></span></summary>
+        <div class="faq-a">Ne. Propočet je nezávazný. Co s výsledkem uděláte, je jen na vás.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Proč se ptáte na profesi a obor?<span class="faq-chev"><i data-lucide="chevron-down" style="width:22px;height:22px;"></i></span></summary>
+        <div class="faq-a">Banky posuzují i to, jak stabilní je váš příjem. U některých profesí, třeba u lékařů, advokátů nebo dalších komorových profesí, mívají banky vstřícnější podmínky.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Proč chcete vědět, v jakých bankách máte účet?<span class="faq-chev"><i data-lucide="chevron-down" style="width:22px;height:22px;"></i></span></summary>
+        <div class="faq-a">Banka, u které máte účet, vidí vaše příjmy a platby. Podle toho poznáme, kde může být vyřízení jednodušší.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Může o hypotéku žádat víc lidí?<span class="faq-chev"><i data-lucide="chevron-down" style="width:22px;height:22px;"></i></span></summary>
+        <div class="faq-a">Ano. Ve formuláři vyplníte jednoho nebo dva žadatele. Pokud vás žádá víc, třeba i z více domácností, napište nám to do pole Specifika vaší situace.</div>
+      </details>
+    </div>
+
     <div class="calc-next">
       <div class="eyebrow" style="color:#2f7a56; margin-bottom:14px;">Další kalkulačky</div>
       <div class="calc-links">
@@ -650,7 +736,6 @@
         </a>
         <p>Finanční konzultanti pro Prahu, Středočeský a Moravskoslezský kraj, online odkudkoliv. Hypotéky, pojištění, investice i penze - všechno u jednoho člověka.</p>
         <div class="socials">
-          <a href="#" aria-label="Instagram"><i data-lucide="camera" style="width:18px;height:18px;"></i></a>
           <a href="index.html#objednat" aria-label="Napište nám"><i data-lucide="at-sign" style="width:18px;height:18px;"></i></a>
         </div>
       </div>
