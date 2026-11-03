@@ -8,6 +8,7 @@ Konzultanti Finance Lab jsou vázanými zástupci společnosti Broker Trust, a.s
 
 - [Úvodní stránka](https://financelab-psi.vercel.app/): služby, jak spolupráce probíhá, časté dotazy a objednání nezávazné konzultace
 - [Kalkulačky](https://financelab-psi.vercel.app/kalkulacky.html): rozcestník finančních kalkulaček
+- [Novinky](https://financelab-psi.vercel.app/novinky.html): krátké aktuality k hypotékám, pojištění, investicím a k webu
 
 ## Kalkulačky
 

@@ -369,6 +369,10 @@
   .foot-line { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: clamp(18px, 2.4vw, 26px); color: #fff; letter-spacing: -0.02em; margin-top: 20px; max-width: 640px; }
 
   /* RESPONSIVE */
+  @media (max-width: 1320px) {
+    .nav-links a { padding: 8px 11px; font-size: 13.5px; }
+    .nav-actions .btn { white-space: nowrap; }
+  }
   @media (max-width: 1120px) {
     .nav-links, .seg, .nav-actions { display: none !important; }
     .burger { display: inline-flex !important; }
@@ -434,3 +438,13 @@
   .legal a { color: #2f7a56; font-weight: 600; text-decoration: underline; text-decoration-color: var(--lime); text-decoration-thickness: 2px; text-underline-offset: 3px; }
   .legal a:hover { color: var(--forest); }
   .legal-date { margin-top: 40px !important; font-size: 13.5px !important; color: var(--ink-60) !important; }
+  .news { max-width: 760px; }
+  .news-list { display: grid; gap: 18px; margin-top: clamp(30px, 4vw, 48px); }
+  .news-item { background: #fff; border: 1px solid rgba(23,32,28,0.08); border-radius: var(--radius); padding: clamp(22px, 3vw, 32px); box-shadow: 0 14px 40px rgba(20,53,43,0.05); scroll-margin-top: 110px; }
+  .news-meta { display: flex; align-items: center; gap: 12px; font-size: 13.5px; color: var(--ink-60); }
+  .news-tag { font-size: 12px; font-weight: 700; letter-spacing: .04em; color: var(--forest); background: var(--lime); padding: 4px 10px; border-radius: 999px; }
+  .news-item h2 { font-size: clamp(20px, 2.2vw, 25px); letter-spacing: -0.02em; margin: 14px 0 8px; }
+  .news-item p { font-size: 16px; line-height: 1.65; color: rgba(23,37,43,0.82); }
+  .news-item p + p { margin-top: 8px; }
+  .news-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 15px; color: #2f7a56; text-decoration: none; }
+  .news-link:hover { color: var(--forest); }
