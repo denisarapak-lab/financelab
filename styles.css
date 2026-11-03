@@ -449,7 +449,6 @@
   .news-item p + p { margin-top: 8px; }
   .news-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 15px; color: #2f7a56; text-decoration: none; }
   .news-link:hover { color: var(--forest); }
-  .news-links { display: flex; flex-wrap: wrap; column-gap: 26px; }
 
 /* MOBIL: písmo ve formulářích aspoň 16 px, jinak iPhone při psaní přiblíží stránku */
 @media (max-width: 600px) {
