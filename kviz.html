@@ -131,6 +131,16 @@
   .bk-status { margin-top: 14px; font-size: 14px; font-weight: 700; font-family: 'Manrope', sans-serif; }
   .bk-status.bad { color: #c0392b; } .bk-status.ok { color: #2f7a56; }
 
+  /* podrobný rozbor na e-mail */
+  .res-mail { margin-top: 30px; border: 1.5px solid rgba(23,32,28,0.1); border-radius: 16px; padding: clamp(20px, 3vw, 28px); }
+  .res-mail-h { font-family: 'Manrope', sans-serif; font-weight: 800; letter-spacing: -0.02em; font-size: clamp(19px, 2.4vw, 23px); color: var(--ink); line-height: 1.2; }
+  .res-mail p { font-size: 15px; line-height: 1.6; color: var(--ink-60); margin-top: 8px; }
+  .rm-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: start; }
+  .rm-row .btn { margin-top: 42px; white-space: nowrap; }
+  .res-mail .rm-done { display: flex; gap: 10px; align-items: center; font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 15.5px; color: #2f7a56; }
+  .res-mail .rm-done i { width: 22px; height: 22px; flex-shrink: 0; }
+  @media (max-width: 520px) { .rm-row { grid-template-columns: 1fr; } .rm-row .btn { margin-top: 4px; width: 100%; justify-content: center; } }
+
   /* done */
   .done-ic { width: 66px; height: 66px; border-radius: 50%; background: rgba(99,184,136,0.2); display: grid; place-items: center; margin: 0 auto 20px; }
   .done-ic i { width: 32px; height: 32px; color: #2f7a56; }
@@ -423,7 +433,8 @@
     }
 
     state.src = 'goal';
-    paint('<div class="res-head">' + esc(head) + '</div>' + intro + step + knowledgeHtml(a) + offer + formHtml());
+    paint('<div class="res-head">' + esc(head) + '</div>' + intro + step + knowledgeHtml(a) + mailHtml() + offer + formHtml());
+    bindMail();
     bindForm();
   }
 
@@ -432,6 +443,70 @@
     return 'Navážeme tam, kde kvíz skončil, ' +
       (state.src === 'analysis' ? 'a uděláme s vámi podrobnou analýzu příjmů a výdajů' : 'a probereme hlavně ' + GOALS[state.answers[7]].topic) +
       '. Spolu s kontaktem nám pošlete i odpovědi z kvízu, ať je máme připravené.';
+  }
+
+  function answersText() {
+    var a = state.answers, inv = extraText(6);
+    return QUESTIONS.map(function (Q, i) {
+      return (i + 1) + '. ' + Q.q + '\n   → ' + Q.opts[a[i]] + (i === 6 && inv ? '\n   Do čeho investuje: ' + inv : '');
+    }).join('\n');
+  }
+
+  // Podrobný rozbor: přijde nám e-mailem s odpověďmi, rozbor posíláme klientovi sami.
+  function mailHtml() {
+    return '<div class="res-mail" id="rm-wrap">' +
+      '<div class="res-mail-h">Chcete podrobnější rozbor na e-mail?</div>' +
+      '<p>Pokud chcete podrobnější rozbor otázek a své situace, zadejte e-mail. Projdeme vaše odpovědi a podrobnější informace vám pošleme na <span style="white-space:nowrap">e-mail</span>.</p>' +
+      '<form class="bk-form" id="rm-form" novalidate>' +
+      '<input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
+      '<div class="rm-row">' +
+      '<div class="frow"><label for="rm-email">E-mail <span class="req">*</span></label><input id="rm-email" name="email" type="email" autocomplete="email" placeholder="vas@email.cz" required><div class="emsg">Zadejte platný e-mail.</div></div>' +
+      '<button type="submit" class="btn btn-dark">Chci podrobný rozbor <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></button>' +
+      '</div>' +
+      '<div class="bk-status" id="rm-status" role="status" aria-live="polite"></div>' +
+      '<p class="bk-consent">E-mail použijeme jen k zaslání rozboru. Více v <a href="ochrana-osobnich-udaju.html" target="_blank" style="color:inherit;text-decoration:underline;">zásadách ochrany osobních údajů</a>.</p>' +
+      '</form></div>';
+  }
+
+  function bindMail() {
+    var form = document.getElementById('rm-form');
+    if (!form) return;
+    var status = document.getElementById('rm-status');
+    var say = function (cls, t) { status.className = 'bk-status' + (cls ? ' ' + cls : ''); status.textContent = t; };
+    var done = function () {
+      document.getElementById('rm-wrap').innerHTML = '<div class="rm-done"><i data-lucide="check-circle"></i>Děkujeme. Projdeme vaše odpovědi a podrobnější rozbor vám pošleme na e-mail.</div>';
+      icons();
+    };
+    form.email.addEventListener('input', function () { form.email.closest('.frow').classList.remove('field-err'); say('', ''); });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = (form.email.value || '').trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { form.email.closest('.frow').classList.add('field-err'); say('bad', 'Zkontrolujte prosím e-mail.'); form.email.focus(); return; }
+      if (form.botcheck.checked) { done(); return; }
+      var key = formKey();
+      if (!key || key.indexOf('REPLACE') === 0) { say('bad', 'Formulář zatím není propojený s e-mailem (chybí přístupový klíč).'); return; }
+      var m = resultModel(state.answers), inv = extraText(6);
+      var fd = new FormData();
+      fd.append('access_key', key);
+      fd.append('subject', 'Kvíz: chce podrobný rozbor na e-mail - Finance Lab');
+      fd.append('from_name', 'Finance Lab kvíz');
+      fd.append('email', email);
+      fd.append('pozadavek', 'Poslat podrobnější rozbor otázek a situace na e-mail');
+      fd.append('tema', GOALS[state.answers[7]].topic);
+      fd.append('vysledek', m.head + (m.theme !== 'none' ? ' - ' + m.text : ''));
+      fd.append('znalostni_otazky', m.right + ' ze 3 správně');
+      fd.append('do_ceho_investuje', inv || '-');
+      fd.append('odpovedi_z_kvizu', answersText());
+      var btn = form.querySelector('button[type=submit]'); btn.disabled = true;
+      say('', 'Odesílám…');
+      fetch('https://api.web3forms.com/submit', { method: 'POST', body: fd })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          if (d && d.success) done();
+          else { btn.disabled = false; say('bad', 'Odeslání se nepodařilo. Zkuste to prosím znovu.'); }
+        })
+        .catch(function () { btn.disabled = false; say('bad', 'Odeslání se nepodařilo. Zkuste to prosím znovu.'); });
+    });
   }
 
   function formHtml() {
@@ -479,10 +554,7 @@
       var key = formKey();
       if (!key || key.indexOf('REPLACE') === 0) { say('bad', 'Formulář zatím není propojený s e-mailem (chybí přístupový klíč).'); return; }
 
-      var a = state.answers, m = resultModel(a), inv = extraText(6);
-      var answers = QUESTIONS.map(function (Q, i) {
-        return (i + 1) + '. ' + Q.q + '\n   → ' + Q.opts[a[i]] + (i === 6 && inv ? '\n   Do čeho investuje: ' + inv : '');
-      }).join('\n');
+      var a = state.answers, m = resultModel(a), inv = extraText(6), answers = answersText();
       var fd = new FormData();
       fd.append('access_key', key);
       fd.append('subject', 'Nová objednávka z kvízu - Finance Lab');
