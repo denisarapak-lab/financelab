@@ -30,67 +30,103 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Blog",
-  "name": "Novinky Finance Lab",
-  "url": "https://financelab-psi.vercel.app/novinky.html",
-  "inLanguage": "cs",
-  "publisher": {
-    "@type": "Organization",
-    "name": "Finance Lab",
-    "url": "https://financelab-psi.vercel.app/",
-    "logo": "https://financelab-psi.vercel.app/apple-touch-icon.png"
-  },
-  "blogPost": [
+  "@graph": [
     {
-      "@type": "BlogPosting",
-      "headline": "Končí vám fixace? Začněte to řešit 3 měsíce předem",
-      "description": "Banka vám musí poslat nabídku nové sazby nejpozději 3 měsíce před koncem fixace. Nemusíte ji ale přijmout. Ke konci fixace můžete hypotéku převést k jiné bance nebo ji mimořádně splatit bez sankce.",
-      "datePublished": "2026-11-03",
-      "url": "https://financelab-psi.vercel.app/novinky.html#konec-fixace",
-      "author": {
-        "@type": "Organization",
-        "name": "Finance Lab"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "Finance Lab",
-        "url": "https://financelab-psi.vercel.app/",
-        "logo": "https://financelab-psi.vercel.app/apple-touch-icon.png"
-      }
+      "@type": "Organization",
+      "@id": "https://financelab-psi.vercel.app/#organization",
+      "name": "Finance Lab",
+      "url": "https://financelab-psi.vercel.app/",
+      "logo": "https://financelab-psi.vercel.app/apple-touch-icon.png"
     },
     {
-      "@type": "BlogPosting",
-      "headline": "Spočítejte si, kolik vám banka půjčí",
-      "description": "Vyplníte účel, příjmy a závazky. My podle metodik jednotlivých bank spočítáme, kolik vám půjčí a výsledek vám pošleme e-mailem.",
-      "datePublished": "2026-11-03",
-      "url": "https://financelab-psi.vercel.app/novinky.html#kalkulacka-kolik-mi-banka-pujci",
-      "author": {
-        "@type": "Organization",
-        "name": "Finance Lab"
-      },
+      "@type": "Blog",
+      "@id": "https://financelab-psi.vercel.app/novinky.html#blog",
+      "name": "Novinky Finance Lab",
+      "description": "Krátké novinky od finančních konzultantů Finance Lab: hypotéky a fixace, pojištění, investice a novinky na webu.",
+      "url": "https://financelab-psi.vercel.app/novinky.html",
+      "inLanguage": "cs",
       "publisher": {
-        "@type": "Organization",
-        "name": "Finance Lab",
-        "url": "https://financelab-psi.vercel.app/",
-        "logo": "https://financelab-psi.vercel.app/apple-touch-icon.png"
-      }
+        "@id": "https://financelab-psi.vercel.app/#organization"
+      },
+      "blogPost": [
+        {
+          "@type": "BlogPosting",
+          "@id": "https://financelab-psi.vercel.app/novinky.html#konec-fixace",
+          "headline": "Končí vám fixace? Řešit ji můžete až rok dopředu",
+          "description": "Novou hypotéku můžete sjednat až rok před koncem fixace a zafixovat si sazbu, která platí teď. Stávající hypotéka mezitím doběhne do konce fixace a nová se načerpá až ve chvíli, kdy na ni plynule přejdete.",
+          "articleBody": "Novou hypotéku můžete sjednat až rok před koncem fixace a zafixovat si sazbu, která platí teď. Stávající hypotéka mezitím doběhne do konce fixace a nová se načerpá až ve chvíli, kdy na ni plynule přejdete. Jestli se vám to vyplatí, je potřeba vždy spočítat. Pošlete nám podklady k současné hypotéce a propočítáme to s vámi.",
+          "articleSection": "Hypotéky",
+          "inLanguage": "cs",
+          "datePublished": "2026-11-03",
+          "dateModified": "2026-11-03",
+          "url": "https://financelab-psi.vercel.app/novinky.html#konec-fixace",
+          "mainEntityOfPage": "https://financelab-psi.vercel.app/novinky.html",
+          "image": "https://financelab-psi.vercel.app/images/og.jpg",
+          "author": {
+            "@id": "https://financelab-psi.vercel.app/#organization"
+          },
+          "publisher": {
+            "@id": "https://financelab-psi.vercel.app/#organization"
+          }
+        },
+        {
+          "@type": "BlogPosting",
+          "@id": "https://financelab-psi.vercel.app/novinky.html#kalkulacka-kolik-mi-banka-pujci",
+          "headline": "Spočítejte si, kolik vám banka půjčí",
+          "description": "Vyplníte účel, příjmy a závazky. My podle metodik jednotlivých bank spočítáme, kolik vám půjčí a výsledek vám pošleme e-mailem.",
+          "articleBody": "Vyplníte účel, příjmy a závazky. My podle metodik jednotlivých bank spočítáme, kolik vám půjčí a výsledek vám pošleme e-mailem.",
+          "articleSection": "Kalkulačky",
+          "inLanguage": "cs",
+          "datePublished": "2026-11-03",
+          "dateModified": "2026-11-03",
+          "url": "https://financelab-psi.vercel.app/novinky.html#kalkulacka-kolik-mi-banka-pujci",
+          "mainEntityOfPage": "https://financelab-psi.vercel.app/novinky.html",
+          "image": "https://financelab-psi.vercel.app/images/og.jpg",
+          "author": {
+            "@id": "https://financelab-psi.vercel.app/#organization"
+          },
+          "publisher": {
+            "@id": "https://financelab-psi.vercel.app/#organization"
+          }
+        },
+        {
+          "@type": "BlogPosting",
+          "@id": "https://financelab-psi.vercel.app/novinky.html#kviz",
+          "headline": "Vyzkoušejte náš kvíz o penězích",
+          "description": "Osm krátkých otázek o penězích v běžném životě. Zabere asi 3 minuty a výsledek uvidíte hned.",
+          "articleBody": "Osm krátkých otázek o penězích v běžném životě. Zabere asi 3 minuty a výsledek uvidíte hned.",
+          "articleSection": "Finance Lab",
+          "inLanguage": "cs",
+          "datePublished": "2026-11-03",
+          "dateModified": "2026-11-03",
+          "url": "https://financelab-psi.vercel.app/novinky.html#kviz",
+          "mainEntityOfPage": "https://financelab-psi.vercel.app/novinky.html",
+          "image": "https://financelab-psi.vercel.app/images/og.jpg",
+          "author": {
+            "@id": "https://financelab-psi.vercel.app/#organization"
+          },
+          "publisher": {
+            "@id": "https://financelab-psi.vercel.app/#organization"
+          }
+        }
+      ]
     },
     {
-      "@type": "BlogPosting",
-      "headline": "Vyzkoušejte náš kvíz o penězích",
-      "description": "Osm krátkých otázek o penězích v běžném životě. Zabere asi 3 minuty a výsledek uvidíte hned.",
-      "datePublished": "2026-11-03",
-      "url": "https://financelab-psi.vercel.app/novinky.html#kviz",
-      "author": {
-        "@type": "Organization",
-        "name": "Finance Lab"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "Finance Lab",
-        "url": "https://financelab-psi.vercel.app/",
-        "logo": "https://financelab-psi.vercel.app/apple-touch-icon.png"
-      }
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Domů",
+          "item": "https://financelab-psi.vercel.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Novinky",
+          "item": "https://financelab-psi.vercel.app/novinky.html"
+        }
+      ]
     }
   ]
 }
