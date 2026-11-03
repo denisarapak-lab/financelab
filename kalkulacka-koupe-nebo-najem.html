@@ -7,6 +7,8 @@
 <meta name="description" content="Vyplatí se vám koupit byt na hypotéku, nebo bydlet v nájmu a rozdíl investovat? Spočítejte si to v kalkulačce Finance Lab.">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="theme-color" content="#14352B">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="canonical" href="https://financelab-psi.vercel.app/kalkulacka-koupe-nebo-najem.html">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="cs_CZ">
@@ -104,7 +106,7 @@
         <h4 style="font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 16px;">Kdy vám tahle kalkulačka pomůže?</h4>
         <div class="calc-help" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px 34px;">
           <div style="display: flex; gap: 12px; align-items: flex-start;"><span style="flex-shrink: 0; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: rgba(99,184,136,0.2);"><i data-lucide="home" style="width: 17px; height: 17px; color: #2f7a56;"></i></span><span style="font-size: 15px; line-height: 1.5; color: var(--ink);">Koupit vlastní bydlení, nebo zůstat v nájmu?</span></div>
-          <div style="display: flex; gap: 12px; align-items: flex-start;"><span style="flex-shrink: 0; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: rgba(99,184,136,0.2);"><i data-lucide="wallet" style="width: 17px; height: 17px; color: #2f7a56;"></i></span><span style="font-size: 15px; line-height: 1.5; color: var(--ink);">Mám peníze na akontaci, dát je do bytu, nebo je radši investovat?</span></div>
+          <div style="display: flex; gap: 12px; align-items: flex-start;"><span style="flex-shrink: 0; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: rgba(99,184,136,0.2);"><i data-lucide="wallet" style="width: 17px; height: 17px; color: #2f7a56;"></i></span><span style="font-size: 15px; line-height: 1.5; color: var(--ink);">Mám vlastní zdroje, dát je do bytu, nebo je radši investovat?</span></div>
           <div style="display: flex; gap: 12px; align-items: flex-start;"><span style="flex-shrink: 0; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: rgba(99,184,136,0.2);"><i data-lucide="clock" style="width: 17px; height: 17px; color: #2f7a56;"></i></span><span style="font-size: 15px; line-height: 1.5; color: var(--ink);">Za jak dlouho se mi koupě vyplatí víc než nájem?</span></div>
           <div style="display: flex; gap: 12px; align-items: flex-start;"><span style="flex-shrink: 0; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: rgba(99,184,136,0.2);"><i data-lucide="map-pin" style="width: 17px; height: 17px; color: #2f7a56;"></i></span><span style="font-size: 15px; line-height: 1.5; color: var(--ink);">Budu se za pár let stěhovat, vyplatí se vůbec kupovat?</span></div>
         </div>
@@ -112,7 +114,7 @@
       <div class="calc-grid">
         <div>
           <div class="field"><div class="row"><label for="br-cena">Cena nemovitosti</label><span class="val" id="br-cena-v"></span></div><input id="br-cena" type="range" min="1000000" max="20000000" step="100000" value="6000000"></div>
-          <div class="field"><div class="row"><label for="br-vlastni">Vlastní zdroje (akontace)</label><span class="val" id="br-vlastni-v"></span></div><input id="br-vlastni" type="range" min="0" max="60" step="5" value="20"></div>
+          <div class="field"><div class="row"><label for="br-vlastni">Vlastní zdroje</label><span class="val" id="br-vlastni-v"></span></div><input id="br-vlastni" type="range" min="0" max="60" step="5" value="20"></div>
           <div class="field"><div class="row"><label for="br-urok">Úroková sazba</label><span class="val" id="br-urok-v"></span></div><input id="br-urok" type="range" min="1" max="8" step="0.1" value="4.9"></div>
           <div class="field"><div class="row"><label for="br-doba">Doba splácení</label><span class="val" id="br-doba-v"></span></div><input id="br-doba" type="range" min="5" max="35" step="1" value="30"></div>
           <div class="field"><div class="row"><label for="br-najem">Měsíční nájem</label><span class="val" id="br-najem-v"></span></div><input id="br-najem" type="range" min="5000" max="60000" step="500" value="22000"></div>
@@ -139,7 +141,7 @@
             </div>
           </div>
           <p style="font-size:12px;color:var(--ink-60);line-height:1.5;margin-top:14px;">Orientační výpočet. Zjednodušený model (bez údržby, daní a růstu nájmu), přesný propočet na míru vám udělá konzultant.</p>
-          <a href="index.html#objednat" class="btn btn-dark" style="margin-top:18px;">Nevíte si rady? Probereme to <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></a>
+          <a href="index.html#objednat" class="btn btn-dark" style="margin-top:18px;">Chcete to probrat s konzultantem? <i data-lucide="arrow-right" style="width:16px;height:16px;"></i></a>
         </div>
       </div>
 
@@ -149,7 +151,7 @@
         <p style="font-size: 14px; color: var(--ink-60); margin-bottom: 20px;">Krátká nápověda k jednotlivým posuvníkům.</p>
         <div class="calc-help" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px 34px; font-size: 14px; line-height: 1.5; color: var(--ink-60);">
           <div><b style="color: var(--ink);">Cena nemovitosti</b> - kolik byt nebo dům stojí. Z toho počítáme výši úvěru i budoucí hodnotu.</div>
-          <div><b style="color: var(--ink);">Vlastní zdroje (akontace)</b> - kolik % ceny zaplatíte ze svého; zbytek je hypotéka.</div>
+          <div><b style="color: var(--ink);">Vlastní zdroje</b> - kolik % ceny zaplatíte ze svého; zbytek je hypotéka.</div>
           <div><b style="color: var(--ink);">Úroková sazba</b> - roční úrok hypotéky. Určuje výši měsíční splátky.</div>
           <div><b style="color: var(--ink);">Doba splácení</b> - na kolik let hypotéku rozložíte (zároveň horizont srovnání).</div>
           <div><b style="color: var(--ink);">Měsíční nájem</b> - kolik byste platili za srovnatelné bydlení v nájmu.</div>
